@@ -1,10 +1,18 @@
 import WithAuth from "@/components/Auth/WithAuth";
-import { ConfettiEffect } from "@/components/Confetti";
+import { createSupabaseServerClient } from "@/lib/supabase/server-client";
 
-export default function Home() {
+export default async function Home() {
+
+  const supabase = createSupabaseServerClient();
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  console.log(session);
+
   return (
     <WithAuth>
-      <ConfettiEffect />
       <div className="bg-primary-900 text-white h-screen flex items-center justify-center">
         <main className="h-full w-full flex items-center justify-center">
           <section className="hero py-20 w-full flex items-center justify-center">
@@ -15,7 +23,6 @@ export default function Home() {
                 As one of our early users, you will have exclusive access to all the new features and updates. <br />
                 We greatly appreciate your support and feedback during this exciting phase.
               </p>
-
             </div>
           </section>
         </main>

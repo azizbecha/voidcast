@@ -14,7 +14,7 @@ export default function GitHubAuthButton(props: { nextUrl?: string }) {
     await supabase.auth.signInWithOAuth({
       provider: "github",
       options: {
-        redirectTo: `${location.origin}/auth/callback?next=${props.nextUrl || ""}`,
+        redirectTo: `${window.location.origin}/auth/callback?next=${props.nextUrl || ""}`,
       },
     });
   };

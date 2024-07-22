@@ -1,9 +1,9 @@
 "use client";
 
-import { createClient } from "@/utils/supabase/client";
-import { Button } from "../Button";
 import { useState } from "react";
 import { IoLogoDiscord } from "react-icons/io5";
+import { createClient } from "@/utils/supabase/client";
+import { Button } from "../Button";
 
 export default function DiscordAuthButton(props: { nextUrl?: string }) {
     const [clicked, setClicked] = useState(false);
@@ -14,7 +14,7 @@ export default function DiscordAuthButton(props: { nextUrl?: string }) {
         await supabase.auth.signInWithOAuth({
             provider: "discord",
             options: {
-                redirectTo: `${location.origin}/auth/callback?next=${props.nextUrl || ""}`,
+                redirectTo: `${window.location.origin}/auth/callback?next=${props.nextUrl || ""}`,
             },
         });
     };
