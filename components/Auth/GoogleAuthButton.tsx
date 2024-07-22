@@ -1,9 +1,9 @@
 "use client";
 
+import { useState } from "react";
+import { FcGoogle } from "react-icons/fc";
 import { createClient } from "@/utils/supabase/client";
 import { Button } from "../Button";
-import { FcGoogle } from "react-icons/fc";
-import { useState } from "react";
 
 export default function GoogleAuthButton(props: { nextUrl?: string }) {
   const [clicked, setClicked] = useState(false);
@@ -14,7 +14,7 @@ export default function GoogleAuthButton(props: { nextUrl?: string }) {
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${location.origin}/auth/callback?next=${props.nextUrl || ""}`,
+        redirectTo: `${window.location.origin}/auth/callback?next=${props.nextUrl || ""}`,
       },
     });
   };
