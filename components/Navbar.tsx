@@ -1,41 +1,93 @@
-import { createSupabaseServerComponentClient } from "@/lib/supabase/server-client";
-import { Button } from "./Button"
-import { Input } from "./Input"
-import LogoutButton from "./logout-button";
-import Link from "next/link";
+"use client"
 
-const Navbar = async () => {
+import useSession from "@/hooks/useSession";
+import { Disclosure, Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react';
+import { Input } from './Input'; // Ensure you have your Input component
+import { FaBell, FaBug, FaCompass, FaHeart, FaMessage, FaMicrophone, FaScissors, FaUser } from "react-icons/fa6";
+import { Button } from "./Button";
+import { FaCog, FaMagic, FaSignOutAlt } from "react-icons/fa";
 
-    const {
-        data: { user },
-        error,
-    } = await createSupabaseServerComponentClient().auth.getUser();
+const menuItems = [
+  {
+    label: "Profile",
+    href: "/profile",
+    icon: FaUser
+  },
+  {
+    label: "Settings",
+    href: "/settings",
+    icon: FaCog
+  },
+  {
+    label: "Report a bug",
+    href: "/profile",
+    icon: FaBug
+  }
+]
 
-    return (
-        <nav className="bg-primary-900 px-4 py-2 flex justify-between items-center">
-            <div className="flex items-center">
-                <img src="/logo.png" alt="Logo" className="h-6 w-6 mr-2" />
-                <span className="text-red-500 font-bold text-xl">VoidCast</span>
+export default function Navbar() {
+
+  const { session: session } = useSession();
+  const user = session?.user;
+
+  return (
+    <nav className="bg-primary-900 fixed w-full z-20 top-0 start-0">
+      <div className="w-full grid grid-cols-12 items-center p-2 sm:px-7 sm:py-3">
+        <a href="/" className="flex items-center space-x-1 col-span-2 sm:col-span-3">
+          <img src="logo.png" className="h-6" alt="VoidCast Logo" />
+          <span className="self-center text-2xl font-bold whitespace-nowrap text-accent hidden md:block">VoidCast</span>
+        </a>
+        <div className="flex items-center justify-center col-span-8 sm:col-span-6">
+          <Input placeholder="Search for clips, episodes, users or communities" />
+        </div>
+        <div className="flex items-center justify-end col-span-2 sm:col-span-3 gap-2">
+          <div className="space-x-1 hidden sm:flex">
+            <div className="rounded-full p-2 bg-primary-600 text-white">
+              <FaMagic />
             </div>
-            <div className="flex-grow mx-4">
-                <Input placeholder="Search for podcasts, rooms, clips or users" />
+            <div className="rounded-full p-2 bg-primary-600 text-white">
+              <FaCompass />
             </div>
-            <div className="flex items-center space-x-4">
-                {/* <FaVolumeUp className="text-white" />
-                <FaComments className="text-white" />
-                <FaBell className="text-white" />*/}
-                {user ? <LogoutButton /> : <Link href={"/login"}><Button>Login</Button></Link>}
-                {/* <DetailsButtonServer /> */}
+            <div className="rounded-full p-2 bg-primary-600 text-white">
+              <FaScissors />
+            </div>
+          </div>
+          <div className="flex">
+            <Menu as="div" className="relative">
+              <div>
+                <MenuButton className="relative flex rounded-full text-sm focus:none">
+                  <img
+                    src={user?.user_metadata.avatar_url}
+                    className="h-6 w-6 rounded-full"
+                  />
+                </MenuButton>
+              </div>
+              <MenuItems
+                transition
+                className="absolute right-0 z-10 mt-3 w-56 origin-top-right rounded-lg bg-primary-800 shadow-lg transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+              >
                 {
-                    user && <img
-                        src={user.user_metadata.avatar_url}
-                        alt="Profile"
-                        className="h-6 w-6 rounded-full"
-                    />
+                  menuItems.map((item, key) => {
+                    return (
+                      <MenuItem key={key}>
+                        <a href="#" className={`hover:bg-primary-600 flex items-center gap-2 px-4 py-2 transition text-base font-medium text-white ${(key == 0) && "rounded-t-lg"}`}>
+                          <item.icon /> {item.label}
+                        </a>
+                      </MenuItem>
+                    )
+                  })
                 }
-            </div>
-        </nav>
-    )
+                <hr />
+                <MenuItem>
+                  <a href="#" className={`bg-primary-600 rounded-b-lg flex items-center gap-2 px-4 py-2 transition text-base font-medium text-white`}>
+                    <FaSignOutAlt /> Log out
+                  </a>
+                </MenuItem>
+              </MenuItems>
+            </Menu>
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
 }
-
-export default Navbar
