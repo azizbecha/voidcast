@@ -1,18 +1,19 @@
 import WithAuth from "@/components/Auth/WithAuth";
+import Navbar from "@/components/Navbar";
 import { createSupabaseServerClient } from "@/lib/supabase/server-client";
 
 export default async function Home() {
 
-  const supabase = createSupabaseServerClient();
-
   const {
-    data: { session },
-  } = await supabase.auth.getSession();
+    data: { user },
+    error,
+} = await createSupabaseServerClient().auth.getUser();
 
-  console.log(session);
+  console.log(user);
 
   return (
     <WithAuth>
+      <Navbar />
       <div className="bg-primary-900 text-white h-screen flex items-center justify-center">
         <main className="h-full w-full flex items-center justify-center">
           <section className="hero py-20 w-full flex items-center justify-center">

@@ -9,8 +9,11 @@ const getCookie = (name: string) => {
 };
 
 const setCookie = (name: string, value: string, options: CookieOptions = {}) => {
-  const cookieStore = cookies();
-  cookieStore.set(name, value, options);
+  // Only set cookies in server actions or route handlers
+  if (typeof window === 'undefined') {
+    const cookieStore = cookies();
+    cookieStore.set(name, value, options);
+  }
 };
 
 const deleteCookie = (name: string, options: CookieOptions = {}) => {
