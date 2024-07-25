@@ -18,7 +18,7 @@ const Login: NextPage = () => {
                 <div className="flex m-auto flex-col p-6 gap-5 bg-primary-800 rounded-8 z-10 sm:w-400 w-11/12">
                     <div className="flex gap-1 flex-col">
                         <div className="flex justify-self-center self-center">
-                            <img src="logo.png" className="w-8 h-8" />
+                            <img src="images/logo.png" className="w-8 h-8" />
                         </div>
                         <span className="text-3xl text-primary-100 font-bold text-center">Welcome to VoidCast</span>
                         <div className="text-primary-100 flex-wrap text-center">

@@ -33,7 +33,7 @@ export default function Navbar() {
     <nav className="bg-primary-900 fixed w-full z-20 top-0 start-0">
       <div className="w-full grid grid-cols-12 items-center p-2 sm:px-7 sm:py-5">
         <a href="/" className="flex items-center col-span-2 sm:col-span-3">
-          <img src="logo.png" className="h-6 w-6 mr-2" alt="VoidCast Logo" />
+          <img src="images/logo.png" className="h-6 w-6 mr-2" alt="VoidCast Logo" />
           <span className="self-center text-2xl font-bold whitespace-nowrap text-accent hidden md:block">VoidCast</span>
         </a>
         <div className="flex items-center justify-center col-span-8 sm:col-span-6">
