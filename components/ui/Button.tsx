@@ -3,7 +3,7 @@ import React, {
     DetailedHTMLProps,
     ReactNode,
 } from "react";
-import { Spinner } from "@/components/Spinner";
+import { Spinner } from "@/components/ui/Spinner";
 
 const sizeClassnames = {
     big: "py-2 px-6 text-sm sm:text-lg rounded-lg",

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { createClient } from "@/utils/supabase/client";
-import { Button } from "../Button";
+import { Button } from "../ui/Button";
 
 export default function GoogleAuthButton(props: { nextUrl?: string }) {
   const [clicked, setClicked] = useState(false);

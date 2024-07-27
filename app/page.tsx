@@ -1,5 +1,5 @@
 import WithAuth from "@/components/Auth/WithAuth";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/ui/Navbar";
 import { createSupabaseServerClient } from "@/lib/supabase/server-client";
 
 export default async function Home() {

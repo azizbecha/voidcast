@@ -1,7 +1,7 @@
 "use client";
 
 import { createClient } from "@/utils/supabase/client";
-import { Button } from "../Button";
+import { Button } from "../ui/Button";
 import { useState } from "react";
 import { FaGithub } from "react-icons/fa6";
 
