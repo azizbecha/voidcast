@@ -1,13 +1,13 @@
 import { ReactNode } from "react";
-import { createSupabaseServerClient } from "@/lib/supabase/server-client";
 import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
 
 interface WithAuthProps {
   children: ReactNode;
 }
 
 const WithAuth = async ({ children }: WithAuthProps) => {
-    const supabase = createSupabaseServerClient();
+    const supabase = createClient();
 
     const {
         data: { session },

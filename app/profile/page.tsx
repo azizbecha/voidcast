@@ -1,25 +1,27 @@
 import WithAuth from "@/components/Auth/WithAuth";
 import { Button } from "@/components/ui/Button";
 import Navbar from "@/components/ui/Navbar";
-import { createSupabaseServerClient } from "@/lib/supabase/server-client";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function Profile() {
+
+    const supabase = createClient();
 
     const {
         data: { user },
         error,
-    } = await createSupabaseServerClient().auth.getUser();
+    } = await createClient().auth.getUser();
 
     console.log(error);
 
     return (
         <WithAuth>
-            <Navbar />
             <div className="h-screen bg-primary-900 w-full">
+                <Navbar />
                 <div className="w-full mx-auto px-2 sm:px-5.5">
                     <div className="grid grid-cols-1 md:grid-cols-12 h-screen">
                         {/* Left Column */}
-                        <div className="hidden md:block sm:col-span-3 bg-gray-800 mr-4 border">
+                        <div className="hidden md:block sm:col-span-3 mr-4 border">
                             <h3 className="text-white">Online</h3>
                         </div>
 
@@ -32,8 +34,8 @@ export default async function Profile() {
                         </div>
 
                         {/* Right Column */}
-                        <div className="hidden sm:block sm:col-span-3 bg-gray-800 p-4 rounded ml-4">
-                            <div className="bg-gray-700 h-40 mb-4 rounded"></div>
+                        <div className="hidden sm:block sm:col-span-3 p-4 rounded ml-4 border">
+
                         </div>
                     </div>
                 </div>
