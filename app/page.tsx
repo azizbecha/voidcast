@@ -1,13 +1,14 @@
 import WithAuth from "@/components/Auth/WithAuth";
-import Navbar from "@/components/Navbar";
-import { createSupabaseServerClient } from "@/lib/supabase/server-client";
+import Navbar from "@/components/ui/Navbar";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function Home() {
 
+  const supabase = createClient();
   const {
     data: { user },
     error,
-} = await createSupabaseServerClient().auth.getUser();
+} = await supabase.auth.getUser();
 
   console.log(user);
 

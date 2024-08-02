@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { IoLogoDiscord } from "react-icons/io5";
 import { createClient } from "@/utils/supabase/client";
-import { Button } from "../Button";
+import { Button } from "../ui/Button";
 
 export default function DiscordAuthButton(props: { nextUrl?: string }) {
     const [clicked, setClicked] = useState(false);

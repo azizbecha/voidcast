@@ -5,6 +5,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { Input } from './Input';
 import { FaBug, FaCompass, FaScissors, FaUser } from "react-icons/fa6";
 import { FaCog, FaMagic, FaSearch, FaSignOutAlt } from "react-icons/fa";
+import Link from "next/link";
 
 const menuItems = [
   {
@@ -30,17 +31,17 @@ export default function Navbar() {
   const user = session?.user;
 
   return (
-    <nav className="bg-primary-900 fixed w-full z-20 top-0 start-0">
-      <div className="w-full grid grid-cols-12 items-center p-2 sm:px-7 sm:py-5">
-        <a href="/" className="flex items-center col-span-2 sm:col-span-3">
+    <nav className="bg-primary-900 w-full z-20 top-0 start-0">
+      <div className="w-full grid grid-cols-12 items-center p-2 sm:px-4 sm:py-3 md:px-5 md:py-4 lg:px-6 lg:py-5">
+        <Link href="/" className="flex items-center col-span-2 sm:col-span-3">
           <img src="images/logo.png" className="h-6 w-6 mr-2" alt="VoidCast Logo" />
           <span className="self-center text-2xl font-bold whitespace-nowrap text-accent hidden md:block">VoidCast</span>
-        </a>
+        </Link>
         <div className="flex items-center justify-center col-span-8 sm:col-span-6">
           <Input icon={<FaSearch />} placeholder="Search for clips, episodes, users or communities" />
         </div>
         <div className="flex items-center justify-end col-span-2 sm:col-span-3 gap-4">
-          <div className="space-x-1 hidden sm:flex">
+          <div className="space-x-1 hidden md:flex">
             <div className="rounded-full p-2 bg-primary-600 text-white">
               <FaMagic />
             </div>
