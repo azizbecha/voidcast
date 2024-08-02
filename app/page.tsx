@@ -14,7 +14,7 @@ export default async function Home() {
 
   return (
     <WithAuth>
-      <Navbar />
+      <Navbar user={user} />
       <div className="bg-primary-900 text-white h-screen flex items-center justify-center">
         <main className="h-full w-full flex items-center justify-center">
           <section className="hero py-20 w-full flex items-center justify-center">
