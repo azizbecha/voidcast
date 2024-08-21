@@ -1,38 +1,57 @@
 /* eslint-disable no-unused-expressions */
-import React, { forwardRef, ReactElement } from "react";
-import { Button } from "./Button";
-import { FaSearch } from "react-icons/fa";
-import { IconType } from "react-icons";
+import React, { forwardRef, ReactElement, ChangeEvent } from "react";
 
 export interface InputProps extends React.ComponentPropsWithoutRef<"input"> {
+  label?: string;
   textarea?: boolean;
   rows?: number;
   error?: string;
   transparent?: boolean;
   icon?: ReactElement;
+  placeholder?: string;
+  onChange?: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, textarea, error, transparent, icon = false, ...props }, ref) => {
+  ({ className, textarea, error, transparent, icon = false, placeholder, label, onChange, ...props }, ref) => {
     const bg = transparent ? `bg-transparent` : `bg-primary-700`;
     const ring = error ? `ring-1 ring-secondary` : "";
     const cn = `w-full py-2 px-4 text-primary-100 placeholder-primary-300 focus:outline-none ${bg} ${ring} ${className}`;
 
     return textarea ? (
-      <textarea
-        ref={ref as any}
-        className={`${cn} rounded-r-8`}
-        data-testid="textarea"
-        {...(props as any)}
-      />
-    ) : (
-      <div className="flex items-stretch rounded-8 w-full">
-        {icon && (
-          <div className="flex items-center justify-center text-primary-300 pl-4 py-2 bg-primary-700 rounded-l-8">
-            {icon}
-          </div>
+      <div>
+        {label && (
+          <span className='text-base font-medium text-white'>{label}</span>
         )}
-        <input ref={ref} className={`${cn} ${icon ? 'rounded-r-8' : 'rounded-8'}`} data-testid="input" {...props} />
+        <textarea
+          ref={ref as any}
+          placeholder={placeholder}
+          className={`${cn} rounded-8`}
+          data-testid="textarea"
+          onChange={onChange}
+          {...(props as any)}
+        />
+      </div>
+    ) : (
+      <div className="rounded-8 w-full">
+        {label && (
+          <span className='text-base font-medium text-white'>{label}</span>
+        )}
+        <div className="flex items-stretch">
+          {icon && (
+            <div className="flex items-center justify-center text-primary-300 pl-4 py-2 bg-primary-700 rounded-l-8">
+              {icon}
+            </div>
+          )}
+          <input 
+            placeholder={placeholder} 
+            ref={ref} 
+            className={`${cn} ${icon ? 'rounded-r-8' : 'rounded-8'}`} 
+            data-testid="input" 
+            onChange={onChange}
+            {...props} 
+          />
+        </div>
       </div>
     );
   }

@@ -109,3 +109,20 @@ body,
 button:focus {
   outline: none;
 }
+
+.drop-zone {
+  width: 100%;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: background-color 0.3s, border-color 0.3s;
+  cursor: pointer;
+}
+
+.drop-zone.drag-over {
+  background-color: #f0f0f0;
+  border-color: #333;
+}

@@ -12,12 +12,18 @@
     "@headlessui/react": "^2.1.2",
     "@supabase/ssr": "^0.4.0",
     "@supabase/supabase-js": "^2.44.4",
+    "@wavesurfer/react": "^1.0.7",
     "cookies-next": "^4.2.1",
+    "file-saver": "^2.0.5",
     "next": "14.2.5",
+    "npm": "^10.8.2",
     "react": "^18",
     "react-dom": "^18",
+    "react-hot-toast": "^2.4.1",
     "react-icons": "^5.2.1",
-    "zustand": "^4.5.4"
+    "react-range": "^1.10.0",
+    "wavesurfer-react": "^3.0.3",
+    "wavesurfer.js": "^7.8.2"
   },
   "devDependencies": {
     "@types/node": "^20",
