@@ -1,4 +1,9 @@
 import WithAuth from "@/components/Auth/WithAuth";
+import ClipsScroller from "@/components/ClipsScroller";
+import { GridProvider } from "@/components/ui/Grid/GridProvider";
+import { LeftColumn } from "@/components/ui/Grid/LeftColumn";
+import { MiddleColumn } from "@/components/ui/Grid/MiddleColumn";
+import { RightColumn } from "@/components/ui/Grid/RightColumn";
 import Navbar from "@/components/ui/Navbar";
 import { createClient } from "@/utils/supabase/server";
 
@@ -8,27 +13,29 @@ export default async function Home() {
   const {
     data: { user },
     error,
-} = await supabase.auth.getUser();
+  } = await supabase.auth.getUser();
 
-  console.log(user);
+  // console.log(user);
 
   return (
-    <WithAuth>
+    <>
       <Navbar user={user} />
-      <div className="bg-primary-900 text-white h-screen flex items-center justify-center">
-        <main className="h-full w-full flex items-center justify-center">
-          <section className="hero py-20 w-full flex items-center justify-center">
-            <div className="container mx-auto text-center">
-              <h2 className="text-5xl font-bold mb-4 text-accent">Welcome to VoidCast 🚀</h2>
-              <p className="text-xl mb-8 px-5">
-                Thank you for joining our early access beta!<br />
-                As one of our early users, you will have exclusive access to all the new features and updates. <br />
-                We greatly appreciate your support and feedback during this exciting phase.
-              </p>
+      <div className="bg-primary-900 text-white h-screen">
+        <GridProvider>
+          <LeftColumn>
+            <h3 className="text-white mb-4">Left Col</h3>
+          </LeftColumn>
+          <MiddleColumn>
+            {/* <h3>Clips</h3> */}
+            <ClipsScroller />
+          </MiddleColumn>
+          <RightColumn>
+            <div className="text-white">
+              <h3 className="mb-4">Right Col</h3>
             </div>
-          </section>
-        </main>
+          </RightColumn>
+        </GridProvider>
       </div>
-    </WithAuth>
+    </>
   );
 }
