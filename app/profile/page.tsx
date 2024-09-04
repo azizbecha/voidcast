@@ -5,8 +5,6 @@ import { createClient } from "@/utils/supabase/server";
 import WithAuth from "@/components/Auth/WithAuth";
 import Navbar from "@/components/ui/Navbar";
 
-import LogoutButton from "@/components/logout-button";
-
 import { AuthProviderBadge } from "@/components/ui/AuthProviderBadge";
 import { GridProvider } from "@/components/ui/Grid/GridProvider";
 import { LeftColumn } from "@/components/ui/Grid/LeftColumn";
@@ -62,7 +60,6 @@ export default async function Profile() {
                                     </div>
                                 </div>
                             </div>
-                            <LogoutButton />
                         </MiddleColumn>
                         <RightColumn>
                             <div className="text-white">

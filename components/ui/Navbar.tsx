@@ -9,6 +9,9 @@ import { FaBug, FaCompass, FaScissors, FaUser } from "react-icons/fa6";
 import { FaCog, FaMagic, FaSearch, FaSignOutAlt } from "react-icons/fa";
 import { User } from "@supabase/supabase-js";
 import Image from "next/image";
+import { Button } from "./Button";
+import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
 
 interface Props {
   user: User | null
@@ -52,7 +55,16 @@ const items = [
 
 export default function Navbar(props: Props) {
 
+  const supabase = createClient();
+  const router = useRouter();
+
   const { user } = props;
+
+  const logout = async () => {
+    await supabase.auth.signOut();
+    router.push('/login');
+  };
+
   return (
     <nav className="bg-primary-900 w-full z-20 top-0 start-0">
       <div className="w-full grid grid-cols-12 items-center p-2 sm:px-4 sm:py-3 md:px-5 md:py-4 lg:px-6 lg:py-5">
@@ -111,9 +123,9 @@ export default function Navbar(props: Props) {
                 }
                 <hr />
                 <MenuItem>
-                  <a href="#" className={`bg-primary-600 rounded-b-lg flex items-center gap-2 px-4 py-2 transition text-base font-medium text-white`}>
-                    <FaSignOutAlt /> Log out
-                  </a>
+                  <span onClick={logout} className={`w-full bg-primary-600 hover:bg-accent cursor-pointer rounded-b-lg flex justify-start items-center gap-2 px-4 py-2 transition text-base text-start font-medium text-white`}>
+                    <FaSignOutAlt /> Sign out
+                  </span>
                 </MenuItem>
               </MenuItems>
             </Menu>

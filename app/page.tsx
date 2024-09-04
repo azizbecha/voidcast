@@ -10,15 +10,11 @@ import { createClient } from "@/utils/supabase/server";
 export default async function Home() {
 
   const supabase = createClient();
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
-
-  // console.log(user);
+  
+  const { data: { user }, error } = await supabase.auth.getUser();
 
   return (
-    <>
+    <WithAuth>
       <Navbar user={user} />
       <div className="bg-primary-900 text-white h-screen">
         <GridProvider>
@@ -32,10 +28,13 @@ export default async function Home() {
           <RightColumn>
             <div className="text-white">
               <h3 className="mb-4">Right Col</h3>
+              {
+                JSON.stringify(user)
+              }
             </div>
           </RightColumn>
         </GridProvider>
       </div>
-    </>
+    </WithAuth>
   );
 }
