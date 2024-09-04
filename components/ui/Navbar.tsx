@@ -30,8 +30,9 @@ const menuItems = [
   },
   {
     label: "Report a bug",
-    href: "https://github.com/azizbecha/voidcast",
-    icon: FaBug
+    href: "https://github.com/azizbecha/voidcast/issues",
+    icon: FaBug,
+    blank: true
   }
 ];
 
@@ -114,9 +115,9 @@ export default function Navbar(props: Props) {
                   menuItems.map((item, key) => {
                     return (
                       <MenuItem key={key}>
-                        <a href="#" className={`hover:bg-primary-600 flex items-center gap-2 px-4 py-2 transition text-base font-medium text-white`}>
+                        <Link href={item.href} className={`hover:bg-primary-600 flex items-center gap-2 px-4 py-2 transition text-base font-medium text-white`}>
                           <item.icon /> {item.label}
-                        </a>
+                        </Link>
                       </MenuItem>
                     )
                   })
