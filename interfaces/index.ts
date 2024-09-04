@@ -3,6 +3,9 @@ export interface Clip {
   title: string;
   description: string;
   audiofile: string;
+  creator: string;
+  created_at: string;
+  plays: number 
 }
 
 interface CustomClaims {
@@ -40,4 +43,5 @@ export interface UserProfile {
   updated_at: string;
   username: string;
   avatar: string;
+  verified: boolean;
 }

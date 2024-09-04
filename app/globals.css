@@ -127,3 +127,15 @@ button:focus {
   background-color: #f0f0f0;
   border-color: #333;
 }
+
+/* Add this to your global CSS file if you're not using a plugin */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}

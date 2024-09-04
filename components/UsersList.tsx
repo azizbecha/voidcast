@@ -1,6 +1,7 @@
-import { getUsers } from "@/utils/getUsers";
 import Image from "next/image";
 import Link from "next/link";
+
+import { getUsers } from "@/utils/getUsers";
 
 export const UsersList = async () => {
     const users = await getUsers();

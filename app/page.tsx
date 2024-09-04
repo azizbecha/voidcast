@@ -1,11 +1,16 @@
+
 import WithAuth from "@/components/Auth/WithAuth";
-import ClipsScroller from "@/components/ClipsScroller";
+
 import { GridProvider } from "@/components/ui/Grid/GridProvider";
 import { LeftColumn } from "@/components/ui/Grid/LeftColumn";
 import { MiddleColumn } from "@/components/ui/Grid/MiddleColumn";
 import { RightColumn } from "@/components/ui/Grid/RightColumn";
+
 import Navbar from "@/components/ui/Navbar";
+
+import ClipsScroller from "@/components/ClipsScroller";
 import { UsersList } from "@/components/UsersList";
+
 import { createClient } from "@/utils/supabase/server";
 
 export default async function Home() {
@@ -24,11 +29,13 @@ export default async function Home() {
             <UsersList />
           </LeftColumn>
           <MiddleColumn>
-            {/* <h3>Clips</h3> */}
+            <h3 className="text-white mb-4">Your feed</h3>
             <ClipsScroller />
           </MiddleColumn>
           <RightColumn>
-            <span></span>
+            <div className="bg-primary-700 p-4 rounded-lg">
+              
+            </div>
           </RightColumn>
         </GridProvider>
       </div>
