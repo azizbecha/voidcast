@@ -1,5 +1,4 @@
 import React, { forwardRef, useEffect, useRef, useState } from "react";
-
 import WaveSurfer from "wavesurfer.js";
 import { motion } from "framer-motion";
 
@@ -8,6 +7,7 @@ import { AudioPlayer } from "./AudioPlayer";
 import { CardFooter } from "./CardFooter";
 
 import { Clip, UserProfile } from "@/interfaces";
+import { createClient } from "@/utils/supabase/client";
 
 interface Item extends Clip {
     profiles: UserProfile;
@@ -21,14 +21,20 @@ interface ClipCardProps {
     onViewportLeave?: () => void;
 }
 
+const supabase = createClient();
+
 const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
     ({ data, isActive, onClipFinish, onViewportEnter, onViewportLeave }, ref) => {
         const [isPlaying, setIsPlaying] = useState(false);
         const [currentTime, setCurrentTime] = useState(0);
         const [duration, setDuration] = useState(0);
         const [userHasInteracted, setUserHasInteracted] = useState(false); // Track if the user has interacted
+        const [played, setPlayed] = useState(false); // Track if user listened for 3s
         const waveSurferRef = useRef<WaveSurfer | null>(null);
         const waveformContainerRef = useRef<HTMLDivElement>(null);
+        const listenTimeoutRef = useRef<NodeJS.Timeout | null>(null); // Timeout reference
+
+        const playThreshold = 3000;
 
         const createWaveform = (audioUrl: string) => {
             if (waveSurferRef.current || !waveformContainerRef.current) return;
@@ -62,15 +68,58 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
                 onClipFinish(); // Call the finish handler
             });
 
-            waveSurfer.on('error', (e) => console.log(e))
+            waveSurfer.on('error', (e) => console.log(e));
 
             waveSurferRef.current = waveSurfer;
+        };
+
+        const startListeningTimer = () => {
+            if (!listenTimeoutRef.current && !played) {
+                listenTimeoutRef.current = setTimeout(async () => {
+                    setPlayed(true);
+                    console.log("User has listened for 3 seconds or more.");
+
+                    // Fetch the current plays count
+                    const { data: currentPlaysData, error: fetchError } = await supabase
+                        .from('clips')
+                        .select('plays')
+                        .eq('id', data.id)
+                        .single();
+
+                    if (fetchError) {
+                        console.error("Error fetching plays count:", fetchError);
+                        return;
+                    }
+
+                    const currentPlays = currentPlaysData?.plays || 0;
+
+                    // Update the plays count
+                    const { error: updateError } = await supabase
+                        .from('clips')
+                        .update({ plays: currentPlays + 1 })
+                        .eq('id', data.id);
+
+                    if (updateError) {
+                        console.error("Error updating plays count:", updateError);
+                    } else {
+                        console.log("Plays count updated successfully.");
+                    }
+                }, playThreshold);
+            }
+        };
+
+        const clearListeningTimer = () => {
+            if (listenTimeoutRef.current) {
+                clearTimeout(listenTimeoutRef.current);
+                listenTimeoutRef.current = null;
+            }
         };
 
         const playAudio = () => {
             if (waveSurferRef.current && !isPlaying && userHasInteracted) {
                 waveSurferRef.current.play();
                 setIsPlaying(true);
+                startListeningTimer(); // Start the 3-second timer
             }
         };
 
@@ -78,6 +127,7 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
             if (waveSurferRef.current && isPlaying) {
                 waveSurferRef.current.pause();
                 setIsPlaying(false);
+                clearListeningTimer(); // Clear the timer if paused
             }
         };
 
@@ -91,6 +141,7 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
                     waveSurferRef.current.destroy();
                     waveSurferRef.current = null;
                 }
+                clearListeningTimer(); // Clean up the timer
             };
         }, [data.audiofile, userHasInteracted]);
 
@@ -99,14 +150,13 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
             const events = ["click", "touch", "keydown"];
             const handleUserInteraction = () => {
                 setUserHasInteracted(true); // Set the flag when the user interacts
-                events.map((event) => window.removeEventListener(event, handleUserInteraction));
+                events.forEach((event) => window.removeEventListener(event, handleUserInteraction));
             };
 
-            // Add listeners for user interaction (e.g., click, keydown)
-            events.map((event) => window.addEventListener(event, handleUserInteraction));
+            events.forEach((event) => window.addEventListener(event, handleUserInteraction));
 
             return () => {
-                events.map((event) => window.removeEventListener(event, handleUserInteraction));
+                events.forEach((event) => window.removeEventListener(event, handleUserInteraction));
             };
         }, []);
 
@@ -127,7 +177,7 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
                 }}
                 onViewportLeave={() => {
                     pauseAudio();
-                    onViewportLeave?.(); // Safely call onViewportEnter if it's defined
+                    onViewportLeave?.(); // Safely call onViewportLeave if it's defined
                 }}
                 ref={ref}
             >
