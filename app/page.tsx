@@ -1,33 +1,55 @@
+
 import WithAuth from "@/components/Auth/WithAuth";
+
+import { GridProvider } from "@/components/ui/Grid/GridProvider";
+import { LeftColumn } from "@/components/ui/Grid/LeftColumn";
+import { MiddleColumn } from "@/components/ui/Grid/MiddleColumn";
+import { RightColumn } from "@/components/ui/Grid/RightColumn";
+
 import Navbar from "@/components/ui/Navbar";
+
+import ClipsScroller from "@/components/ClipsScroller";
+import { UsersList } from "@/components/UsersList";
+
 import { createClient } from "@/utils/supabase/server";
+import { Button } from "@/components/ui/Button";
+import { FaScissors } from "react-icons/fa6";
+import Link from "next/link";
+import Image from "next/image";
 
 export default async function Home() {
 
   const supabase = createClient();
-  const {
-    data: { user },
-    error,
-} = await supabase.auth.getUser();
 
-  console.log(user);
+  const { data: { user }, error } = await supabase.auth.getUser();
 
   return (
     <WithAuth>
-      <Navbar />
-      <div className="bg-primary-900 text-white h-screen flex items-center justify-center">
-        <main className="h-full w-full flex items-center justify-center">
-          <section className="hero py-20 w-full flex items-center justify-center">
-            <div className="container mx-auto text-center">
-              <h2 className="text-5xl font-bold mb-4 text-accent">Welcome to VoidCast 🚀</h2>
-              <p className="text-xl mb-8 px-5">
-                Thank you for joining our early access beta!<br />
-                As one of our early users, you will have exclusive access to all the new features and updates. <br />
-                We greatly appreciate your support and feedback during this exciting phase.
-              </p>
+      <Navbar user={user} />
+      <div className="bg-primary-900 text-white h-screen">
+        <GridProvider>
+          <LeftColumn>
+            <h3 className="text-white mb-4">People</h3>
+            <UsersList />
+          </LeftColumn>
+          <MiddleColumn>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-white">Your feed</h3>
+              <Link href='create'>
+                <Button size="small" color="primary-300" icon={<FaScissors />}>
+                  Create
+                </Button>
+              </Link>
             </div>
-          </section>
-        </main>
+            <ClipsScroller />
+          </MiddleColumn>
+          <RightColumn>
+            <h3 className="text-white mb-4">Hello World</h3>
+            <div className="bg-primary-800 p-4 rounded-lg">
+              <p>im too tired to complete working on this, thanks for understanding 👍</p>
+            </div>
+          </RightColumn>
+        </GridProvider>
       </div>
     </WithAuth>
   );

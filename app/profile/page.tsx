@@ -1,44 +1,71 @@
-import WithAuth from "@/components/Auth/WithAuth";
-import { Button } from "@/components/ui/Button";
-import Navbar from "@/components/ui/Navbar";
+import Image from "next/image";
+
 import { createClient } from "@/utils/supabase/server";
 
-export default async function Profile() {
+import WithAuth from "@/components/Auth/WithAuth";
+import Navbar from "@/components/ui/Navbar";
 
+import { AuthProviderBadge } from "@/components/ui/AuthProviderBadge";
+import { GridProvider } from "@/components/ui/Grid/GridProvider";
+import { LeftColumn } from "@/components/ui/Grid/LeftColumn";
+import { MiddleColumn } from "@/components/ui/Grid/MiddleColumn";
+import { RightColumn } from "@/components/ui/Grid/RightColumn";
+
+export default async function Profile() {
     const supabase = createClient();
 
-    const {
-        data: { user },
-        error,
-    } = await createClient().auth.getUser();
+    const { data: { user }, error } = await supabase.auth.getUser();
 
-    console.log(error);
+    if (error) {
+        console.error('Error fetching user:', error);
+        return <div>Error loading profile</div>;
+    }
 
     return (
         <WithAuth>
             <div className="h-screen bg-primary-900 w-full">
-                <Navbar />
-                <div className="w-full mx-auto px-2 sm:px-5.5">
-                    <div className="grid grid-cols-1 md:grid-cols-12 h-screen">
-                        {/* Left Column */}
-                        <div className="hidden md:block sm:col-span-3 mr-4 border">
-                            <h3 className="text-white">Online</h3>
+                <Navbar user={user} />
+                <GridProvider>
+                    <LeftColumn>
+                        <h3 className="text-white mb-4">Left Col</h3>
+                        {/* Additional user-related information can be added here */}
+                    </LeftColumn>
+                    <MiddleColumn>
+                        <div className="flex items-center mb-4">
+                            <Image
+                                src={user?.user_metadata.avatar_url}
+                                className="rounded-full"
+                                alt={`Image of ${user?.user_metadata.full_name}`}
+                                width={60}
+                                height={60}
+                            />
+                            <div className="ml-4">
+                                <h4 className="text-white text-lg">{user?.user_metadata.full_name}</h4>
+                                <span className="text-primary-300">@{user?.user_metadata.user_name}</span>
+                            </div>
                         </div>
-
-                        {/* Middle Column */}
-                        <div className="col-span-1 sm:col-span-6 bg-gray-800 p-4 rounded">
-                            <img src={user?.user_metadata.avatar_url} className="w-28 h-28 rounded-full" />
-                            <h4>{user?.user_metadata.full_name}</h4>
-                            <span className="text-primary-300">@{user?.user_metadata.user_name}</span>
-                            <Button>Log out</Button>
+                        <div className="text-white mb-4">
+                            <p><strong>Email:</strong> {user?.email}</p>
+                            <p><strong>Join date:</strong> {new Date(`${user?.created_at}`).toLocaleString()}</p>
+                            <p><strong>Last sign-in:</strong> {new Date(`${user?.last_sign_in_at}`).toLocaleString()}</p>
+                            <div className="flex items-center space-x-2">
+                                <p><strong>Login providers:</strong></p>
+                                <div className="flex space-x-2">
+                                    {
+                                        user?.identities?.map((provider, key) => (
+                                            <AuthProviderBadge provider={`${provider.provider}`} key={key} />
+                                        ))
+                                    }
+                                </div>
+                            </div>
                         </div>
-
-                        {/* Right Column */}
-                        <div className="hidden sm:block sm:col-span-3 p-4 rounded ml-4 border">
-
+                    </MiddleColumn>
+                    <RightColumn>
+                        <div className="text-white">
+                            <h3 className="mb-4">Right Col</h3>
                         </div>
-                    </div>
-                </div>
+                    </RightColumn>
+                </GridProvider>
             </div>
         </WithAuth>
     );
