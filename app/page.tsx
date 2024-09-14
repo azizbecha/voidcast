@@ -12,6 +12,10 @@ import ClipsScroller from "@/components/ClipsScroller";
 import { UsersList } from "@/components/UsersList";
 
 import { createClient } from "@/utils/supabase/server";
+import { Button } from "@/components/ui/Button";
+import { FaScissors } from "react-icons/fa6";
+import Link from "next/link";
+import Image from "next/image";
 
 export default async function Home() {
 
@@ -29,12 +33,20 @@ export default async function Home() {
             <UsersList />
           </LeftColumn>
           <MiddleColumn>
-            <h3 className="text-white mb-4">Your feed</h3>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-white">Your feed</h3>
+              <Link href='create'>
+                <Button size="small" color="primary-300" icon={<FaScissors />}>
+                  Create
+                </Button>
+              </Link>
+            </div>
             <ClipsScroller />
           </MiddleColumn>
           <RightColumn>
-            <div className="bg-primary-700 p-4 rounded-lg">
-              
+            <h3 className="text-white mb-4">Hello World</h3>
+            <div className="bg-primary-800 p-4 rounded-lg">
+              <p>im too tired to complete working on this, thanks for understanding 👍</p>
             </div>
           </RightColumn>
         </GridProvider>

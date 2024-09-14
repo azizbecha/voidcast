@@ -2,32 +2,28 @@
 
 import React, { useState, useEffect, useRef } from "react";
 
-import WaveSurfer from "wavesurfer.js";
-
 import { createClient } from "@/utils/supabase/client";
 
 import ClipCard from "./ClipCard";
+
 import { Clip, UserProfile } from "@/interfaces";
 
-interface Item extends Clip{
-  profiles: UserProfile
+interface Item extends Clip {
+  profiles: UserProfile;
 }
 
 const supabase = createClient();
 
-const ReelsScroll: React.FC = () => {
+const ClipsScroller: React.FC = () => {
   const [items, setItems] = useState<Item[]>([]);
-  const waveSurferRef = useRef<WaveSurfer[]>([]);
-
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [currentTime, setCurrentTime] = useState<number>(0);
-  const [duration, setDuration] = useState<number>(3);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [currentClipIndex, setCurrentClipIndex] = useState<number>(0); // Track the active clip
+  const clipRefs = useRef<(HTMLDivElement | null)[]>([]); // Store refs for each clip, allow nulls
+  const containerRef = useRef<HTMLDivElement | null>(null); // Ref for the scroll container
 
   const fetchData = async () => {
     try {
       const { data, error } = await supabase
-        .from('clips')
+        .from("clips")
         .select(`
           *,
           profiles (
@@ -37,12 +33,12 @@ const ReelsScroll: React.FC = () => {
             verified
           )
         `)
-        .order('created_at', { ascending: false });
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       setItems(data || []);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   };
 
@@ -50,82 +46,39 @@ const ReelsScroll: React.FC = () => {
     fetchData();
   }, []);
 
-  const handlePlayPause = (index: number) => {
-    const waveSurfer = waveSurferRef.current[index];
+  // Scroll to the next clip
+  const handleClipFinish = () => {
+    if (currentClipIndex < items.length - 1) {
+      const nextIndex = currentClipIndex + 1;
+      setCurrentClipIndex(nextIndex); // Move to the next clip
 
-    if (waveSurfer.isPlaying()) {
-      waveSurfer.pause();
-      setIsPlaying(false);
-    } else {
-      waveSurfer.play();
-      setIsPlaying(true);
-    }
-
-    waveSurfer.on("audioprocess", () => {
-      setCurrentTime(waveSurfer.getCurrentTime());
-      setDuration(waveSurfer.getDuration());
-    });
-
-    waveSurfer.on("seeking", () => {
-      setCurrentTime(waveSurfer.getCurrentTime());
-    });
-
-    waveSurfer.on("finish", () => {
-      setIsPlaying(false);
-    });
-  };
-
-  const pauseAllExceptCurrent = (currentIndex: number) => {
-    waveSurferRef.current.forEach((waveSurfer, index) => {
-      if (waveSurfer && index !== currentIndex && waveSurfer.isPlaying()) {
-        waveSurfer.stop();
+      // Scroll the next clip into view within the container
+      if (clipRefs.current[nextIndex] && containerRef.current) {
+        clipRefs.current[nextIndex].scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+          inline: "nearest",
+        });
       }
-    });
-  };
-
-  const createWaveform = (container: HTMLElement, audioUrl: string) => {
-    const waveSurfer: WaveSurfer = WaveSurfer.create({
-      container,
-      waveColor: "#ddd",
-      progressColor: "#fd4d4d",
-      height: 90,
-      barWidth: 3,
-      cursorWidth: 3,
-      autoCenter: true,
-      normalize: true,
-      dragToSeek: true,
-    });
-    waveSurfer.load(audioUrl);
-    waveSurfer.setVolume(1); // Set to 1 so that audio is ready to play when the user interacts
-    return waveSurfer;
-  };
-
-  useEffect(() => {
-    if (waveSurferRef.current[currentIndex]) {
-      // Pause all other audio instances
-      pauseAllExceptCurrent(currentIndex);
-
-      // Automatically play the audio when a new item enters the viewport
-      handlePlayPause(currentIndex);
     }
-  }, [currentIndex]);
+  };
 
   return (
     <div className="h-screen overflow-hidden bg-primary-800 flex flex-col items-center rounded-lg">
-      <div className="h-[70vh] overflow-y-scroll snap-y snap-mandatory w-full space-y-4 scrollbar-hide">
+      <div
+        ref={containerRef}
+        className="h-[70vh] overflow-y-scroll snap-y snap-mandatory w-full space-y-4 scrollbar-hide"
+      >
         {items.map((item, index) => (
           <ClipCard
             key={index}
-            item={item}
-            index={index}
-            isPlaying={isPlaying}
-            currentIndex={currentIndex}
-            setCurrentIndex={setCurrentIndex}
-            waveSurferRef={waveSurferRef}
-            createWaveform={createWaveform}
-            handlePlayPause={handlePlayPause}
-            currentTime={currentTime}
-            duration={duration}
+            ref={(el) => {
+              clipRefs.current[index] = el;
+            }}
+            data={item}
+            isActive={index === currentClipIndex} // Only play the active clip
+            onClipFinish={handleClipFinish} // Handle when a clip finishes
+            onViewportEnter={() => setCurrentClipIndex(index)}
           />
         ))}
       </div>
@@ -133,4 +86,4 @@ const ReelsScroll: React.FC = () => {
   );
 };
 
-export default ReelsScroll;
+export default ClipsScroller;
