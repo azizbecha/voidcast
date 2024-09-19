@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Toaster } from 'react-hot-toast';
+import { ProgressBar } from "@/components/ProgressBar";
 
 import "./globals.css";
 
@@ -27,6 +28,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="w-full h-screen">
         {children}
+        <ProgressBar />
         <Toaster />
       </body>
     </html>
