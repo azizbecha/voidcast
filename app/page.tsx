@@ -1,3 +1,4 @@
+import Link from "next/link";
 
 import WithAuth from "@/components/Auth/WithAuth";
 
@@ -14,8 +15,6 @@ import { UsersList } from "@/components/UsersList";
 import { createClient } from "@/utils/supabase/server";
 import { Button } from "@/components/ui/Button";
 import { FaScissors } from "react-icons/fa6";
-import Link from "next/link";
-import Image from "next/image";
 
 export default async function Home() {
 

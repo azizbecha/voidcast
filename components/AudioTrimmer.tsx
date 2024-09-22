@@ -163,9 +163,9 @@ export default function AudioTrimmer() {
                     <FileDrop onFileChange={handleFileChange} />
                 </div>
             )}
-            <br />
+
             {audioBuffer && (
-                <div className='border-2 p-4 rounded-lg'>
+                <div className=''>
                     <div className="space-y-2">
                         <Input
                             label='Title'

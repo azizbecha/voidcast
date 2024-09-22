@@ -6,7 +6,8 @@ export const getUsers = async (): Promise<UserProfile[]> => {
     try {
         const { data, error } = await supabase
             .from('profiles')
-            .select('*');
+            .select('*')
+            .order('created_at', { ascending: false, })
 
         if (error) {
             throw error;

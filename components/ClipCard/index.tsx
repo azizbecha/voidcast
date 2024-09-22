@@ -1,13 +1,12 @@
 import React, { forwardRef, useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
 import { motion } from "framer-motion";
-
+import { createClient } from "@/utils/supabase/client";
 import { CardHeader } from "./CardHeader";
 import { AudioPlayer } from "./AudioPlayer";
 import { CardFooter } from "./CardFooter";
 
 import { Clip, UserProfile } from "@/interfaces";
-import { createClient } from "@/utils/supabase/client";
 
 interface Item extends Clip {
     profiles: UserProfile;
@@ -28,13 +27,42 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
         const [isPlaying, setIsPlaying] = useState(false);
         const [currentTime, setCurrentTime] = useState(0);
         const [duration, setDuration] = useState(0);
-        const [userHasInteracted, setUserHasInteracted] = useState(false); // Track if the user has interacted
-        const [played, setPlayed] = useState(false); // Track if user listened for 3s
+        const [userHasInteracted, setUserHasInteracted] = useState(false);
+        const [played, setPlayed] = useState(false); 
+        const [likesCount, setLikesCount] = useState(0); // Store total likes
+        const [isLiked, setIsLiked] = useState(false); // Track if the user has liked the clip
+
         const waveSurferRef = useRef<WaveSurfer | null>(null);
         const waveformContainerRef = useRef<HTMLDivElement>(null);
-        const listenTimeoutRef = useRef<NodeJS.Timeout | null>(null); // Timeout reference
+        const listenTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-        const playThreshold = 3000;
+        const userId = supabase.auth.getUser().then(e => e.data.user?.id); // Replace with actual user ID logic
+
+        // Fetch total likes and check if the user has already liked the clip
+        const fetchLikesData = async () => {
+            const { data: likesData, error: fetchError } = await supabase
+                .from('clipsLikes')
+                .select('*', { count: 'exact' })
+                .eq('clipId', data.id);
+
+            if (fetchError) {
+                console.error("Error fetching likes count:", fetchError);
+                return;
+            }
+
+            setLikesCount(likesData.length); // Set the total number of likes
+
+            // Check if the current user has already liked the clip
+            const userLiked = likesData.some(like => like.userId === userId);
+            setIsLiked(userLiked);
+        };
+
+        const clearListeningTimer = () => {
+            if (listenTimeoutRef.current) {
+                clearTimeout(listenTimeoutRef.current);
+                listenTimeoutRef.current = null;
+            }
+        };
 
         const createWaveform = (audioUrl: string) => {
             if (waveSurferRef.current || !waveformContainerRef.current) return;
@@ -73,61 +101,24 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
             waveSurferRef.current = waveSurfer;
         };
 
-        const startListeningTimer = () => {
-            if (!listenTimeoutRef.current && !played) {
-                listenTimeoutRef.current = setTimeout(async () => {
-                    setPlayed(true);
-                    console.log("User has listened for 3 seconds or more.");
+        useEffect(() => {
+            fetchLikesData(); // Fetch likes on component mount
+        }, [data.id]);
 
-                    // Fetch the current plays count
-                    const { data: currentPlaysData, error: fetchError } = await supabase
-                        .from('clips')
-                        .select('plays')
-                        .eq('id', data.id)
-                        .single();
+        const handleLike = async () => {
+            if (isLiked) return; // Prevent multiple likes from the same user
 
-                    if (fetchError) {
-                        console.error("Error fetching plays count:", fetchError);
-                        return;
-                    }
+            try {
+                const { error } = await supabase
+                    .from("clipsLikes")
+                    .insert({ userId, clipId: data.id });
 
-                    const currentPlays = currentPlaysData?.plays || 0;
-
-                    // Update the plays count
-                    const { error: updateError } = await supabase
-                        .from('clips')
-                        .update({ plays: currentPlays + 1 })
-                        .eq('id', data.id);
-
-                    if (updateError) {
-                        console.error("Error updating plays count:", updateError);
-                    } else {
-                        console.log("Plays count updated successfully.");
-                    }
-                }, playThreshold);
-            }
-        };
-
-        const clearListeningTimer = () => {
-            if (listenTimeoutRef.current) {
-                clearTimeout(listenTimeoutRef.current);
-                listenTimeoutRef.current = null;
-            }
-        };
-
-        const playAudio = () => {
-            if (waveSurferRef.current && !isPlaying && userHasInteracted) {
-                waveSurferRef.current.play();
-                setIsPlaying(true);
-                startListeningTimer(); // Start the 3-second timer
-            }
-        };
-
-        const pauseAudio = () => {
-            if (waveSurferRef.current && isPlaying) {
-                waveSurferRef.current.pause();
-                setIsPlaying(false);
-                clearListeningTimer(); // Clear the timer if paused
+                if (!error) {
+                    setLikesCount(likesCount + 1); // Increment the displayed likes count
+                    setIsLiked(true); // Mark as liked
+                }
+            } catch (err) {
+                console.error("Error liking the clip:", err);
             }
         };
 
@@ -141,24 +132,9 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
                     waveSurferRef.current.destroy();
                     waveSurferRef.current = null;
                 }
-                clearListeningTimer(); // Clean up the timer
+                clearListeningTimer();
             };
         }, [data.audiofile, userHasInteracted]);
-
-        // Effect to track user interaction
-        useEffect(() => {
-            const events = ["click", "touch", "keydown"];
-            const handleUserInteraction = () => {
-                setUserHasInteracted(true); // Set the flag when the user interacts
-                events.forEach((event) => window.removeEventListener(event, handleUserInteraction));
-            };
-
-            events.forEach((event) => window.addEventListener(event, handleUserInteraction));
-
-            return () => {
-                events.forEach((event) => window.removeEventListener(event, handleUserInteraction));
-            };
-        }, []);
 
         useEffect(() => {
             if (isActive && userHasInteracted) {
@@ -168,20 +144,35 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
             }
         }, [isActive, userHasInteracted]);
 
+        const playAudio = () => {
+            if (waveSurferRef.current && !isPlaying && userHasInteracted) {
+                waveSurferRef.current.play();
+                setIsPlaying(true);
+            }
+        };
+
+        const pauseAudio = () => {
+            if (waveSurferRef.current && isPlaying) {
+                waveSurferRef.current.pause();
+                setIsPlaying(false);
+            }
+        };
+
         return (
             <motion.div
                 className="h-full w-full mx-auto bg-primary-800 rounded-lg overflow-hidden shadow-lg snap-center"
                 onViewportEnter={() => {
                     playAudio();
-                    onViewportEnter?.(); // Safely call onViewportEnter if it's defined
+                    onViewportEnter?.();
                 }}
                 onViewportLeave={() => {
                     pauseAudio();
-                    onViewportLeave?.(); // Safely call onViewportLeave if it's defined
+                    onViewportLeave?.();
                 }}
                 ref={ref}
             >
                 <div className="h-full flex flex-col justify-between p-3">
+                    {userId}
                     <CardHeader
                         avatar={data.profiles.avatar}
                         createdAt={data.created_at}
@@ -205,6 +196,9 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
                         isPlaying={isPlaying}
                         pauseAudio={pauseAudio}
                         playAudio={playAudio}
+                        likesCount={likesCount} // Pass likes count to CardFooter
+                        handleLike={handleLike} // Pass like handler to CardFooter
+                        isLiked={isLiked} // Pass liked state to CardFooter
                     />
                 </div>
             </motion.div>
