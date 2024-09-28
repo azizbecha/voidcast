@@ -124,8 +124,7 @@ button:focus {
 }
 
 .drop-zone.drag-over {
-  background-color: #f0f0f0;
-  border-color: #333;
+  background-color: var(--color-primary-600);
 }
 
 /* Add this to your global CSS file if you're not using a plugin */

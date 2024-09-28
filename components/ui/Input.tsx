@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 import React, { forwardRef, ReactElement, ChangeEvent } from "react";
 
 export interface InputProps extends React.ComponentPropsWithoutRef<"input"> {
@@ -9,11 +8,12 @@ export interface InputProps extends React.ComponentPropsWithoutRef<"input"> {
   transparent?: boolean;
   icon?: ReactElement;
   placeholder?: string;
+  required?: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, textarea, error, transparent, icon = false, placeholder, label, onChange, ...props }, ref) => {
+  ({ className, textarea, error, transparent, icon = false, placeholder, label, onChange, required, ...props }, ref) => {
     const bg = transparent ? `bg-transparent` : `bg-primary-700`;
     const ring = error ? `ring-1 ring-secondary` : "";
     const cn = `w-full py-2 px-4 text-primary-100 placeholder-primary-300 focus:outline-none ${bg} ${ring} ${className}`;
@@ -21,7 +21,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return textarea ? (
       <div>
         {label && (
-          <span className='text-base font-medium text-white'>{label}</span>
+          <span className='text-base font-medium text-white'>{label} {required && <span className="text-accent font-bold">*</span>}</span>
         )}
         <textarea
           ref={ref as any}
@@ -29,13 +29,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           className={`${cn} rounded-8`}
           data-testid="textarea"
           onChange={onChange}
+          required={required}
           {...(props as any)}
         />
+        <span className="text-xs font-semibold text-accent">{error}</span>
       </div>
     ) : (
       <div className="rounded-8 w-full">
         {label && (
-          <span className='text-base font-medium text-white'>{label}</span>
+          <span className='text-base font-medium text-white'>{label} {required && <span className="text-accent font-bold">*</span>}</span>
         )}
         <div className="flex items-stretch">
           {icon && (
@@ -43,15 +45,17 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               {icon}
             </div>
           )}
-          <input 
-            placeholder={placeholder} 
-            ref={ref} 
-            className={`${cn} ${icon ? 'rounded-r-8' : 'rounded-8'}`} 
-            data-testid="input" 
+          <input
+            placeholder={placeholder}
+            ref={ref}
+            className={`${cn} ${icon ? 'rounded-r-8' : 'rounded-8'}`}
+            data-testid="input"
             onChange={onChange}
-            {...props} 
+            required={required}
+            {...props}
           />
         </div>
+        <span className="text-xs font-semibold text-accent">{error}</span>
       </div>
     );
   }
