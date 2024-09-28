@@ -67,7 +67,7 @@ const ClipsScroller: React.FC = () => {
     <div className="h-screen overflow-hidden bg-primary-800 flex flex-col items-center rounded-lg">
       <div
         ref={containerRef}
-        className="h-[70vh] overflow-y-scroll snap-y snap-mandatory w-full space-y-4 scrollbar-hide"
+        className="h-[75vh] overflow-y-scroll snap-y snap-mandatory w-full space-y-4 scrollbar-hide"
       >
         {items.map((item, index) => (
           <ClipCard
