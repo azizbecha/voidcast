@@ -20,8 +20,6 @@ interface ClipCardProps {
     onViewportLeave?: () => void;
 }
 
-const supabase = createClient();
-
 const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
     ({ data, isActive, onClipFinish, onViewportEnter, onViewportLeave }, ref) => {
         const [isPlaying, setIsPlaying] = useState(false);
@@ -35,27 +33,6 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
         const waveSurferRef = useRef<WaveSurfer | null>(null);
         const waveformContainerRef = useRef<HTMLDivElement>(null);
         const listenTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-        const userId = supabase.auth.getUser().then(e => e.data.user?.id); // Replace with actual user ID logic
-
-        // Fetch total likes and check if the user has already liked the clip
-        const fetchLikesData = async () => {
-            const { data: likesData, error: fetchError } = await supabase
-                .from('clipsLikes')
-                .select('*', { count: 'exact' })
-                .eq('clipId', data.id);
-
-            if (fetchError) {
-                console.error("Error fetching likes count:", fetchError);
-                return;
-            }
-
-            setLikesCount(likesData.length); // Set the total number of likes
-
-            // Check if the current user has already liked the clip
-            const userLiked = likesData.some(like => like.userId === userId);
-            setIsLiked(userLiked);
-        };
 
         const clearListeningTimer = () => {
             if (listenTimeoutRef.current) {
@@ -99,27 +76,6 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
             waveSurfer.on('error', (e) => console.log(e));
 
             waveSurferRef.current = waveSurfer;
-        };
-
-        useEffect(() => {
-            fetchLikesData(); // Fetch likes on component mount
-        }, [data.id]);
-
-        const handleLike = async () => {
-            if (isLiked) return; // Prevent multiple likes from the same user
-
-            try {
-                const { error } = await supabase
-                    .from("clipsLikes")
-                    .insert({ userId, clipId: data.id });
-
-                if (!error) {
-                    setLikesCount(likesCount + 1); // Increment the displayed likes count
-                    setIsLiked(true); // Mark as liked
-                }
-            } catch (err) {
-                console.error("Error liking the clip:", err);
-            }
         };
 
         useEffect(() => {
@@ -172,7 +128,6 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
                 ref={ref}
             >
                 <div className="h-full flex flex-col justify-between p-3">
-                    {userId}
                     <CardHeader
                         avatar={data.profiles.avatar}
                         createdAt={data.created_at}
@@ -196,9 +151,6 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
                         isPlaying={isPlaying}
                         pauseAudio={pauseAudio}
                         playAudio={playAudio}
-                        likesCount={likesCount} // Pass likes count to CardFooter
-                        handleLike={handleLike} // Pass like handler to CardFooter
-                        isLiked={isLiked} // Pass liked state to CardFooter
                     />
                 </div>
             </motion.div>
