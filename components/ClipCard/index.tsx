@@ -181,9 +181,9 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
                         verified={data.profiles.verified}
                     />
 
-                    <div className="flex-1 text-center text-white mt-2">
-                        <h3 className="text-xl font-semibold mb-2">{data.title}</h3>
-                        <p className="text-sm text-primary-100">{data.description}</p>
+                    <div className="flex-1 text-left text-white mt-2">
+                        <h3 className="text-xl font-bold mb-2">{data.title}</h3>
+                        <p className="text-sm text-primary-100 text-justify">{data.description}</p>
                     </div>
 
                     <AudioPlayer

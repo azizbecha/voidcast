@@ -10,7 +10,7 @@ export const AudioPlayer: React.FC<Props> = ({ currentTime, duration, waveRef })
     return (
         <>
             {/* Audio Waveform */}
-            <div ref={waveRef} className="w-full custom-waveform mb-5"></div>
+            <div ref={waveRef} className="w-full custom-waveform mb-6"></div>
 
             {/* Progress Bar */}
             <div className="relative w-full">
