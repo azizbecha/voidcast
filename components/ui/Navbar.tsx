@@ -69,9 +69,10 @@ export default function Navbar(props: Props) {
   return (
     <nav className="bg-primary-900 w-full z-20 top-0 start-0">
       <div className="w-full grid grid-cols-12 items-center p-2 sm:px-4 sm:py-3 md:px-6 md:py-4 lg:px-8 lg:py-5">
-        <Link href="/" className="flex items-center col-span-2 sm:col-span-3">
-          <Image width={40} height={40} src="/images/logo.png" className="h-6 w-6 mr-2" alt="VoidCast Logo" />
+        <Link href="/" className="flex items-center justify-start col-span-2 sm:col-span-3 space-x-2">
+          <Image width={40} height={40} src="/images/logo.png" className="h-6 w-6" alt="VoidCast Logo" />
           <span className="self-center text-2xl font-bold whitespace-nowrap text-accent hidden md:block">VoidCast</span>
+          <span className="bg-accent px-2 py-0.5 rounded-full text-xs text-white font-bold">BETA</span>
         </Link>
         <div className="flex items-center justify-center col-span-8 sm:col-span-6">
           <Input icon={<FaSearch />} placeholder="Search for clips, episodes, users or communities" />
