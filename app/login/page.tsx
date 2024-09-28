@@ -1,9 +1,15 @@
-import { NextPage } from "next";
+import { Metadata, NextPage } from "next";
+import Image from "next/image";
+
+import WithNoAuth from "@/components/Auth/WithNoAuth";
 
 import GoogleAuthButton from "@/components/Auth/GoogleAuthButton";
 import GitHubAuthButton from "@/components/Auth/GithubAuthButton";
 import DiscordAuthButton from "@/components/Auth/DiscordAuthButton";
-import WithNoAuth from "@/components/Auth/WithNoAuth";
+
+export const metadata: Metadata = {
+    title: "Login • VoidCast",
+};
 
 const Login: NextPage = () => {
     return (
@@ -18,7 +24,7 @@ const Login: NextPage = () => {
                 <div className="flex m-auto flex-col p-6 gap-5 bg-primary-800 rounded-8 z-10 sm:w-400 w-11/12">
                     <div className="flex gap-1 flex-col">
                         <div className="flex justify-self-center self-center mb-3">
-                            <img src="images/logo.png" className="w-8 h-8" />
+                            <Image width={75} height={75} alt="VoidCast logo" src="images/logo.png" />
                         </div>
                         <span className="text-3xl text-primary-100 font-bold text-center">Welcome to VoidCast</span>
                         <div className="text-primary-100 flex-wrap text-center">
