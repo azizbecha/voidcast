@@ -72,7 +72,7 @@ export default function Navbar(props: Props) {
         <Link href="/" className="flex items-center justify-start col-span-2 sm:col-span-3 space-x-2">
           <Image width={40} height={40} src="/images/logo.png" className="h-6 w-6" alt="VoidCast Logo" />
           <span className="self-center text-2xl font-bold whitespace-nowrap text-accent hidden md:block">VoidCast</span>
-          <span className="bg-accent px-2 py-0.5 rounded-full text-xs text-white font-bold">BETA</span>
+          <span className="hidden md:block bg-accent px-2 py-0.5 rounded-full text-xs text-white font-bold">BETA</span>
         </Link>
         <div className="flex items-center justify-center col-span-8 sm:col-span-6">
           <Input icon={<FaSearch />} placeholder="Search for clips, episodes, users or communities" />
