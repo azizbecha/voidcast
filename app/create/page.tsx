@@ -1,17 +1,23 @@
-import AudioTrimmer from "@/components/AudioTrimmer";
+import { Metadata } from "next";
+
+import { createClient } from "@/utils/supabase/server";
+
 import WithAuth from "@/components/Auth/WithAuth"
-import ClipsScroller from "@/components/ClipsScroller";
-import Container from "@/components/Container";
-import { Button } from "@/components/ui/Button";
+
+import AudioTrimmer from "@/components/AudioTrimmer";
+
 import { GridProvider } from "@/components/ui/Grid/GridProvider";
 import { LeftColumn } from "@/components/ui/Grid/LeftColumn";
 import { MiddleColumn } from "@/components/ui/Grid/MiddleColumn";
 import { RightColumn } from "@/components/ui/Grid/RightColumn";
+
 import Navbar from "@/components/ui/Navbar"
+
 import { UsersList } from "@/components/UsersList";
-import { createClient } from "@/utils/supabase/server";
-import Link from "next/link";
-import { FaScissors } from "react-icons/fa6";
+
+export const metadata: Metadata = {
+  title: "Create • VoidCast",
+};
 
 const CreatePage = async () => {
 

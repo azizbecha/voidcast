@@ -22,17 +22,23 @@ interface ClipCardProps {
 }
 
 const supabase = createClient();
+
 const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
     ({ data, isActive, onClipFinish, onViewportEnter, onViewportLeave }, ref) => {
-        const [isPlaying, setIsPlaying] = useState(false);
-        const [currentTime, setCurrentTime] = useState(0);
-        const [duration, setDuration] = useState(0);
-        const [userHasInteracted, setUserHasInteracted] = useState(false); // Track if the user has interacted
-        const [played, setPlayed] = useState(false); // Track if user listened for 3s
+        
         const waveSurferRef = useRef<WaveSurfer | null>(null);
         const waveformContainerRef = useRef<HTMLDivElement>(null);
         const listenTimeoutRef = useRef<NodeJS.Timeout | null>(null); // Timeout reference
-        const playThreshold = 3000;
+        
+        const [currentTime, setCurrentTime] = useState(0);
+        const [duration, setDuration] = useState(0);
+
+        const [isPlaying, setIsPlaying] = useState(false);
+        const [played, setPlayed] = useState(false); // Track if user listened for 3s
+        
+        const [userHasInteracted, setUserHasInteracted] = useState(false); // Track if the user has interacted
+        
+        const PLAYTHRESHOLD = 3000;
 
         const createWaveform = (audioUrl: string) => {
             if (waveSurferRef.current || !waveformContainerRef.current) return;
@@ -97,7 +103,7 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
                     } else {
                         console.log("Plays count updated successfully.");
                     }
-                }, playThreshold);
+                }, PLAYTHRESHOLD);
             }
         };
         const clearListeningTimer = () => {

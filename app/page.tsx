@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import Link from "next/link";
 
 import WithAuth from "@/components/Auth/WithAuth";
@@ -14,7 +15,12 @@ import { UsersList } from "@/components/UsersList";
 
 import { createClient } from "@/utils/supabase/server";
 import { Button } from "@/components/ui/Button";
+
 import { FaScissors } from "react-icons/fa6";
+
+export const metadata: Metadata = {
+  title: "Home • VoidCast",
+};
 
 export default async function Home() {
 
