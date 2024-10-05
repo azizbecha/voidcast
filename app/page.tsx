@@ -10,6 +10,7 @@ import { RightColumn } from "@/components/ui/Grid/RightColumn";
 
 import Navbar from "@/components/ui/Navbar";
 
+import { ProfileCard } from "@/components/ProfileCard";
 import ClipsScroller from "@/components/ClipsScroller";
 import { UsersList } from "@/components/UsersList";
 
@@ -41,7 +42,7 @@ export default async function Home() {
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-white">Your feed</h3>
               <Link href='create'>
-                <Button size="small" color="primary-300" icon={<FaScissors />}>
+                <Button size="small" color="primary" icon={<FaScissors />}>
                   Create
                 </Button>
               </Link>
@@ -49,10 +50,7 @@ export default async function Home() {
             <ClipsScroller />
           </MiddleColumn>
           <RightColumn>
-            <h3 className="text-white mb-4">Hello World</h3>
-            <div className="bg-primary-800 p-4 rounded-lg">
-              <p>im too tired to complete working on this, thanks for understanding 👍</p>
-            </div>
+            <ProfileCard user={user} />
           </RightColumn>
         </GridProvider>
       </div>

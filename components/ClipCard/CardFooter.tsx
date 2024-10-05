@@ -15,7 +15,7 @@ export const CardFooter: React.FC<Props> = ({ isPlaying, playAudio, pauseAudio }
                 <motion.div
                     whileTap={{ scale: 1.2 }}
                     whileHover={{ scale: 1.1 }}
-                    className="w-14 h-14 p-3 rounded-full bg-accent flex justify-center items-center text-white text-3xl cursor-pointer"
+                    className="text-xl w-12 h-12 rounded-full bg-accent flex justify-center items-center text-white cursor-pointer"
                     onClick={() => (isPlaying ? pauseAudio() : playAudio())}
                 >
                     {isPlaying ? <FaPauseCircle /> : <FaPlayCircle />}
@@ -27,7 +27,7 @@ export const CardFooter: React.FC<Props> = ({ isPlaying, playAudio, pauseAudio }
                     <motion.div
                         whileTap={{ scale: 1.2 }}
                         whileHover={{ scale: 1.1 }}
-                        className="w-14 h-14 p-3 rounded-full border-2 border-accent bg-transparent flex justify-center items-center text-accent cursor-pointer"
+                        className="text-xl w-12 h-12 rounded-full border-2 border-accent bg-transparent flex justify-center items-center text-accent cursor-pointer"
                     >
                         <FaHeart />
                     </motion.div>
@@ -37,7 +37,7 @@ export const CardFooter: React.FC<Props> = ({ isPlaying, playAudio, pauseAudio }
                     <motion.div
                         whileTap={{ scale: 1.2 }}
                         whileHover={{ scale: 1.1 }}
-                        className="w-14 h-14 p-3 rounded-full border-2 border-accent bg-transparent flex justify-center items-center text-accent cursor-pointer"
+                        className="text-xl w-12 h-12 rounded-full border-2 border-accent bg-transparent flex justify-center items-center text-accent cursor-pointer"
                     >
                         <FaBookmark />
                     </motion.div>
@@ -47,7 +47,7 @@ export const CardFooter: React.FC<Props> = ({ isPlaying, playAudio, pauseAudio }
                     <motion.div
                         whileTap={{ scale: 1.2 }}
                         whileHover={{ scale: 1.1 }}
-                        className="w-14 h-14 p-3 rounded-full border-2 border-accent bg-transparent flex justify-center items-center text-accent cursor-pointer"
+                        className="text-xl w-12 h-12 rounded-full border-2 border-accent bg-transparent flex justify-center items-center text-accent cursor-pointer"
                     >
                         <FaShare />
                     </motion.div>
