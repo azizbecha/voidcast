@@ -82,7 +82,7 @@ export default async function Profile({ params }: { params: { username: string }
     }
 
     return (
-        <WithAuth>
+        <>
             <div className="h-screen bg-primary-900 w-full">
                 <Navbar user={user} />
                 <GridProvider>
@@ -144,6 +144,6 @@ export default async function Profile({ params }: { params: { username: string }
                     </RightColumn>
                 </GridProvider>
             </div>
-        </WithAuth>
+        </>
     );
 }
