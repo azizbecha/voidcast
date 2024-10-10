@@ -33,6 +33,7 @@ export interface AppMetadata {
   providers:  string[]
 }
 export interface UserProfile {
+  bio: string;
   id: string;
   full_name: string;
   email: string;
@@ -44,4 +45,5 @@ export interface UserProfile {
   username: string;
   avatar: string;
   verified: boolean;
+  url: string | null;
 }

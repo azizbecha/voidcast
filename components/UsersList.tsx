@@ -11,7 +11,7 @@ export const UsersList = async () => {
         <div className="flex flex-col space-y-3">
             {
                 users.map((user, key) => (
-                    <Link href={`u/${user.username}`} key={key}>
+                    <Link href={`../u/${user.username}`} key={key}>
                         <div className="flex items-center py-2 gap-2 hover:border-r transition">
                             <Image src={user.avatar} className="rounded-full" alt={user.full_name} width={45} height={45} />
                             <div>

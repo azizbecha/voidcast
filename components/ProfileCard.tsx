@@ -72,7 +72,9 @@ export const ProfileCard: React.FC<Props> = ({ user }) => {
             <p className="text-primary-100 font-semibold mt-2">{profileData?.bio}</p>
             <p className="text-xs text-primary-300">Member since {moment(profileData?.created_at).format("MMMM DD, YYYY")}</p>
 
-            <Button color="primary" size="small" >Go to profile</Button>
+            <Link href={'profile'}>
+                <Button color="primary" size="small" >Go to profile</Button>
+            </Link>
         </div>
     );
 };

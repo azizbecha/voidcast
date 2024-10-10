@@ -1,38 +1,84 @@
+import { Metadata } from "next";
 import Image from "next/image";
+
 import { createClient } from "@/utils/supabase/server";
+
 import WithAuth from "@/components/Auth/WithAuth";
 import Navbar from "@/components/ui/Navbar";
-import { AuthProviderBadge } from "@/components/ui/AuthProviderBadge";
+
+import { Button } from "@/components/ui/Button";
+
 import { GridProvider } from "@/components/ui/Grid/GridProvider";
 import { LeftColumn } from "@/components/ui/Grid/LeftColumn";
 import { MiddleColumn } from "@/components/ui/Grid/MiddleColumn";
 import { RightColumn } from "@/components/ui/Grid/RightColumn";
+
 import { UsersList } from "@/components/UsersList";
-import { MdVerified } from "react-icons/md";
-import { ProfileTabs } from "@/components/ui/ProfileTabs";
+import { ProfileTabs } from "@/components//ProfileTabs";
+
 import { FaEdit } from "react-icons/fa";
+import { MdVerified } from "react-icons/md";
+import { FaUserPlus } from "react-icons/fa6";
 
-export default async function Profile() {
+// Generate metadata dynamically
+export async function generateMetadata({ params }: { params: { username: string } }): Promise<Metadata> {
     const supabase = createClient();
+    const { username } = params;
 
-    // Get the authenticated user
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    // Fetch the profile based on the username from the URL
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('full_name, username, bio, avatar')
+        .eq('username', username)
+        .single();
 
-    if (userError) {
-        console.error('Error fetching user:', userError);
-        return <div>Error loading profile</div>;
+    if (!profile) {
+        return {
+            title: 'User Not Found',
+            description: 'The requested user profile could not be found.',
+        };
     }
 
-    // Fetch user profile from profiles table
+    return {
+        title: `${profile.full_name} (@${profile.username}) • VoidCast`,
+        description: profile.bio || `${profile.full_name}'s VoidCast profile`,
+        openGraph: {
+            title: `${profile.full_name} (@${profile.username})`,
+            description: profile.bio || `${profile.full_name}'s profile details.`,
+            url: `/u/${profile.username}`,
+            type: 'profile',
+            images: [
+                {
+                    url: profile?.avatar,
+                    alt: `${profile.full_name}'s avatar`,
+                },
+            ],
+        },
+    };
+}
+
+// The params argument to extract the username from the URL
+export default async function Profile({ params }: { params: { username: string } }) {
+    const supabase = createClient();
+    const { username } = params;
+
+    // Fetch the profile based on the username from the URL
     const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('*')
-        .eq('id', user?.id) // Assuming 'id' is the primary key for user profiles
+        .eq('username', username) // Fetch user by username from the profiles table
         .single();
 
     if (profileError) {
         console.error('Error fetching profile:', profileError);
         return <div>Error loading profile details</div>;
+    }
+
+    // Get the authenticated user (for Navbar or user-specific features)
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+
+    if (userError) {
+        console.error('Error fetching user:', userError);
     }
 
     return (
@@ -50,30 +96,30 @@ export default async function Profile() {
                             <div
                                 className="relative h-48"
                                 style={{
-                                    backgroundImage: `url('https://scontent.ftun10-1.fna.fbcdn.net/v/t39.30808-6/311714139_1440959433063552_5039381490098018431_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=0z4TEkGHxV8Q7kNvgH61TEv&_nc_ht=scontent.ftun10-1.fna&_nc_gid=A0rjKTekbpqSAc4FVK40mod&oh=00_AYChxmZdhBAi4K8LT3WDC4LxmVmxwYcfdjeCe3tWZgNZiA&oe=6707A3DE')`,
+                                    backgroundImage: 'url(../../images/profile-cover.png)',
                                     backgroundSize: 'cover',
                                     backgroundPosition: 'center',
                                 }}
                             >
                                 <FaEdit size={18} color="#fff" className="right-0 absolute m-2 z-10" />
-                                <div className="absolute inset-0 bg-black opacity-40"></div>
+                                <div className="absolute inset-0 bg-black opacity-20"></div>
                             </div>
 
-                            <div className="flex px-4">
-                                <div className="w-1/5">
-                                    <div className="flex justify-start -mt-4">
+                            <div className="flex px-4 justify-between w-full">
+                                <div className="w-2/6 sm:w-1/6 sm:mr-3">
+                                    <div className="flex justify-start -mt-3">
                                         {/* Profile Picture */}
                                         <Image
-                                            src={user?.user_metadata?.avatar_url}
+                                            src={profile?.avatar}
                                             alt="Profile"
                                             className="z-10 rounded-full border-4 border-primary-800 object-cover"
-                                            width={85}
-                                            height={85}
+                                            width={90}
+                                            height={90}
                                         />
                                     </div>
                                 </div>
-                                <div className="w-4/5">
-                                    <div className="flex items-end">
+                                <div className="sm:w-5/6 w-4/6">
+                                    <div className="flex items-center justify-between">
                                         <div className="flex flex-col py-3">
                                             <div className="flex flex-row space-x-2 items-center justify-start">
                                                 <h4 className="text-2xl font-bold">{profile?.full_name}</h4>
@@ -81,24 +127,15 @@ export default async function Profile() {
                                                     <MdVerified className="text-blue-500" size={18} />
                                                 )}
                                             </div>
-                                            <span className="text-primary-300 text-md font-semibold">@{profile?.username}</span>
+                                            <span className="text-primary-300 text-md font-semibold mt-0.5">@{profile?.username}</span>
                                         </div>
+                                        <Button size="small" icon={<FaUserPlus />}>Follow</Button>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <ProfileTabs user={user} profile={profile} />
-                        {/* <div className="bg-primary-800 p-4 rounded-md mt-2">
-
-                            <h4>About</h4>
-                            
-                            <div className="text-white mb-4">
-                                <p><strong>Email:</strong> {user?.email}</p>
-                                <p><strong>Bio:</strong> {profile?.bio}</p>
-                                <p><strong>Location:</strong> {profile?.location}</p>
-                            </div>
-                        </div> */}
+                        <ProfileTabs profile={profile} />
                     </MiddleColumn>
                     <RightColumn>
                         <div className="text-white">
