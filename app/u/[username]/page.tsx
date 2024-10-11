@@ -105,8 +105,8 @@ export default async function Profile({ params }: { params: { username: string }
                                 <div className="absolute inset-0 bg-black opacity-20"></div>
                             </div>
 
-                            <div className="flex px-4 justify-between w-full">
-                                <div className="w-2/6 sm:w-1/6 sm:mr-3">
+                            <div className="flex px-1.5 sm:px-3 justify-between w-full">
+                                <div className="sm:w-1/6 w-2/6 sm:mr-3">
                                     <div className="flex justify-start -mt-3">
                                         {/* Profile Picture */}
                                         <Image
@@ -122,12 +122,12 @@ export default async function Profile({ params }: { params: { username: string }
                                     <div className="flex items-center justify-between">
                                         <div className="flex flex-col py-3">
                                             <div className="flex flex-row space-x-2 items-center justify-start">
-                                                <h4 className="text-2xl font-bold">{profile?.full_name}</h4>
+                                                <h4 className="text-md sm:text-2xl font-bold">{profile?.full_name}</h4>
                                                 {profile?.verified && (
                                                     <MdVerified className="text-blue-500" size={18} />
                                                 )}
                                             </div>
-                                            <span className="text-primary-300 text-md font-semibold mt-0.5">@{profile?.username}</span>
+                                            <span className="text-primary-300 text-sm sm:text-base font-semibold mt-0.5">@{profile?.username}</span>
                                         </div>
                                         <Button size="small" icon={<FaUserPlus />}>Follow</Button>
                                     </div>

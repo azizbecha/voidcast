@@ -112,6 +112,7 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
                 listenTimeoutRef.current = null;
             }
         };
+        
         const playAudio = () => {
             if (waveSurferRef.current && !isPlaying && userHasInteracted) {
                 waveSurferRef.current.play();
