@@ -31,7 +31,7 @@ export const Clips: React.FC<ClipsTabProps> = ({ userId }) => {
                 .from('clips')
                 .select('*')
                 .eq('creator', userId)
-                .order('creation_date', { ascending: false });
+                .order('created_at', { ascending: false });
 
             if (error) {
                 setError(error.message);
