@@ -47,9 +47,9 @@ export const ProfileTabs: React.FC<ProfileTabsProps> = ({ profile }) => {
             {/* Tab Header */}
             <div className="flex justify-around border-b border-gray-700 transition-all duration-100">
                 {
-                    tabs.map((tab, key) => (
+                    tabs.map((tab) => (
                         <button
-                            key={key}
+                            key={tab.label} // Use unique key based on the tab label
                             className={`${tabStyle} ${activeTab === tab.label ? activeTabStyle : "border-transparent"}`}
                             onClick={() => setActiveTab(tab.label)}
                         >
@@ -63,7 +63,9 @@ export const ProfileTabs: React.FC<ProfileTabsProps> = ({ profile }) => {
             <div className="p-4 bg-primary-800 rounded-lg mt-4">
                 {
                     tabs.map((tab) => (
-                        activeTab === tab.label && tab.component
+                        activeTab === tab.label && (
+                            <div key={tab.label}>{tab.component}</div> // Unique key for the content as well
+                        )
                     ))
                 }
             </div>
