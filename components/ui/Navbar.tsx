@@ -1,17 +1,18 @@
 "use client"
 
 import Link from "next/link";
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
-import { Input } from './Input';
+import { User } from "@supabase/supabase-js";
+import { createClient } from "@/utils/supabase/client";
+
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 
 import { FaBug, FaCompass, FaScissors, FaUser } from "react-icons/fa6";
 import { FaCog, FaMagic, FaSearch, FaSignOutAlt } from "react-icons/fa";
-import { User } from "@supabase/supabase-js";
-import Image from "next/image";
-import { Button } from "./Button";
-import { createClient } from "@/utils/supabase/client";
-import { useRouter } from "next/navigation";
+
+import { Input } from './Input';
 
 interface Props {
   user: User | null

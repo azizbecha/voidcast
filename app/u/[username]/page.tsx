@@ -127,7 +127,7 @@ export default async function Profile({ params }: { params: { username: string }
                                                     <MdVerified className="text-blue-500" size={18} />
                                                 )}
                                             </div>
-                                            <span className="text-primary-300 text-sm sm:text-base font-semibold mt-0.5">@{profile?.username}</span>
+                                            <span className="text-primary-300 text-sm sm:text-base font-semibold">@{profile?.username}</span>
                                         </div>
                                         <Button size="small" icon={<FaUserPlus />}>Follow</Button>
                                     </div>
