@@ -192,6 +192,7 @@ export const ProfileTab: React.FC<Props> = ({ profile }) => {
                     <Input
                         textarea
                         rows={4}
+                        maxLength={150}
                         value={bio}
                         onChange={(e) => setBio(e.target.value)}
                         error={errors.bio || undefined}

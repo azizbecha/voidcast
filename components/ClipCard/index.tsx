@@ -179,7 +179,7 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
                 }}
                 ref={ref}
             >
-                <div className="h-full flex flex-col justify-between p-3">
+                <div className="h-full flex flex-col justify-between p-4">
                     <CardHeader
                         avatar={data.profiles.avatar}
                         createdAt={data.created_at}

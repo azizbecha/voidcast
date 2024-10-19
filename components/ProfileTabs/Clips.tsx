@@ -16,15 +16,15 @@ interface ClipsTabProps {
 
 export const Clips: React.FC<ClipsTabProps> = ({ userId }) => {
 
-    const supabase = createClient();
-
+    
     const [clips, setClips] = useState<Clip[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-
+    
     useEffect(() => {
         const fetchClips = async () => {
-
+            const supabase = createClient();
+            
             setLoading(true);
 
             const { data, error } = await supabase
