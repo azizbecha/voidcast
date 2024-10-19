@@ -1,8 +1,9 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
+
 import Link from "next/link";
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import { User } from "@supabase/supabase-js";
@@ -10,10 +11,9 @@ import { createClient } from "@/utils/supabase/client";
 
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 
-import { FaBug, FaCompass, FaUser, FaCog, FaMagic, FaSearch, FaSignOutAlt } from "react-icons/fa";
-
 import { Input } from './Input';
-import { Button } from "./Button";
+
+import { FaBug, FaCompass, FaUser, FaCog, FaMagic, FaSearch, FaSignOutAlt } from "react-icons/fa";
 import { FaScissors } from "react-icons/fa6";
 
 interface Props {
@@ -100,12 +100,10 @@ export default function Navbar(props: Props) {
           <Input
             icon={<FaSearch />}
             required
-            placeholder={`Search for clips, episodes, users or communities${searchQuery ? ` for "${searchQuery}"` : ""}`}
-            className="rounded-r-none h-full"
+            placeholder={`Search for clips, episodes, users or communities`}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <Button icon={<FaSearch />} className="rounded-l-none" type="submit" />
         </form>
         <div className="flex items-center justify-end col-span-2 sm:col-span-3 gap-4">
           <div className="space-x-1 hidden md:flex">

@@ -8,7 +8,7 @@ export const UsersList = async () => {
     const users = await getUsers();
 
     return (
-        <div className="flex flex-col space-y-3">
+        <div className="flex flex-col space-y-3 overflow-y-auto scrollbar-hide h-full">
             {
                 users.map((user, key) => (
                     <Link href={`../u/${user.username}`} key={key}>

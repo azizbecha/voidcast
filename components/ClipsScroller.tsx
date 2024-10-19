@@ -82,7 +82,7 @@ const ClipsScroller: React.FC<Props> = ({ query }) => {
   };
 
   if (loading) return <div className="flex justify-center items-center p-4"><Loader /></div>;
-  if(items.length === 0) return <div className="flex justify-center items-center h-full p-4">No results found</div>;
+  if (items.length === 0) return <div className="flex justify-center items-center h-full p-4">No results found</div>;
   
   return (
     <div className="h-screen overflow-hidden bg-primary-800 flex flex-col items-center rounded-lg">

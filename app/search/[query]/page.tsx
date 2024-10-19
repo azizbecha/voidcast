@@ -32,6 +32,7 @@ const SearchResults = async ({ params }: { params: { query: string } }) => {
             <Navbar user={user} />
             <GridProvider>
                 <LeftColumn>
+                    <h3 className="text-white mb-4">People</h3>
                     <UsersList />
                 </LeftColumn>
                 <MiddleColumn>

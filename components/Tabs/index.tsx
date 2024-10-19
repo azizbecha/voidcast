@@ -74,7 +74,7 @@ export const TabsProvider: React.FC<TabsProviderProps> = ({ children }) => {
             {/* Tab Content */}
             <div className={tabStyles.content}>
                 {React.Children.map(children, (child) => (
-                    activeTab === child.props.label && <div className={`${child.props.className} p-4`} key={child.props.label}>{child.props.children}</div>
+                    activeTab === child.props.label && <div className={`${child.props.className || ''} ${(!child.props.className || !child.props.className.includes('p-')) && 'p-4'}`}>{child.props.children}</div>
                 ))}
             </div>
         </div>
