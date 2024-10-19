@@ -32,28 +32,26 @@ export default async function Home() {
   return (
     <WithAuth>
       <Navbar user={user} />
-      <div className="bg-primary-900 text-white h-screen">
-        <GridProvider>
-          <LeftColumn>
-            <h3 className="text-white mb-4">People</h3>
-            <UsersList />
-          </LeftColumn>
-          <MiddleColumn>
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-white">Your feed</h3>
-              <Link href='create'>
-                <Button size="small" color="primary" icon={<FaScissors />}>
-                  Create
-                </Button>
-              </Link>
-            </div>
-            <ClipsScroller />
-          </MiddleColumn>
-          <RightColumn>
-            <ProfileCard user={user} />
-          </RightColumn>
-        </GridProvider>
-      </div>
+      <GridProvider>
+        <LeftColumn>
+          <h3 className="text-white mb-4">People</h3>
+          <UsersList />
+        </LeftColumn>
+        <MiddleColumn>
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-white">Your feed</h3>
+            <Link href='create'>
+              <Button size="small" color="primary" icon={<FaScissors />}>
+                Create
+              </Button>
+            </Link>
+          </div>
+          <ClipsScroller />
+        </MiddleColumn>
+        <RightColumn>
+          <ProfileCard user={user} />
+        </RightColumn>
+      </GridProvider>
     </WithAuth>
   );
 }

@@ -7,12 +7,9 @@ import Link from "next/link";
 import { User } from "@supabase/supabase-js";
 import { createClient } from "@/utils/supabase/client";
 
-import moment from "moment";
-
-import { Button } from "./ui/Button";
-
 import { FaPen } from "react-icons/fa6";
 import { MdVerified } from "react-icons/md";
+import { UserProfile } from "@/interfaces";
 
 interface Props {
     user: User | null;
@@ -21,7 +18,7 @@ interface Props {
 const supabase = createClient();
 
 export const ProfileCard: React.FC<Props> = ({ user }) => {
-    const [profileData, setProfileData] = useState<any>(null);
+    const [profileData, setProfileData] = useState<UserProfile | null>(null);
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -32,7 +29,7 @@ export const ProfileCard: React.FC<Props> = ({ user }) => {
                     .eq("id", user.id)
                     .single(); // Use single() since we're expecting a single profile
 
-                setProfileData(data);
+                setProfileData(data as UserProfile);
             }
         };
 
@@ -40,9 +37,9 @@ export const ProfileCard: React.FC<Props> = ({ user }) => {
     }, [user]);
 
     return (
-        <div className="bg-primary-800 rounded-md p-3">
+        <div className="bg-primary-800 rounded-lg p-3">
             <div className="flex items-center justify-between">
-                <div className="flex items-center">
+                <div className="flex items-center gap-2">
                     <Image
                         src={user?.user_metadata.avatar_url || "/images/logo.png"}
                         className="rounded-full border-none border-accent"
@@ -51,30 +48,26 @@ export const ProfileCard: React.FC<Props> = ({ user }) => {
                         height={60}
                     />
 
-                    <div className="ml-2">
+                    <div>
                         <div className="flex flex-row space-x-1.5 items-center justify-start">
-                            <span className="font-semibold">{user?.user_metadata.full_name}</span>
+                            <span className="font-bold text-base">{user?.user_metadata.full_name}</span>
                             {profileData?.verified && (
                                 <MdVerified className="text-blue-500" size={15} />
                             )}
                         </div>
 
-                        <p className="text-primary-300 text-sm">@{profileData?.username}</p>
+                        <p className="text-primary-300 text-sm font-medium">@{profileData?.username}</p>
                     </div>
                 </div>
-                <Link href={`u/${profileData?.username}`}>
+                <Link href='profile'>
                     <div className="flex justify-center items-center hover:bg-primary-600 p-2 rounded-full">
                         <FaPen />
                     </div>
                 </Link>
             </div>
 
-            <p className="text-primary-100 font-semibold mt-2">{profileData?.bio}</p>
-            <p className="text-xs text-primary-300">Member since {moment(profileData?.created_at).format("MMMM DD, YYYY")}</p>
-
-            <Link href={'profile'}>
-                <Button color="primary" size="small" >Go to profile</Button>
-            </Link>
+            <p className="text-primary-300 font-semibold text-sm line-h mt-2">{profileData?.bio}</p>
+            <p className="text-accent text-md font-bold mt-2">{profileData?.url} </p>
         </div>
     );
 };

@@ -210,7 +210,7 @@ export default function AudioTrimmer() {
                             }}
                             renderTrack={({ props, children }) => (
                                 <div
-                                    className='absolute rounded-md z-40 py-2'
+                                    className='absolute rounded-lg z-40 py-2'
                                     {...props}
                                     style={{
                                         ...props.style,

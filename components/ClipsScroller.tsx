@@ -85,10 +85,10 @@ const ClipsScroller: React.FC<Props> = ({ query }) => {
   if (items.length === 0) return <div className="flex justify-center items-center h-full p-4">No results found</div>;
   
   return (
-    <div className="h-screen overflow-hidden bg-primary-800 flex flex-col items-center rounded-lg">
+    <div className="overflow-y-auto scrollbar-hide h-full bg-primary-800 flex flex-col items-center rounded-lg">
       <div
         ref={containerRef}
-        className="h-[75vh] overflow-y-scroll snap-y snap-mandatory w-full space-y-4 scrollbar-hide"
+        className="h-full overflow-y-scroll snap-y snap-mandatory w-full space-y-4 scrollbar-hide"
       >
         {
           items.map((item, index) => (

@@ -21,7 +21,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return textarea ? (
       <div>
         {label && (
-          <span className='text-base font-medium text-white'>{label} {required && <span className="text-accent font-bold">*</span>}</span>
+          <p className='text-base font-bold text-primary-100 mb-1'>{label} {required && <span className="text-accent font-bold">*</span>}</p>
         )}
         <textarea
           ref={ref as any}
@@ -32,12 +32,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           required={required}
           {...(props as any)}
         />
-        <span className="text-xs font-semibold text-accent">{error}</span>
+        <span className="text-xs font-semibold text-secondary">{error}</span>
       </div>
     ) : (
       <div className="rounded-8 w-full">
         {label && (
-          <span className='text-base font-medium text-white'>{label} {required && <span className="text-accent font-bold">*</span>}</span>
+          <p className='text-base font-bold text-primary-100 mb-1'>{label} {required && <span className="text-accent font-bold">*</span>}</p>
         )}
         <div className="flex items-stretch">
           {icon && (
@@ -55,7 +55,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             {...props}
           />
         </div>
-        <span className="text-xs font-semibold text-accent">{error}</span>
+        <span className="text-xs font-semibold text-secondary">{error}</span>
       </div>
     );
   }

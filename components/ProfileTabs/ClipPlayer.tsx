@@ -101,7 +101,7 @@ export const ClipPlayer: React.FC<Props> = ({ clip }) => {
     };
 
     return (
-        <div key={clip.id} className="bg-primary-700 p-3 mb-2 rounded-md">
+        <div key={clip.id} className="bg-primary-700 p-3 mb-2 rounded-lg">
             <p className="text-lg font-bold">{clip.title}</p>
             <p className="text-sm my-2">{clip.description}</p>
 

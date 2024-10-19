@@ -16,7 +16,7 @@ interface Props {
 
 export const UserCard: React.FC<Props> = ({ user }) => {
     return (
-        <div className="gap-2 transition bg-primary-900 p-3 rounded-md">
+        <div className="gap-2 transition bg-primary-900 p-3 rounded-lg">
             <div className="flex justify-between gap-2 w-full">
                 <div className="flex items-center gap-2">
                     <Image src={user.avatar} className="rounded-full" alt={user.full_name} width={50} height={50} />

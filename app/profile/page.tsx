@@ -1,3 +1,5 @@
+import { Metadata } from "next";
+
 import { createClient } from "@/utils/supabase/server";
 
 import WithAuth from "@/components/Auth/WithAuth";
@@ -5,6 +7,10 @@ import Navbar from "@/components/ui/Navbar";
 import { GridProvider } from "@/components/ui/Grid/GridProvider";
 
 import { MyProfileTabs } from "./MyProfileTabs";
+
+export const metadata: Metadata = {
+    title: "Edit profile • VoidCast",
+};
 
 export default async function Profile() {
     const supabase = createClient();

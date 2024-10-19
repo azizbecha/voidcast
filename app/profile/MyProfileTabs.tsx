@@ -66,7 +66,7 @@ export const MyProfileTabs: React.FC<ProfileTabsProps> = ({ profile }) => {
                                 <button
                                     onClick={() => setCurrentTab(tab.label)}
                                     key={key}
-                                    className={`w-full text-start font-bold bg-primary-${tab.label === currentTab ? '600' : '500'} px-3 py-1 text-sm rounded-md`}
+                                    className={`w-full text-start font-bold bg-primary-${tab.label === currentTab ? '600' : '500'} px-3 py-1 text-sm rounded-lg`}
                                 >
                                     {tab.title}
                                 </button>

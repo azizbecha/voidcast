@@ -16,7 +16,7 @@ import Navbar from "@/components/ui/Navbar"
 import { UsersList } from "@/components/UsersList";
 
 export const metadata: Metadata = {
-  title: "Create • VoidCast",
+    title: "Create • VoidCast",
 };
 
 const CreatePage = async () => {
@@ -36,18 +36,12 @@ const CreatePage = async () => {
                     <h3 className="text-white mb-4">People</h3>
                     <UsersList />
                 </LeftColumn>
-                <MiddleColumn>
+                <div className="md:block sm:col-span-9">
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="text-white">Create new clip</h3>
                     </div>
                     <AudioTrimmer />
-                </MiddleColumn>
-                <RightColumn>
-                    <h3 className="text-white mb-4">Hello World</h3>
-                    <div className="bg-primary-800 p-4 rounded-lg">
-                        <p>im too tired to complete working on this, thanks for understanding 👍</p>
-                    </div>
-                </RightColumn>
+                </div>
             </GridProvider>
         </WithAuth>
     )
