@@ -13,7 +13,8 @@ import { RightColumn } from "@/components/ui/Grid/RightColumn";
 
 import { UsersList } from "@/components/UsersList";
 import { Tab, TabsProvider } from "@/components/Tabs";
-import { ClipsTab } from "./ClipsTab";
+import { ProfileCard } from "@/components/ProfileCard";
+import ClipsScroller from "@/components/ClipsScroller";
 import { PeopleTab } from "./PeopleTab";
 
 export const metadata: Metadata = {
@@ -41,7 +42,7 @@ const SearchResults = async ({ params }: { params: { query: string } }) => {
                     </div>
                     <TabsProvider>
                         <Tab className="p-0" label="Clips">
-                            <ClipsTab query={query} />
+                            <ClipsScroller query={query} />
                         </Tab>
                         <Tab label="People" className="p-3">
                             <PeopleTab query={query} />
@@ -49,7 +50,7 @@ const SearchResults = async ({ params }: { params: { query: string } }) => {
                     </TabsProvider>
                 </MiddleColumn>
                 <RightColumn>
-                    <h3 className="text-white mb-4">Right Col</h3>
+                    <ProfileCard user={user} />
                 </RightColumn>
             </GridProvider>
         </WithAuth>
