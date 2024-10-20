@@ -43,7 +43,7 @@ const SearchResults = async ({ params }: { params: { query: string } }) => {
                         <Tab className="p-0" label="Clips">
                             <ClipsTab query={query} />
                         </Tab>
-                        <Tab label="People">
+                        <Tab label="People" className="p-3">
                             <PeopleTab query={query} />
                         </Tab>
                     </TabsProvider>

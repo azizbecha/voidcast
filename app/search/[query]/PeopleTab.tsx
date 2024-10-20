@@ -48,7 +48,7 @@ export const PeopleTab: React.FC<Props> = ({ query }) => {
     if (profiles.length === 0) return <div className="flex justify-center items-center h-full p-4">No results found</div>;
 
     return (
-        <div className="flex flex-col space-y-3">
+        <div className="flex flex-col space-y-2">
             {
                 profiles.map((profile, key) => <UserCard key={key} user={profile} />)
             }

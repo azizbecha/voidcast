@@ -22,9 +22,9 @@ interface TabProps {
 const tabStyles = {
     base: "py-2 text-base font-bold border-b-2 border-gray-700 flex-1 text-center relative hover:bg-primary-800 rounded-t-md",
     active: "text-accent",
-    container: "w-full mx-auto mt-2",
+    container: "w-full h-full mx-auto mt-2",
     header: "relative flex transition-all duration-100",
-    content: "bg-primary-800 rounded-lg mt-4",
+    content: "bg-primary-800 rounded-lg mt-4 overflow-y-auto h-full scrollbar-hide",
     underline: "absolute bottom-0 h-0.5 bg-accent"
 };
 
