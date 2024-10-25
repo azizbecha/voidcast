@@ -5,7 +5,8 @@ export interface Clip {
   audiofile: string;
   creator: string;
   created_at: string;
-  plays: number 
+  plays: number;
+  categories: string[] | null;
 }
 
 interface CustomClaims {

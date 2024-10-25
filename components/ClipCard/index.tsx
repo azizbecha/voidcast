@@ -8,6 +8,8 @@ import { CardFooter } from "./CardFooter";
 
 import { Clip, UserProfile } from "@/interfaces";
 import { createClient } from "@/utils/supabase/client";
+import Link from "next/link";
+import { FaTag } from "react-icons/fa";
 
 interface Item extends Clip {
     profiles: UserProfile;
@@ -25,20 +27,21 @@ const supabase = createClient();
 
 const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
     ({ data, isActive, onClipFinish, onViewportEnter, onViewportLeave }, ref) => {
-        
+
         const waveSurferRef = useRef<WaveSurfer | null>(null);
         const waveformContainerRef = useRef<HTMLDivElement>(null);
         const listenTimeoutRef = useRef<NodeJS.Timeout | null>(null); // Timeout reference
-        
+
         const [currentTime, setCurrentTime] = useState(0);
         const [duration, setDuration] = useState(0);
 
         const [isPlaying, setIsPlaying] = useState(false);
         const [played, setPlayed] = useState(false); // Track if user listened for 3s
-        
+
         const [userHasInteracted, setUserHasInteracted] = useState(false); // Track if the user has interacted
-        
+
         const PLAYTHRESHOLD = 3000;
+
 
         const createWaveform = (audioUrl: string) => {
             if (waveSurferRef.current || !waveformContainerRef.current) return;
@@ -113,7 +116,7 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
                 listenTimeoutRef.current = null;
             }
         };
-        
+
         const playAudio = () => {
             if (waveSurferRef.current && !isPlaying && userHasInteracted) {
                 waveSurferRef.current.play();
@@ -180,7 +183,7 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
                 }}
                 ref={ref}
             >
-                <div className="h-full flex flex-col justify-between p-4">
+                <div className="h-full flex flex-col justify-between p-3">
                     <CardHeader
                         avatar={data.profiles.avatar}
                         createdAt={data.created_at}
@@ -191,7 +194,32 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
 
                     <div className="flex-1 text-left text-white mt-1">
                         <h3 className="text-xl font-bold mb-2">{data.title}</h3>
-                        <p className="text-sm text-primary-100 text-justify">{data.description}</p>
+                        <p className="text-sm text-primary-100 text-justify">
+                            {
+                                data?.description?.trim().split(' ').map((word: string, key: number) => (
+                                    word.trim().startsWith('#') ? (
+                                        <span key={key}>
+                                            <Link href={`search/${word.slice(1)}`} className="font-bold text-accent bg-primary-700 px-1.5 py-0.5 mx-0.5 rounded-md cursor-pointer">
+                                                {word.trim()}
+                                            </Link>
+                                            {'\n'}
+                                        </span>
+                                    ) : (
+                                        <span key={key}>{word} </span>
+                                    )
+                                ))
+                            }
+                        </p>
+
+                        <div className="flex space-x-1 mt-2">
+                            {
+                                data.categories && data.categories.map((category, key) => (
+                                    <span key={key} className="flex justify-center items-center flex-row space-x-1 font-bold text-primary-100 text-xs bg-secondary px-1.5 py-0.5 rounded-md cursor-pointer">
+                                        <FaTag /> <span>{category}{' '}</span>
+                                    </span>
+                                ))
+                            }
+                        </div>
                     </div>
 
                     <AudioPlayer
