@@ -15,7 +15,7 @@ export const CardHeader: React.FC<Props> = (props) => {
     const { avatar, name, verified, createdAt, plays } = props;
 
     return (
-        <div className="flex justify-between items-center mb-2">
+        <div className="flex justify-between items-center mb-1">
             <div className="flex items-center gap-3">
                 <Image
                     width={40}

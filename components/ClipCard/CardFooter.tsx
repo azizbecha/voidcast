@@ -10,7 +10,7 @@ interface Props {
 
 export const CardFooter: React.FC<Props> = ({ isPlaying, playAudio, pauseAudio }) => {
     return (
-        <div className="flex justify-between mt-4">
+        <div className="flex justify-between mt-2 w-full">
             <div className="flex justify-center items-center flex-col gap-1.5">
                 <motion.div
                     whileTap={{ scale: 1.2 }}

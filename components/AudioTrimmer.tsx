@@ -112,7 +112,7 @@ export default function AudioTrimmer() {
             return;
         }
 
-        if (title.trim().length > 150) {
+        if (description && description.trim().length > 250) {
             toast.error('Description is too long..');
             return;
         }
@@ -221,7 +221,7 @@ export default function AudioTrimmer() {
                             </div>
                             <div>
                                 <p className="text-sm text-primary-300 mb-1">Category</p>
-                                <CategorySelector onCategoryChange={setSelectedCategories} />
+                                <CategorySelector disabled={loading} loading={loading} onCategoryChange={setSelectedCategories} />
                             </div>
                         </div>
 
@@ -232,7 +232,7 @@ export default function AudioTrimmer() {
                             onChange={(e) => setDescription(e.currentTarget.value)}
                             rows={5}
                             textarea
-                            error={description && description.trim().length > 150 ? 'The maximum length of the description is 150 characters' : undefined}
+                            error={description && description.trim().length > 250 ? 'The maximum length of the description is 250 characters' : undefined}
                         />
 
                         <div className="relative w-full rounded-lg z-35">

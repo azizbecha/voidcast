@@ -19,6 +19,12 @@ type CategoriesData = {
     [key: string]: string[];
 };
 
+interface Props {
+    onCategoryChange: (categories: string[]) => void,
+    disabled?: boolean,
+    loading?: boolean,
+}
+
 const formatCategories = (data: CategoriesData): FormattedCategory[] => {
     return Object.entries(data).map(([label, options]) => ({
         label,
@@ -96,7 +102,7 @@ const customStyles = {
 
 const formattedCategories = formatCategories(categoriesData);
 
-const CategorySelector = ({ onCategoryChange }: { onCategoryChange: (categories: string[]) => void }) => {
+const CategorySelector = ({ onCategoryChange, disabled, loading }: Props) => {
 
     const [selectedCategories, setSelectedCategories] = useState<CategoryOptions[]>([]);
     const MAX_CATEGORIES = 5;
@@ -120,6 +126,8 @@ const CategorySelector = ({ onCategoryChange }: { onCategoryChange: (categories:
             placeholder="Please select categories"
             formatGroupLabel={formatGroupLabel}
             styles={customStyles}
+            isDisabled={disabled}
+            isLoading={loading}
             isSearchable
             isClearable
             isMulti

@@ -27,12 +27,13 @@ export const ClipPlayer: React.FC<Props> = ({ clip }) => {
             container: waveformContainerRef.current,
             waveColor: "#ddd",
             progressColor: "#fd4d4d",
-            height: 90,
-            barWidth: 3,
-            cursorWidth: 3,
+            height: 70,
+            barWidth: 2,
+            cursorWidth: 2,
             autoCenter: true,
             normalize: true,
             dragToSeek: true,
+            barGap: 2,
         });
 
         waveSurfer.load(audioUrl);
@@ -107,7 +108,7 @@ export const ClipPlayer: React.FC<Props> = ({ clip }) => {
 
             <AudioPlayer currentTime={currentTime} duration={duration} waveRef={waveformContainerRef} />
             <CardFooter isPlaying={isPlaying} pauseAudio={pauseAudio} playAudio={playAudio} />
-            
+
             <div className="flex justify-between items-center mt-3">
                 <span className="flex gap-1 items-center text-sm">
                     <FaPlay /> {clip.plays} plays
