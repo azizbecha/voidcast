@@ -49,7 +49,7 @@ export const Clips: React.FC<ClipsTabProps> = ({ userId }) => {
     if (error) return <div>Error: {error}</div>;
 
     return (
-        <div>
+        <div className="h-full overflow-y-scroll">
             <h4 className="mb-2">Clips</h4>
             {clips.length === 0 ? (
                 <p>No clips available.</p>

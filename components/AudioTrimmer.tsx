@@ -5,18 +5,20 @@ import { useState, useRef, useEffect } from 'react';
 import WavesurferPlayer from '@wavesurfer/react';
 import WaveSurfer from 'wavesurfer.js';
 import { Range } from 'react-range';
+import toast from 'react-hot-toast';
 
 import { createClient } from "@/utils/supabase/client";
 
-import { FaDownload, FaPause, FaPlay } from 'react-icons/fa6';
+import {  FaPause, FaPlay } from 'react-icons/fa6';
 import { FaFileUpload } from 'react-icons/fa';
 
 import { Button } from './ui/Button';
 import { Input } from './ui/Input';
 
-import FileDrop from './FileDrop';
-import toast from 'react-hot-toast';
+import FileDrop from './FileDrop'
+;
 import { trimAudio } from '@/utils/audioOperations';
+import CategorySelector from '@/app/create/CategorySelector';
 
 type AudioContextType = AudioContext | null;
 type AudioBufferType = AudioBuffer | null;
@@ -24,6 +26,7 @@ type AudioBufferType = AudioBuffer | null;
 export default function AudioTrimmer() {
     const [title, setTitle] = useState<string | null>(null);
     const [description, setDescription] = useState<string | null>(null);
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
     const [audioBuffer, setAudioBuffer] = useState<AudioBufferType>(null);
     const [audioContext, setAudioContext] = useState<AudioContextType>(null);
@@ -104,12 +107,12 @@ export default function AudioTrimmer() {
             return;
         }
 
-        if(title.trim().length > 150) {
+        if (title.trim().length > 150) {
             toast.error('Title is too long..');
             return;
         }
 
-        if(title.trim().length > 150) {
+        if (title.trim().length > 150) {
             toast.error('Description is too long..');
             return;
         }
@@ -143,6 +146,7 @@ export default function AudioTrimmer() {
                 title,
                 description,
                 audiofile: publicURLData.publicUrl,
+                categories: selectedCategories,
             }]);
 
         if (insertError) {
@@ -167,159 +171,163 @@ export default function AudioTrimmer() {
     const selectedDuration = formatTime(range[1] - range[0]);
 
     return (
-        <div className='text-white'>
-            {!wavesurfer && (
-                <div className="w-full h-1/2">
+        <div className='h-full bg-primary-800 rounded-lg p-4 overflow-y-scroll overflow-x-hidden'>
+            <div className="flex justify-between items-center mb-4 bg-primary-800">
+                <h3 className="text-white">Create clip</h3>
+                {
+                    wavesurfer && (
+                        <div className="flex gap-2">
+                            <Button
+                                color='accent-secondary'
+                                size='small'
+                                onClick={onPlayPause}
+                                disabled={loading}
+                                icon={isPlaying ? <FaPause /> : <FaPlay />}
+                            >
+                                {isPlaying ? 'Pause' : 'Play'}
+                            </Button>
+
+                            <Button
+                                type='submit'
+                                size='small'
+                                onClick={uploadClip}
+                                disabled={loading}
+                                loading={loading}
+                                icon={<FaFileUpload />}
+                            >
+                                Publish
+                            </Button>
+                        </div>
+                    )
+                }
+            </div>
+            <div className='text-white w-full h-full'>
+                {!wavesurfer && (
                     <FileDrop onFileChange={handleFileChange} />
-                </div>
-            )}
+                )}
 
-            {audioBuffer && (
-                <div className='space-y-2'>
-                    <Input
-                        label='Title'
-                        placeholder='Please enter the clip title here (required)'
-                        disabled={loading}
-                        onChange={(e) => setTitle(e.currentTarget.value)}
-                        error={title && title.trim().length > 120 ? 'The maximum length of the title is 120 characters' : undefined}
-                        required
-                    />
+                {audioBuffer && (
+                    <div className='space-y-2'>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <Input
+                                    label='Title'
+                                    placeholder='Please enter the clip title here (required)'
+                                    disabled={loading}
+                                    onChange={(e) => setTitle(e.currentTarget.value)}
+                                    error={title && title.trim().length > 120 ? 'The maximum length of the title is 120 characters' : undefined}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <p className="text-sm text-primary-300 mb-1">Category</p>
+                                <CategorySelector onCategoryChange={setSelectedCategories} />
+                            </div>
+                        </div>
 
-                    <Input
-                        label='Description'
-                        placeholder='Please enter the clip description here (optional)'
-                        disabled={loading}
-                        onChange={(e) => setDescription(e.currentTarget.value)}
-                        rows={5}
-                        textarea
-                        error={description && description.trim().length > 150 ? 'The maximum length of the description is 150 characters' : undefined}
-                    />
+                        <Input
+                            label='Description'
+                            placeholder='Please enter the clip description here (optional)'
+                            disabled={loading}
+                            onChange={(e) => setDescription(e.currentTarget.value)}
+                            rows={5}
+                            textarea
+                            error={description && description.trim().length > 150 ? 'The maximum length of the description is 150 characters' : undefined}
+                        />
 
-                    <div className="relative w-full rounded-lg">
-                        <Range
-                            step={0.1}
-                            min={0}
-                            max={audioBuffer.duration}
-                            values={range}
-                            allowOverlap
-                            draggableTrack
-                            onChange={handleRangeChange}
-                            onFinalChange={(values) => {
-                                handleRangeChange(values);
-                                trimAudio(audioBuffer!, audioContext!, range, setAudioBlob, setFileUrl);
-                            }}
-                            renderTrack={({ props, children }) => (
-                                <div
-                                    className='absolute rounded-lg z-40 py-2'
-                                    {...props}
-                                    style={{
-                                        ...props.style,
-                                        width: "100%",
-                                        background: `linear-gradient(to right, transparent ${leftWidth}%, #fd4d4d ${leftWidth}%, #fd4d4d ${100 - rightWidth}%, transparent ${100 - rightWidth}%)`,
-                                    }}
-                                >
-                                    {children}
-                                    <div className="flex justify-center items-center">
-                                        <div
-                                            className="absolute text-sm text-center text-white cursor-grab"
-                                            style={{
-                                                left: `${leftWidth}%`,
-                                                width: `${selectedWidth}%`,
-                                            }}
-                                        >
-                                            <span>{selectedDuration}</span>
+                        <div className="relative w-full rounded-lg z-35">
+                            <Range
+                                step={0.1}
+                                min={0}
+                                max={audioBuffer.duration}
+                                values={range}
+                                allowOverlap
+                                draggableTrack
+                                onChange={handleRangeChange}
+                                onFinalChange={(values) => {
+                                    handleRangeChange(values);
+                                    trimAudio(audioBuffer!, audioContext!, range, setAudioBlob, setFileUrl);
+                                }}
+                                renderTrack={({ props, children }) => (
+                                    <div
+                                        className='absolute rounded-lg z-40 py-2'
+                                        {...props}
+                                        style={{
+                                            ...props.style,
+                                            width: "100%",
+                                            background: `linear-gradient(to right, transparent ${leftWidth}%, #fd4d4d ${leftWidth}%, #fd4d4d ${100 - rightWidth}%, transparent ${100 - rightWidth}%)`,
+                                        }}
+                                    >
+                                        {children}
+                                        <div className="flex justify-center items-center">
+                                            <div
+                                                className="absolute text-sm text-center text-white cursor-grab"
+                                                style={{
+                                                    left: `${leftWidth}%`,
+                                                    width: `${selectedWidth}%`,
+                                                }}
+                                            >
+                                                <span>{selectedDuration}</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            )}
-                            renderThumb={({ props, value, isDragged }) => (
-                                <div
-                                    {...props}
-                                    className='border-2 border-white'
-                                    style={{
-                                        ...props.style,
-                                        height: "35px",
-                                        width: "35px",
-                                        borderRadius: "50%",
-                                        backgroundColor: isDragged ? "#4A90E2" : "#151a21",
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        color: "#fff",
-                                    }}
-                                >
-                                    <span className='text-xs'>{formatTime(value)}</span>
-                                </div>
-                            )}
-                        />
-                        <div
-                            className="absolute z-30 top-0 left-0 h-full bg-gray-900 opacity-80 rounded-l-lg cursor-not-allowed"
-                            style={{ width: `${leftWidth}%`, borderRight: "2px solid #fff" }}>
-                        </div>
-                        <div
-                            className="absolute z-30 top-0 right-0 h-full bg-gray-900 opacity-80 rounded-r-lg cursor-not-allowed"
-                            style={{ width: `${rightWidth}%`, borderLeft: "2px solid #fff" }}
-                        >
-                        </div>
-                        {audioBuffer && (
-                            <WavesurferPlayer
-                                height={100}
-                                waveColor="#374151"
-                                progressColor="#fd4d4d"
-                                cursorColor='#5575e7'
-                                autoCenter
-                                url={audioRef.current!}
-                                onReady={onReady}
-                                onPlay={() => setIsPlaying(true)}
-                                onPause={() => setIsPlaying(false)}
-                                normalize
-                                autoScroll
-                                dragToSeek
-                                cursorWidth={3}
+                                )}
+                                renderThumb={({ props, value, isDragged }) => (
+                                    <div
+                                        {...props}
+                                        className='border-2 border-white'
+                                        style={{
+                                            ...props.style,
+                                            height: "35px",
+                                            width: "35px",
+                                            borderRadius: "50%",
+                                            backgroundColor: isDragged ? "#4A90E2" : "#151a21",
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            color: "#fff",
+                                        }}
+                                    >
+                                        <span className='text-xs'>{formatTime(value)}</span>
+                                    </div>
+                                )}
                             />
-                        )}
+                            <div
+                                className="absolute z-30 top-0 left-0 h-full bg-gray-900 opacity-80 rounded-l-lg cursor-not-allowed"
+                                style={{ width: `${leftWidth}%`, borderRight: "2px solid #fff" }}>
+                            </div>
+                            <div
+                                className="absolute z-30 top-0 right-0 h-full bg-gray-900 opacity-80 rounded-r-lg cursor-not-allowed"
+                                style={{ width: `${rightWidth}%`, borderLeft: "2px solid #fff" }}
+                            >
+                            </div>
+                            {audioBuffer && (
+                                <WavesurferPlayer
+                                    height={100}
+                                    waveColor="#374151"
+                                    progressColor="#fd4d4d"
+                                    cursorColor='#5575e7'
+                                    autoCenter
+                                    url={audioRef.current!}
+                                    onReady={onReady}
+                                    onPlay={() => setIsPlaying(true)}
+                                    onPause={() => setIsPlaying(false)}
+                                    normalize
+                                    autoScroll
+                                    dragToSeek
+                                    cursorWidth={3}
+                                />
+                            )}
 
-                        {/* Timestamps */}
-                        <div className="absolute z-30 flex justify-between w-full p-2 bottom-0">
-                            <span className='text-white px-1 bg-primary-600 rounded-lg'>{formatTime(0)}</span>
-                            <span className='text-white px-1 bg-primary-600 rounded-lg'>{formatTime(audioBuffer?.duration ?? 0)}</span>
+                            {/* Timestamps */}
+                            <div className="absolute z-30 flex justify-between w-full p-2 bottom-0">
+                                <span className='text-white px-1 bg-primary-600 rounded-lg'>{formatTime(0)}</span>
+                                <span className='text-white px-1 bg-primary-600 rounded-lg'>{formatTime(audioBuffer?.duration ?? 0)}</span>
+                            </div>
                         </div>
                     </div>
-
-                    <br />
-                    <div className="flex w-full justify-start gap-3 items-center">
-                        <Button
-                            color='accent-secondary'
-                            onClick={onPlayPause}
-                            disabled={loading}
-                            icon={isPlaying ? <FaPause /> : <FaPlay />}
-                        >
-                            {isPlaying ? 'Pause' : 'Play'}
-                        </Button>
-
-                        <Button
-                            type='submit'
-                            onClick={uploadClip}
-                            disabled={loading}
-                            loading={loading}
-                            icon={<FaFileUpload />}
-                        >
-                            Publish
-                        </Button>
-
-                        <a href={fileUrl!!} download>
-                            <Button
-                                color='primary-300'
-                                icon={<FaDownload />}
-                                disabled={loading}
-                            >
-                                Download
-                            </Button>
-                        </a>
-                    </div>
-
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 }

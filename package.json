@@ -31,6 +31,7 @@
     "react-intersection-observer": "^9.13.0",
     "react-loader-spinner": "^6.1.6",
     "react-range": "^1.10.0",
+    "react-select": "^5.8.1",
     "react-spring": "^9.7.4",
     "validator": "^13.12.0",
     "wavesurfer-react": "^3.0.3",

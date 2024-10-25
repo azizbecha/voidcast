@@ -128,7 +128,7 @@ export default function Navbar(props: Props) {
                   />
                 </MenuButton>
               </div>
-              <MenuItems className="absolute right-0 z-10 mt-3 w-56 origin-top-right rounded-lg bg-primary-700 shadow-lg">
+              <MenuItems className="absolute right-0 z-50 mt-3 w-56 origin-top-right rounded-lg bg-primary-700 shadow-lg">
                 <div className="text-white px-4 py-2 font-medium">Signed as {user?.user_metadata.full_name}</div>
                 <hr />
                 {menuItems.map((item, key) => (

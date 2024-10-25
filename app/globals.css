@@ -95,9 +95,9 @@ body,
   scroll-behavior: smooth;
 }
 
-/* html {
+html {
   position: fixed;
-} */
+}
 
 #__next {
   overflow-y: auto;
@@ -136,4 +136,8 @@ button:focus {
 .scrollbar-hide {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+}
+
+[role="listbox"] > * {
+  padding: 0 !important;
 }

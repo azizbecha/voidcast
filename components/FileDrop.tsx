@@ -66,7 +66,7 @@ const FileDrop: React.FC<FileDropProps> = ({ onFileChange }) => {
 
     return (
         <div
-            className={`drop-zone bg-primary-700 border-2 border-dashed w-full h-96 ${dragOver && 'drag-over'}`}
+            className={`drop-zone bg-primary-700 border-2 border-dashed w-full h-5/6 ${dragOver && 'drag-over'}`}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}

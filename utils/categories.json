@@ -1,0 +1,39 @@
+{
+    "General": [
+        "Music", "Podcast", "News", "Sports", "Comedy", "Education", "Technology", 
+        "Business", "Entertainment", "Health", "Lifestyle", "Politics", 
+        "Art & Design", "Science", "History", "Spirituality", "True Crime", 
+        "Fiction", "Travel", "Documentary", "Animals & Pets", "Parenting Tips", 
+        "Home Improvement", "Motivational Speaking", "Environmental Awareness"
+    ],
+    "Niche": [
+        "Meditation & Relaxation", "Interviews", "Hobbies & Interests", "Gaming", 
+        "DIY & How-to", "Food & Cooking", "Fitness & Exercise", "Self-Improvement", 
+        "Personal Stories", "Parenting", "Motivation", "Language Learning", 
+        "Finance & Investing", "Stand-up Comedy", "Nature Sounds", "Audiobooks", 
+        "Esports", "Productivity", "Relationships & Dating", "Music Reviews", 
+        "Gardening", "Home Workouts", "Travel Vlogging", "Board Games", 
+        "Crafting & Scrapbooking"
+    ],
+    "Emerging trends": [
+        "Social Issues", "Mental Health", "Sustainability", "Climate Change", 
+        "Cryptocurrency", "Virtual Reality", "Augmented Reality", "Space Exploration", 
+        "Startup Stories", "AI & Machine Learning", "Remote Work", "Digital Nomad Lifestyle", 
+        "Biohacking", "Gen Z Culture", "Influencer Marketing", "Diversity & Inclusion"
+    ],
+    "Cultural": [
+        "Pop Culture", "Anime", "Movies & TV Shows", "Book Reviews", 
+        "Cultural Commentary", "Fashion & Style", "Photography", "Architecture", 
+        "Culinary Traditions", "Cultural Festivals", "Indigenous Cultures", "Global Art"
+    ],
+    "Fun light": [
+        "Memes & Internet Culture", "Jokes", "Viral Trends", "Fan Theories", 
+        "Conspiracy Theories", "Horror & Thriller", "Urban Legends", "Bloopers", 
+        "Pranks", "Challenge Videos", "Wholesome Content", "Unexpected Animal Videos"
+    ],
+    "Local regional": [
+        "Local News", "Community Updates", "Regional Music", "Folklore", 
+        "Cultural Heritage", "Local Cuisine", "Neighborhood Spotlights", "City Events", 
+        "Street Performers", "Regional History", "Community Activism"
+    ]
+}

@@ -166,49 +166,42 @@ export const ProfileTab: React.FC<Props> = ({ profile }) => {
             <h4 className="mb-2">Public Profile</h4>
             <div className="space-y-2">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <p className="text-sm text-primary-300 mb-2">Display Name</p>
-                        <Input
-                            placeholder="Enter your display name"
-                            value={displayName}
-                            onChange={(e) => setDisplayName(e.target.value)}
-                            error={errors.displayName || undefined}
-                        />
-                    </div>
-                    <div>
-                        <p className="text-sm text-primary-300 mb-2">Username</p>
-                        <Input
-                            icon={<FaAt />}
-                            placeholder="Enter your username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            error={errors.username || undefined}
-                        />
-                    </div>
-                </div>
-
-                <div>
-                    <p className="text-sm text-primary-300 mb-2">Bio</p>
                     <Input
-                        textarea
-                        rows={4}
-                        maxLength={150}
-                        value={bio}
-                        onChange={(e) => setBio(e.target.value)}
-                        error={errors.bio || undefined}
+                        label="Display Name"
+                        placeholder="Enter your display name"
+                        value={displayName}
+                        onChange={(e) => setDisplayName(e.target.value)}
+                        error={errors.displayName || undefined}
+                    />
+
+                    <Input
+                        label="Username"
+                        icon={<FaAt />}
+                        placeholder="Enter your username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        error={errors.username || undefined}
                     />
                 </div>
 
+                <Input
+                    label="Bio"
+                    textarea
+                    rows={4}
+                    maxLength={150}
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                    error={errors.bio || undefined}
+                />
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <p className="text-sm text-primary-300 mb-2">Website</p>
-                        <Input
-                            value={website}
-                            onChange={(e) => setWebsite(e.target.value)}
-                            error={errors.website || undefined}
-                            icon={<FaLink />}
-                        />
-                    </div>
+                    <Input
+                        label="Website"
+                        value={website}
+                        onChange={(e) => setWebsite(e.target.value)}
+                        error={errors.website || undefined}
+                        icon={<FaLink />}
+                    />
                     <div>
                         <p className="text-sm text-primary-300 mb-2">Pronouns</p>
                         <BaseDropdownSm>
