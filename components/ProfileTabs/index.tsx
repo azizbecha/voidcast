@@ -4,9 +4,9 @@ import { About } from "./About";
 import { Clips } from "./Clips";
 import { Followers } from "./Followers";
 import { Following } from "./Following";
+import { Tab, TabsProvider } from "../Tabs";
 
 import { UserProfile } from "@/interfaces";
-import { Tab, TabsProvider } from "../Tabs";
 
 interface ProfileTabsProps {
     profile: UserProfile;

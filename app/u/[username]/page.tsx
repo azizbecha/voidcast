@@ -19,6 +19,7 @@ import { ProfileTabs } from "@/components//ProfileTabs";
 import { FaEdit } from "react-icons/fa";
 import { MdVerified } from "react-icons/md";
 import { FaUserPlus } from "react-icons/fa6";
+import { ProfileCard } from "@/components/ProfileCard";
 
 // Generate metadata dynamically
 export async function generateMetadata({ params }: { params: { username: string } }): Promise<Metadata> {
@@ -91,7 +92,7 @@ export default async function Profile({ params }: { params: { username: string }
                         <UsersList />
                     </LeftColumn>
                     <MiddleColumn>
-                        <div>
+                        <div className="h-full overflow-y-scroll">
                             <div className="w-full mx-auto bg-primary-800 text-white rounded-lg overflow-hidden shadow-lg">
                                 {/* Background Image */}
                                 <div
@@ -140,9 +141,7 @@ export default async function Profile({ params }: { params: { username: string }
                         </div>
                     </MiddleColumn>
                     <RightColumn>
-                        <div className="text-white">
-                            <h3 className="mb-4">Right Col</h3>
-                        </div>
+                        <ProfileCard user={user} />
                     </RightColumn>
                 </GridProvider>
             </div>

@@ -49,12 +49,12 @@ export const Clips: React.FC<ClipsTabProps> = ({ userId }) => {
     if (error) return <div>Error: {error}</div>;
 
     return (
-        <div className="h-full overflow-y-scroll">
+        <div className="h-full overflow-y-scrolll">
             <h4 className="mb-2">Clips</h4>
             {clips.length === 0 ? (
                 <p>No clips available.</p>
             ) : (
-                <div>
+                <div className="h-full sticky top-0">
                     {clips.map((clip, key) => (
                         <ClipPlayer clip={clip} key={key} />
                     ))}
