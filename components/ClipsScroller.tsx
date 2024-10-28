@@ -85,7 +85,7 @@ const ClipsScroller: React.FC<Props> = ({ query }) => {
   if (items.length === 0) return <div className="flex justify-center items-center h-full p-4">No results found</div>;
   
   return (
-    <div className="overflow-y-auto scrollbar-hide h-full bg-primary-800 flex flex-col items-center rounded-lg">
+    <div className="overflow-y-auto scrollbar-hide h-full bg-primary-800 flex flex-col items-center rounded-lg sticky top-0 snap-y">
       <div
         ref={containerRef}
         className="h-full overflow-y-scroll snap-y snap-mandatory w-full space-y-4 scrollbar-hide"
@@ -97,7 +97,7 @@ const ClipsScroller: React.FC<Props> = ({ query }) => {
               ref={(el) => {
                 clipRefs.current[index] = el;
               }}
-              data={item}
+              clipData={item}
               isActive={index === currentClipIndex} // Only play the active clip
               onClipFinish={handleClipFinish} // Handle when a clip finishes
               onViewportEnter={() => setCurrentClipIndex(index)}

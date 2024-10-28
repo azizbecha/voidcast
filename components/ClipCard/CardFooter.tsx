@@ -27,7 +27,7 @@ export const CardFooter: React.FC<Props> = ({ isPlaying, playAudio, pauseAudio }
                     <motion.div
                         whileTap={{ scale: 1.2 }}
                         whileHover={{ scale: 1.1 }}
-                        className="text-xl w-12 h-12 rounded-full border-2 border-accent bg-transparent flex justify-center items-center text-accent cursor-pointer"
+                        className={`text-xl w-12 h-12 rounded-full border-accent border-2 bg-transparent text-accent flex justify-center items-center cursor-pointer`}
                     >
                         <FaHeart />
                     </motion.div>

@@ -1,4 +1,6 @@
 import React, { forwardRef, useEffect, useRef, useState } from "react";
+import Link from "next/link";
+
 import WaveSurfer from "wavesurfer.js";
 import { motion } from "framer-motion";
 
@@ -6,9 +8,9 @@ import { CardHeader } from "./CardHeader";
 import { AudioPlayer } from "./AudioPlayer";
 import { CardFooter } from "./CardFooter";
 
-import { Clip, UserProfile } from "@/interfaces";
 import { createClient } from "@/utils/supabase/client";
-import Link from "next/link";
+import { Clip, UserProfile } from "@/interfaces";
+
 import { FaTag } from "react-icons/fa";
 
 interface Item extends Clip {
@@ -16,7 +18,7 @@ interface Item extends Clip {
 }
 
 interface ClipCardProps {
-    data: Item;
+    clipData: Item;
     isActive: boolean;
     onClipFinish: () => void;
     onViewportEnter?: () => void;
@@ -26,7 +28,7 @@ interface ClipCardProps {
 const supabase = createClient();
 
 const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
-    ({ data, isActive, onClipFinish, onViewportEnter, onViewportLeave }, ref) => {
+    ({ clipData, isActive, onClipFinish, onViewportEnter, onViewportLeave }, ref) => {
 
         const waveSurferRef = useRef<WaveSurfer | null>(null);
         const waveformContainerRef = useRef<HTMLDivElement>(null);
@@ -41,7 +43,6 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
         const [userHasInteracted, setUserHasInteracted] = useState(false); // Track if the user has interacted
 
         const PLAYTHRESHOLD = 3000;
-
 
         const createWaveform = (audioUrl: string) => {
             if (waveSurferRef.current || !waveformContainerRef.current) return;
@@ -90,7 +91,7 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
                     const { data: currentPlaysData, error: fetchError } = await supabase
                         .from('clips')
                         .select('plays')
-                        .eq('id', data.id)
+                        .eq('id', clipData.id)
                         .single();
                     if (fetchError) {
                         console.error("Error fetching plays count:", fetchError);
@@ -101,7 +102,7 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
                     const { error: updateError } = await supabase
                         .from('clips')
                         .update({ plays: currentPlays + 1 })
-                        .eq('id', data.id);
+                        .eq('id', clipData.id);
                     if (updateError) {
                         console.error("Error updating plays count:", updateError);
                     } else {
@@ -134,8 +135,8 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
         };
 
         useEffect(() => {
-            if (data.audiofile) {
-                createWaveform(data.audiofile);
+            if (clipData.audiofile) {
+                createWaveform(clipData.audiofile);
             }
 
             return () => {
@@ -145,10 +146,13 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
                 }
                 clearListeningTimer(); // Clean up the timer
             };
-        }, [data.audiofile, userHasInteracted]);
+        }, [clipData.audiofile, userHasInteracted]);
 
         // Effect to track user interaction
         useEffect(() => {
+
+            if (userHasInteracted) return;
+
             const events = ["click", "touch", "keydown"];
             const handleUserInteraction = () => {
                 setUserHasInteracted(true); // Set the flag when the user interacts
@@ -160,7 +164,7 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
             return () => {
                 events.forEach((event) => window.removeEventListener(event, handleUserInteraction));
             };
-        }, []);
+        }, [userHasInteracted]);
 
         useEffect(() => {
             if (isActive && userHasInteracted) {
@@ -185,42 +189,48 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
             >
                 <div className="h-full flex flex-col justify-between p-3">
                     <CardHeader
-                        avatar={data.profiles.avatar}
-                        createdAt={data.created_at}
-                        name={data.profiles.full_name}
-                        plays={data.plays}
-                        verified={data.profiles.verified}
+                        avatar={clipData.profiles.avatar}
+                        createdAt={clipData.created_at}
+                        name={clipData.profiles.full_name}
+                        plays={clipData.plays}
+                        verified={clipData.profiles.verified}
                     />
 
-                    <div className="flex-1 text-left text-white mt-1">
-                        <h3 className="text-xl font-bold mb-2">{data.title}</h3>
-                        <p className="text-sm text-primary-100 text-justify">
-                            {
-                                data?.description?.trim().split(' ').map((word: string, key: number) => (
-                                    word.trim().startsWith('#') ? (
-                                        <span key={key}>
-                                            <Link href={`search/${word.slice(1)}`} className="font-bold text-accent bg-primary-700 px-1.5 py-0.5 mx-0.5 rounded-md cursor-pointer">
-                                                {word.trim()}
-                                            </Link>
-                                            {'\n'}
-                                        </span>
-                                    ) : (
-                                        <span key={key}>{word} </span>
-                                    )
-                                ))
-                            }
-                        </p>
+                    <div className="flex-1 text-left text-white mt-1 flex flex-col justify-between">
+                        <div className="top-0">
+                            <h3 className="text-xl font-bold mb-2">{clipData.title}</h3>
+                            <p className="flex-wrap font-normal text-md text-primary-100">
+                                {
+                                    clipData?.description?.trim().split(' ').map((word: string, key: number) => (
+                                        word.trim().startsWith('#') ? (
+                                            <span key={key}>
+                                                <Link href={`search/${word.slice(1)}`} className="font-bold text-accent bg-primary-700 px-1.5 py-0.5 mx-0.5 rounded-md cursor-pointer">
+                                                    {word.trim()}
+                                                </Link>
+                                                {'\n'}
+                                            </span>
+                                        ) : (
+                                            <span key={key}>{word} </span>
+                                        )
+                                    ))
+                                }
+                            </p>
+                        </div>
 
-                        <div className="flex space-x-1 mt-2">
-                            {
-                                data.categories && data.categories.map((category, key) => (
-                                    <span key={key} className="flex justify-center items-center flex-row space-x-1 font-bold text-primary-100 text-xs bg-secondary px-1.5 py-0.5 rounded-md cursor-pointer">
-                                        <FaTag /> <span>{category}{' '}</span>
-                                    </span>
-                                ))
-                            }
+                        {/* Categories aligned at the bottom */}
+                        <div className="mt-auto">
+                            <div className="flex w-full flex-wrap justify-start items-center gap-1 mt-2">
+                                {
+                                    clipData.categories && clipData.categories.map((category, key) => (
+                                        <span key={key} className="flex justify-center items-center flex-row space-x-1 font-bold text-primary-100 text-xs bg-secondary px-1.5 py-0.5 rounded-md cursor-pointer">
+                                            <FaTag /> <span>{category}{' '}</span>
+                                        </span>
+                                    ))
+                                }
+                            </div>
                         </div>
                     </div>
+
 
                     <AudioPlayer
                         waveRef={waveformContainerRef}
