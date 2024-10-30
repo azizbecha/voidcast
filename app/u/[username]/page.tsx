@@ -114,7 +114,7 @@ export default async function Profile({ params }: { params: { username: string }
                                             <Image
                                                 src={profile?.avatar}
                                                 alt="Profile"
-                                                className="z-10 rounded-full border-4 border-primary-800 object-cover"
+                                                className="z-10 rounded-full border-4 border-primary-800 object-cover bg-primary-800"
                                                 width={90}
                                                 height={90}
                                             />
