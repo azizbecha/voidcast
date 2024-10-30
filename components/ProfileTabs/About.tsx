@@ -1,10 +1,12 @@
-import { UserProfile } from "@/interfaces";
 import moment from "moment";
+
+import { withHttp } from "@/utils/withUrl";
+
 import { FaBirthdayCake } from "react-icons/fa";
 import { FaLink } from "react-icons/fa6";
 import { MdVerified } from "react-icons/md";
 
-const withHttp = (url: string) => !/^https?:\/\//i.test(url) ? `https://${url}` : url;
+import { UserProfile } from "@/interfaces";
 
 export const About: React.FC<{ profile: UserProfile }> = ({ profile }) => (
     <div>

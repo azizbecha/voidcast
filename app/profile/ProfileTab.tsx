@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 
@@ -11,20 +11,32 @@ import { BaseDropdownSm, BaseDropdownSmItem } from "@/components/ui/BaseDropdown
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 
-import { FaAt, FaLink } from "react-icons/fa6";
+import { FaAt, FaDiscord, FaLink } from "react-icons/fa6";
+import Image from "next/image";
+import { MdVerified } from "react-icons/md";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 
 import { UserProfile } from "@/interfaces";
 import { capitalizeWords } from "@/utils/capitalizeWords";
+import { withHttp } from "@/utils/withUrl";
 
 interface Props {
     profile: UserProfile;
 }
 
-export const ProfileTab: React.FC<Props> = ({ profile }) => {
+interface SocialProviders {
+    provider: "google" | "github" | "discord";
+}
 
+const socialIcons: Record<SocialProviders["provider"], JSX.Element> = {
+    google: <FaGoogle size={12} />,
+    github: <FaGithub size={12} />,
+    discord: <FaDiscord size={12} />,
+};
+
+export const ProfileTab: React.FC<Props> = ({ profile }) => {
     const supabase = createClient();
 
-    // Store initial values
     const initialValues = {
         displayName: profile.full_name || "",
         username: profile.username || "",
@@ -32,14 +44,12 @@ export const ProfileTab: React.FC<Props> = ({ profile }) => {
         website: profile.url || ""
     };
 
-    // State to track form inputs
     const [displayName, setDisplayName] = useState(initialValues.displayName);
     const [username, setUsername] = useState(initialValues.username);
     const [bio, setBio] = useState(initialValues.bio);
     const [website, setWebsite] = useState(initialValues.website);
-    const [originalUsername] = useState(profile.username); // Store original username for comparison
+    const [originalUsername] = useState(profile.username);
 
-    // State for validation errors
     const [errors, setErrors] = useState({
         displayName: "",
         username: "",
@@ -47,7 +57,6 @@ export const ProfileTab: React.FC<Props> = ({ profile }) => {
         website: "",
     });
 
-    // Reset function to revert the form to its initial state
     const handleReset = () => {
         setDisplayName(initialValues.displayName);
         setUsername(initialValues.username);
@@ -61,7 +70,6 @@ export const ProfileTab: React.FC<Props> = ({ profile }) => {
         });
     };
 
-    // Function to check if the username exists in the database
     const checkUsernameExists = async (newUsername: string) => {
         const { data, error } = await supabase
             .from("profiles")
@@ -69,23 +77,12 @@ export const ProfileTab: React.FC<Props> = ({ profile }) => {
             .eq("username", newUsername)
             .single();
 
-        if (error) {
-            // If there's an error, assume the username does not exist
-            return false;
-        }
-        return !!data;
+        return !error && !!data;
     };
 
-    // Validation function for the profile form
     const handleSaveChanges = async () => {
         let error = false;
-
-        setErrors({
-            displayName: "",
-            username: "",
-            bio: "",
-            website: "",
-        });
+        setErrors({ displayName: "", username: "", bio: "", website: "" });
 
         const newErrors = {
             displayName: "",
@@ -94,17 +91,14 @@ export const ProfileTab: React.FC<Props> = ({ profile }) => {
             website: "",
         };
 
-        // Validate Display Name (not empty)
         if (validator.isEmpty(displayName.trim())) {
             newErrors.displayName = "Display Name cannot be empty.";
             error = true;
-        }
-
-        if (displayName.trim().length > 60) {
+        } else if (displayName.trim().length > 60) {
             newErrors.displayName = "Display Name's max length is 60 characters";
             error = true;
         }
-        // Validate Username (not empty, valid format)
+
         const usernameRegex = /^[a-zA-Z0-9_]+$/;
         if (validator.isEmpty(username.trim())) {
             newErrors.username = "Username cannot be empty.";
@@ -113,7 +107,6 @@ export const ProfileTab: React.FC<Props> = ({ profile }) => {
             newErrors.username = "Username can only contain letters, numbers, and underscores.";
             error = true;
         } else if (username !== originalUsername) {
-            // Check if the username exists in the database if it has changed
             const usernameExists = await checkUsernameExists(username);
             if (usernameExists) {
                 newErrors.username = "Username is already taken.";
@@ -121,51 +114,76 @@ export const ProfileTab: React.FC<Props> = ({ profile }) => {
             }
         }
 
-        // Validate Bio (maximum 150 characters)
         if (!validator.isLength(bio, { max: 150 })) {
             newErrors.bio = "Bio cannot exceed 150 characters.";
             error = true;
         }
 
-        // Validate Website (if provided, it must be a valid URL)
         if (website && !validator.isURL(website)) {
             newErrors.website = "Please provide a valid website URL.";
             error = true;
         }
 
-        // If there are no errors, proceed with saving
-        if (!newErrors.displayName && !newErrors.username && !newErrors.bio && !newErrors.website) {
-            console.log("Form is valid, proceed with saving changes.");
-
+        if (!error) {
             const { data, error } = await supabase
                 .from("profiles")
                 .update({
                     full_name: capitalizeWords(displayName),
                     username: username,
                     bio: bio,
-                    url: website,
+                    url: website ? withHttp(website) : null,
                 })
                 .eq("id", profile.id)
                 .select();
 
             if (error) {
-                throw new Error("Error updating profile: " + error.message);
+                toast.error("Error updating profile.");
+                return;
             }
-
-            console.log(data);
 
             toast.success("Profile updated successfully.");
         } else {
-            setErrors(newErrors); // Set error messages
-            error = true;
+            setErrors(newErrors);
             toast.error("Please fix errors before saving.");
         }
     };
 
     return (
-        <div className="bg-primary-800 rounded-lg p-3">
+        <div className="bg-primary-800 rounded-lg p-3 overflow-y-scroll h-full">
             <h4 className="mb-2">Public Profile</h4>
             <div className="space-y-2">
+                <div className="flex items-center gap-2 flex-row bg-primary-700 rounded-md p-3 w-full sm:w-fit">
+                    <Image
+                        src={profile?.avatar}
+                        alt="Profile"
+                        className="z-10 rounded-full object-cover bg-primary-800"
+                        width={70}
+                        height={70}
+                    />
+                    <div>
+                        <div className="flex flex-row space-x-1.5 items-center justify-start">
+                            <span className="font-bold text-base">{profile?.full_name}</span>
+                            <div className="flex items-center gap-2">
+                                {profile?.verified && (
+                                    <MdVerified className="text-blue-500" size={15} />
+                                )}
+                                <div className="flex items-center gap-1.5">
+                                    {profile.app_metadata.providers.map((provider: string, key: number) =>
+                                        <div key={key} className="flex justify-center items-center p-1 rounded-md bg-secondary">
+                                            {socialIcons[provider as SocialProviders["provider"]]}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                        </div>
+                        <p className="text-primary-300 text-sm font-medium">@{profile?.username}</p>
+                        {
+                            profile.url && <a href={profile?.url} target="_blank" className="text-accent text-xs font-bold">{profile?.url}</a>
+                        }
+                    </div>
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Input
                         label="Display Name"
@@ -174,7 +192,6 @@ export const ProfileTab: React.FC<Props> = ({ profile }) => {
                         onChange={(e) => setDisplayName(e.target.value)}
                         error={errors.displayName || undefined}
                     />
-
                     <Input
                         label="Username"
                         icon={<FaAt />}
@@ -203,23 +220,13 @@ export const ProfileTab: React.FC<Props> = ({ profile }) => {
                         error={errors.website || undefined}
                         icon={<FaLink />}
                     />
-                    <div>
-                        <p className="text-sm text-primary-300 mb-2">Pronouns</p>
-                        <BaseDropdownSm>
-                            <BaseDropdownSmItem>He/him</BaseDropdownSmItem>
-                            <BaseDropdownSmItem>She/her</BaseDropdownSmItem>
-                            <BaseDropdownSmItem>They/them</BaseDropdownSmItem>
-                        </BaseDropdownSm>
-                    </div>
                 </div>
 
-                <div>
-                    <div className="flex space-x-2 items-center flex-row mt-4">
-                        <Button onClick={handleSaveChanges}>Save changes</Button>
-                        <Button color="secondary-800" onClick={handleReset}>Reset</Button>
-                    </div>
+                <div className="flex space-x-2 items-center flex-row mt-4">
+                    <Button onClick={handleSaveChanges}>Save changes</Button>
+                    <Button color="secondary-800" onClick={handleReset}>Reset</Button>
                 </div>
             </div>
         </div>
     );
-}
+};

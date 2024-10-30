@@ -71,7 +71,7 @@ export const ProfileCard: React.FC<Props> = ({ user }) => {
                         </div>
 
                         <p className="text-primary-300 font-semibold text-sm line-h mt-2">{profileData?.bio}</p>
-                        <p className="text-accent text-md font-bold mt-2">{profileData?.url} </p>
+                        <p className="text-accent text-md font-bold mt-2">{profileData?.url}</p>
                     </>
                 ) : <div className="flex justify-center items-center p-5"><Loader /></div>
             }

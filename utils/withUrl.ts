@@ -1,0 +1,1 @@
+export const withHttp = (url: string) => !/^https?:\/\//i.test(url) ? `https://${url}` : url;

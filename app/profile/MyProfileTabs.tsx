@@ -76,7 +76,7 @@ export const MyProfileTabs: React.FC<ProfileTabsProps> = ({ profile }) => {
                     </div>
                 ))}
             </LeftColumn>
-            <div className="md:block sm:col-span-9 overflow-y-scroll">
+            <div className="md:block sm:col-span-9 overflow-y-scroll h-[80vh]">
                 {renderTabContent()}
             </div>
         </>
