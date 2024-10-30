@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/Input";
 import { FaAt, FaLink } from "react-icons/fa6";
 
 import { UserProfile } from "@/interfaces";
+import { capitalizeWords } from "@/utils/capitalizeWords";
 
 interface Props {
     profile: UserProfile;
@@ -139,7 +140,7 @@ export const ProfileTab: React.FC<Props> = ({ profile }) => {
             const { data, error } = await supabase
                 .from("profiles")
                 .update({
-                    full_name: displayName,
+                    full_name: capitalizeWords(displayName),
                     username: username,
                     bio: bio,
                     url: website,
