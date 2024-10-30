@@ -10,6 +10,7 @@ import { createClient } from "@/utils/supabase/client";
 import { FaPen } from "react-icons/fa6";
 import { MdVerified } from "react-icons/md";
 import { UserProfile } from "@/interfaces";
+import { Loader } from "./ui/Loader";
 
 interface Props {
     user: User | null;
@@ -38,36 +39,42 @@ export const ProfileCard: React.FC<Props> = ({ user }) => {
 
     return (
         <div className="bg-primary-800 rounded-lg p-3">
-            <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                    <Image
-                        src={user?.user_metadata.avatar_url || "/images/logo.png"}
-                        className="rounded-full border-none border-accent"
-                        alt="User Avatar"
-                        width={60}
-                        height={60}
-                    />
+            {
+                profileData ? (
+                    <>
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                                <Image
+                                    src={user?.user_metadata.avatar_url || "/images/logo.png"}
+                                    className="rounded-full border-none border-accent"
+                                    alt="User Avatar"
+                                    width={60}
+                                    height={60}
+                                />
 
-                    <div>
-                        <div className="flex flex-row space-x-1.5 items-center justify-start">
-                            <span className="font-bold text-base">{user?.user_metadata.full_name}</span>
-                            {profileData?.verified && (
-                                <MdVerified className="text-blue-500" size={15} />
-                            )}
+                                <div>
+                                    <div className="flex flex-row space-x-1.5 items-center justify-start">
+                                        <span className="font-bold text-base">{profileData?.full_name}</span>
+                                        {profileData?.verified && (
+                                            <MdVerified className="text-blue-500" size={15} />
+                                        )}
+                                    </div>
+
+                                    <p className="text-primary-300 text-sm font-medium">@{profileData?.username}</p>
+                                </div>
+                            </div>
+                            <Link href='profile'>
+                                <div className="flex justify-center items-center hover:bg-primary-600 p-2 rounded-full">
+                                    <FaPen />
+                                </div>
+                            </Link>
                         </div>
 
-                        <p className="text-primary-300 text-sm font-medium">@{profileData?.username}</p>
-                    </div>
-                </div>
-                <Link href='profile'>
-                    <div className="flex justify-center items-center hover:bg-primary-600 p-2 rounded-full">
-                        <FaPen />
-                    </div>
-                </Link>
-            </div>
-
-            <p className="text-primary-300 font-semibold text-sm line-h mt-2">{profileData?.bio}</p>
-            <p className="text-accent text-md font-bold mt-2">{profileData?.url} </p>
+                        <p className="text-primary-300 font-semibold text-sm line-h mt-2">{profileData?.bio}</p>
+                        <p className="text-accent text-md font-bold mt-2">{profileData?.url} </p>
+                    </>
+                ) : <div className="flex justify-center items-center p-5"><Loader /></div>
+            }
         </div>
     );
 };
