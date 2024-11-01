@@ -45,7 +45,12 @@ export const PeopleTab: React.FC<Props> = ({ query }) => {
     }, [query]);
 
     if (loading) return <div className="flex justify-center items-center p-4"><Loader /></div>;
-    if (profiles.length === 0) return <div className="flex justify-center items-center h-full p-4">No results found</div>;
+    if (profiles.length === 0) return (
+        <div className="flex justify-center items-center flex-col h-full p-4">
+            <p className="text-xl">No results found</p>
+            <p className="text-base font-normal">Try searching with different keywords</p>
+        </div>
+    );
 
     return (
         <div className="flex flex-col space-y-2">

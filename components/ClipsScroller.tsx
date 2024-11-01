@@ -82,8 +82,13 @@ const ClipsScroller: React.FC<Props> = ({ query }) => {
   };
 
   if (loading) return <div className="flex justify-center items-center p-4"><Loader /></div>;
-  if (items.length === 0) return <div className="flex justify-center items-center h-full p-4">No results found</div>;
-  
+  if (items.length === 0) return (
+    <div className="flex justify-center items-center flex-col h-full p-4">
+      <p className="text-xl">No results found</p>
+      <p className="text-base font-normal">Try searching with different keywords</p>
+    </div>
+  );
+
   return (
     <div className="overflow-y-auto scrollbar-hide h-full bg-primary-800 flex flex-col items-center rounded-lg sticky top-0 snap-y">
       <div

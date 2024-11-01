@@ -37,17 +37,19 @@ const SearchResults = async ({ params }: { params: { query: string } }) => {
                     <UsersList />
                 </LeftColumn>
                 <MiddleColumn>
-                    <div className="flex justify-between items-center">
-                        <h3 className="text-white">Search results for: {query}</h3>
+                    <div className="h-full overflow-y-scroll scrollbar-hide">
+                        <div className="flex justify-between items-center">
+                            <h3 className="text-white">Search results for: {query}</h3>
+                        </div>
+                        <TabsProvider>
+                            <Tab className="p-0 h-full border" label="Clips">
+                                <ClipsScroller query={query} />
+                            </Tab>
+                            <Tab label="People" className="p-3 h-full">
+                                <PeopleTab query={query} />
+                            </Tab>
+                        </TabsProvider>
                     </div>
-                    <TabsProvider>
-                        <Tab className="p-0" label="Clips">
-                            <ClipsScroller query={query} />
-                        </Tab>
-                        <Tab label="People" className="p-3">
-                            <PeopleTab query={query} />
-                        </Tab>
-                    </TabsProvider>
                 </MiddleColumn>
                 <RightColumn>
                     <ProfileCard user={user} />
