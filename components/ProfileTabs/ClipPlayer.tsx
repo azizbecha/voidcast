@@ -1,12 +1,16 @@
 "use client";
 
-import { Clip } from "@/interfaces";
-import moment from "moment";
-import { FaClock, FaPlay, FaPause } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react";
+
+import moment from "moment";
 import WaveSurfer from "wavesurfer.js";
+
 import { AudioPlayer } from "../ClipCard/AudioPlayer";
 import { CardFooter } from "../ClipCard/CardFooter";
+
+import { FaClock, FaPlay } from "react-icons/fa6";
+
+import { Clip } from "@/interfaces";
 
 interface Props {
     clip: Clip;
@@ -107,7 +111,7 @@ export const ClipPlayer: React.FC<Props> = ({ clip }) => {
             <p className="text-sm my-2">{clip.description}</p>
 
             <AudioPlayer currentTime={currentTime} duration={duration} waveRef={waveformContainerRef} />
-            <CardFooter isPlaying={isPlaying} pauseAudio={pauseAudio} playAudio={playAudio} />
+            <CardFooter isPlaying={isPlaying} pauseAudio={pauseAudio} playAudio={playAudio} id={clip.id} />
 
             <div className="flex justify-between items-center mt-3">
                 <span className="flex gap-1 items-center text-sm">
