@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
             url: `/clip/${clip.id}`,
             images: [
                 {
-                    url: '../../../logo.png',
+                    url: '../../../images/logo.png',
                 },
             ],
         },
