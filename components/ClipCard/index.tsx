@@ -244,6 +244,7 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
                         isPlaying={isPlaying}
                         pauseAudio={pauseAudio}
                         playAudio={playAudio}
+                        id={clipData.id}
                     />
                 </div>
             </motion.div>

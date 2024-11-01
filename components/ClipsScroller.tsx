@@ -1,10 +1,13 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+
 import { createClient } from "@/utils/supabase/client";
+
 import ClipCard from "./ClipCard";
-import { Clip, UserProfile } from "@/interfaces";
 import { Loader } from "./ui/Loader";
+
+import { Clip, UserProfile } from "@/interfaces";
 
 interface Item extends Clip {
   profiles: UserProfile;
