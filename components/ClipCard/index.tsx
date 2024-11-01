@@ -1,3 +1,5 @@
+"use client"
+
 import React, { forwardRef, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
@@ -20,7 +22,7 @@ interface Item extends Clip {
 interface ClipCardProps {
     clipData: Item;
     isActive: boolean;
-    onClipFinish: () => void;
+    onClipFinish?: () => void;
     onViewportEnter?: () => void;
     onViewportLeave?: () => void;
 }
@@ -74,7 +76,7 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
             waveSurfer.on("finish", () => {
                 setIsPlaying(false);
                 setCurrentTime(0);
-                onClipFinish(); // Call the finish handler
+                onClipFinish?.(); // Call the finish handler
             });
 
             waveSurfer.on('error', (e) => console.log(e));
