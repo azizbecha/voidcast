@@ -38,17 +38,15 @@ export default async function Home() {
           <UsersList />
         </LeftColumn>
         <MiddleColumn>
-          <div className="overflow-y-scroll h-full">
-            <div className="flex justify-between items-center mb-4 relative">
-              <h3 className="text-white">Your feed</h3>
-              <Link href='create'>
-                <Button size="small" color="primary" icon={<FaScissors />}>
-                  Create
-                </Button>
-              </Link>
-            </div>
-            <ClipsScroller />
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-white">Your feed</h3>
+            <Link href='create'>
+              <Button size="small" color="primary" icon={<FaScissors />}>
+                Create
+              </Button>
+            </Link>
           </div>
+          <ClipsScroller />
         </MiddleColumn>
         <RightColumn>
           <ProfileCard user={user} />
