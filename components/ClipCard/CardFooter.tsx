@@ -1,13 +1,17 @@
 "use client";
 
-import { base_url } from "@/lib/constants";
+import { useEffect, useState } from "react";
+
+import { User } from "@supabase/supabase-js";
+import { createClient } from "@/utils/supabase/client";
+
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
+
 import { FaPauseCircle, FaPlayCircle, FaHeart, FaShare, FaBookmark } from "react-icons/fa";
-import { useEffect, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
-import { User } from "@supabase/supabase-js";
 import { Loader } from "../ui/Loader";
+
+import { base_url } from "@/lib/constants";
 
 interface Props {
     isPlaying: boolean;
@@ -25,6 +29,22 @@ export const CardFooter: React.FC<Props> = ({ isPlaying, playAudio, pauseAudio, 
 
     // Fetch user data on component mount
     useEffect(() => {
+        
+        // Check if the clip is already saved
+        const checkIfSaved = async (userId: string) => {
+            const { data, error } = await supabase
+                .from('savedClips')
+                .select('id')
+                .eq('clipId', id)
+                .eq('saved_by', userId);
+    
+            if (error) {
+                console.error("Error fetching saved clip:", error);
+            } else {
+                setIsSaved(data.length > 0);
+            }
+        };
+
         const fetchUser = async () => {
             const { data: { user }, error } = await supabase.auth.getUser();
             if (error) {
@@ -37,23 +57,9 @@ export const CardFooter: React.FC<Props> = ({ isPlaying, playAudio, pauseAudio, 
             }
             setLoading(false); // Set loading to false after user and saved status are checked
         };
+
         fetchUser();
-    }, []);
-
-    // Check if the clip is already saved
-    const checkIfSaved = async (userId: string) => {
-        const { data, error } = await supabase
-            .from('savedClips')
-            .select('id')
-            .eq('clipId', id)
-            .eq('saved_by', userId);
-
-        if (error) {
-            console.error("Error fetching saved clip:", error);
-        } else {
-            setIsSaved(data.length > 0);
-        }
-    };
+    }, [id]);
 
     // Toggle save status of the clip
     const toggleSaveClip = async () => {
