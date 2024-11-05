@@ -1,16 +1,13 @@
 import React from "react";
 import { VscTriangleDown } from "react-icons/vsc";
 
-type BaseDropdownSmItemProps = React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLOptionElement>,
-    HTMLOptionElement
-> & {
+type BaseDropdownSmItemProps = React.OptionHTMLAttributes<HTMLOptionElement> & {
     children: React.ReactNode;
 };
 
 export const BaseDropdownSmItem: React.FC<BaseDropdownSmItemProps> = ({
     children,
-    className,
+    className = "",
     ...props
 }) => (
     <option
@@ -21,26 +18,22 @@ export const BaseDropdownSmItem: React.FC<BaseDropdownSmItemProps> = ({
     </option>
 );
 
-type BaseDropdownSmProps = React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLSelectElement>,
-    HTMLSelectElement
-> & {
-    children: React.ReactNode[];
+type BaseDropdownSmProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
+    children: React.ReactNode;
 };
 
 export const BaseDropdownSm: React.FC<BaseDropdownSmProps> = ({
     children,
-    className,
+    className = "",
     ...props
 }) => (
-    <div className="relative rounded-8 w-full">
+    <div className="relative w-full">
         <select
             className={`w-full py-2 px-4 font-medium text-primary-100 placeholder-primary-300 focus:outline-none bg-primary-700 text-sm rounded-8 appearance-none pr-10 ${className}`}
             {...props}
         >
             {children}
         </select>
-
         <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
             <VscTriangleDown size={15} className="text-primary-100" />
         </div>

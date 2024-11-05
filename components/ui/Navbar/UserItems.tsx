@@ -9,6 +9,7 @@ import { createClient } from "@/utils/supabase/client";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 
 import { FaBug, FaCog, FaSignOutAlt, FaUser } from "react-icons/fa";
+import { FaBookmark } from "react-icons/fa6";
 
 interface Props {
     user: User | null;
@@ -20,6 +21,7 @@ export default function UserMenu({ user }: Props) {
 
     const menuItems = [
         { label: "Profile", href: "/profile", icon: FaUser },
+        { label: "Saved clips", href: "/saved", icon: FaBookmark },
         { label: "Settings", href: "/settings", icon: FaCog },
         { label: "Report a bug", href: "https://github.com/issues", icon: FaBug, blank: true },
     ];
