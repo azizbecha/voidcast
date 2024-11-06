@@ -194,6 +194,7 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
                         avatar={clipData.profiles.avatar}
                         createdAt={clipData.created_at}
                         name={clipData.profiles.full_name}
+                        username={clipData.profiles.username}
                         plays={clipData.plays}
                         verified={clipData.profiles.verified}
                     />
