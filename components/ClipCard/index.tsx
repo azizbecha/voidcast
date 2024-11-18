@@ -14,6 +14,7 @@ import { createClient } from "@/utils/supabase/client";
 import { Clip, UserProfile } from "@/interfaces";
 
 import { FaTag } from "react-icons/fa";
+import { base_url } from "@/lib/constants";
 
 interface Item extends Clip {
     profiles: UserProfile;
@@ -135,6 +136,49 @@ const ClipCard = forwardRef<HTMLDivElement, ClipCardProps>(
                 clearListeningTimer(); // Clear the timer if paused
             }
         };
+
+        // Media Session API setup
+        useEffect(() => {
+            if ('mediaSession' in navigator && clipData.audiofile) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: clipData.title,
+                    artist: clipData.profiles.full_name,
+                    album: "Clip Collection",
+                    artwork: [
+                        { src: `${base_url}/images/logo.png`, sizes: '96x96', type: 'image/png' },
+                        { src: `${base_url}/images/logo.png`, sizes: '128x128', type: 'image/png' },
+                        { src: `${base_url}/images/logo.png`, sizes: '192x192', type: 'image/png' },
+                        { src: `${base_url}/images/logo.png`, sizes: '256x256', type: 'image/png' }
+                    ]
+                });
+
+                navigator.mediaSession.setActionHandler('play', () => {
+                    playAudio();
+                });
+
+                navigator.mediaSession.setActionHandler('pause', () => {
+                    pauseAudio();
+                });
+
+                navigator.mediaSession.setActionHandler('seekbackward', (details) => {
+                    const skipTime = details.seekOffset || 10;
+                    waveSurferRef.current?.setTime(Math.max(0, currentTime - skipTime));
+                    setCurrentTime((prev) => Math.max(0, prev - skipTime));
+                });
+
+                navigator.mediaSession.setActionHandler('seekforward', (details) => {
+                    const skipTime = details.seekOffset || 10;
+                    waveSurferRef.current?.setTime(Math.min(duration, currentTime + skipTime));
+                    setCurrentTime((prev) => Math.min(duration, prev + skipTime));
+                });
+            }
+
+            return () => {
+                if ('mediaSession' in navigator) {
+                    navigator.mediaSession.metadata = null;
+                }
+            };
+        }, [clipData, currentTime, duration]);
 
         useEffect(() => {
             if (clipData.audiofile) {
