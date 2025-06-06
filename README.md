@@ -55,6 +55,7 @@
 </details>
 
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 ![image](https://github.com/user-attachments/assets/c4b4326c-71b9-4f77-987c-8378f1334add)
@@ -62,11 +63,13 @@
 Voidcast is a fun platform that shares short audio clips from podcasts, kind of like audio TikTok. It helps you easily find and share the best moments from your favorite podcasts!
 
 ### Built With
-* [Next.js](https://nextjs.org/)
-* [React.js](https://reactjs.org/)
-* [Tailwind CSS](https://tailwindcss.com)
+
+- [Next.js](https://nextjs.org/)
+- [React.js](https://reactjs.org/)
+- [Tailwind CSS](https://tailwindcss.com)
 
 <!-- GETTING STARTED -->
+
 ## Getting Started
 
 To install the project in your machine, please follow the instructions below:
@@ -74,11 +77,13 @@ To install the project in your machine, please follow the instructions below:
 ### Install & usage
 
 Clone the repository
-  ```sh
-  git clone https://github.com/azizbecha/voidcast
-  ```
+
+```sh
+git clone https://github.com/azizbecha/voidcast
+```
 
 <!-- CONTRIBUTING -->
+
 ## Contributing
 
 **VoidCast** is open-source and open to contributors. We apperciate all of your efforts making Shibhouse a reliable environment.
@@ -87,11 +92,12 @@ If you have a suggestion that would make this better, please fork the repo and c
 Don't forget to give the project a star! Thanks again!
 
 1. Fork the Project
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push`)
-5. Open a Pull Request with adding a feature explaining to make it easy to understand
+2. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+3. Push to the Branch (`git push`)
+4. Open a Pull Request with adding a feature explaining to make it easy to understand
 
 <!-- LICENSE -->
+
 ## License
 
 Distributed under the MIT License. See `LICENSE.md` for more information.
