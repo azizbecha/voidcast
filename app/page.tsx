@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/Button";
 
 export default function Home() {
   return (
-    <div className="min-h-screen font-[family-name:var(--font-geist-sans)]">
+    <div className="min-h-screen">
       <AlertDialog>
         <AlertDialogTrigger asChild>
           <Button color="primary">Hello</Button>
