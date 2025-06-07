@@ -102,7 +102,7 @@ We decided to start creating the most important components then we will build th
 Please use ShadCN and follow our design system: https://www.figma.com/design/CS01VVLR7ArQl0afYFkNj3/Web-App
 
 - [x] Button
-- [ ] Label
+- [x] Label
 - [x] Input
 - [ ] Avatar
 - [ ] UserSummary
@@ -114,7 +114,7 @@ Please use ShadCN and follow our design system: https://www.figma.com/design/CS0
 - [ ] Dropdown
 - [ ] Select
 - [ ] Tabs
-- [ ] Textarea
+- [x] Textarea
 - [ ] Sonner
 - [ ] Toggle
 - [ ] Link
