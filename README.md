@@ -109,7 +109,7 @@ Please use ShadCN and follow our design system: https://www.figma.com/design/CS0
 - [ ] Alert
 - [x] AlertDialog
 - [ ] Dialog
-- [ ] Badge
+- [x] Tag
 - [ ] Checkbox
 - [ ] Dropdown
 - [ ] Select

@@ -1,9 +1,9 @@
-import { Label } from "@/components/ui/label";
+import { Tag } from "@/components/ui/Tag";
 
 export default function Home() {
   return (
     <div className="min-h-screen">
-      <Label>Label</Label>
+      <Tag>Label</Tag>
     </div>
   );
 }
