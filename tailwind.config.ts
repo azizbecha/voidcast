@@ -1,3 +1,5 @@
+import twAnimate from "tailwindcss-animate";
+
 module.exports = {
   darkMode: "class",
   // purge: {
@@ -134,4 +136,5 @@ module.exports = {
       },
     },
   },
+  plugins: [twAnimate],
 };
