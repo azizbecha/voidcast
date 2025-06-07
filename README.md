@@ -1,5 +1,6 @@
 <div id="top"></div>
 
+
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
@@ -95,7 +96,28 @@ Don't forget to give the project a star! Thanks again!
 2. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 3. Push to the Branch (`git push`)
 4. Open a Pull Request with adding a feature explaining to make it easy to understand
+ 
+### Current step: Creating UI Components
+We decided to start creating the most important components then we will build the pages.
+Please use ShadCN and follow our design system: https://www.figma.com/design/CS01VVLR7ArQl0afYFkNj3/Web-App
 
+- [x] Button
+- [ ] Label
+- [ ] Input
+- [ ] Avatar
+- [ ] UserSummary
+- [ ] Alert
+- [ ] AlertDialog
+- [ ] Dialog
+- [ ] Badge
+- [ ] Checkbox
+- [ ] Dropdown
+- [ ] Select
+- [ ] Tabs
+- [ ] Textarea
+- [ ] Sonner
+- [ ] Toggle
+- [ ] Link
 <!-- LICENSE -->
 
 ## License
