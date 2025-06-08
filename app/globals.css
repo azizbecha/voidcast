@@ -74,7 +74,6 @@ p.small {
 ::-webkit-scrollbar {
   overflow: overlay;
   width: 8px;
-  /* shouldnt hardcode width, pls find way to make it dynamic, thin wasn't working for me...*/
 }
 
 ::-webkit-scrollbar-track {
@@ -93,6 +92,7 @@ body,
   height: 100%;
   width: 100%;
   scroll-behavior: smooth;
+  color: var(--color-primary-100);
 }
 
 /* html {
