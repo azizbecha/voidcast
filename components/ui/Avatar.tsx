@@ -1,46 +1,54 @@
-/* eslint-disable @next/next/no-img-element */
-import * as React from "react"
-import { cn } from "@/lib/utils"
+"use client";
 
-const Avatar = React.forwardRef<
-    HTMLSpanElement,
-    React.HTMLAttributes<HTMLSpanElement>
->(({ className, ...props }, ref) => {
-    return (
-        <span
-            {...props}
-            ref={ref}
-            className={cn("relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full", className)}
-            data-slot="avatar"
+import * as React from "react";
+import * as AvatarPrimitive from "@radix-ui/react-avatar";
+
+import { cn } from "@/lib/utils";
+
+const avatarSizeMap: Record<string, string> = {
+  default: "80px",
+  lg: "60px",
+  md: "50px",
+  sm: "40px",
+  xs: "30px",
+  xxs: "20px",
+};
+
+interface CustomAvatarProps
+  extends React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root> {
+  url?: string;
+  size?: keyof typeof avatarSizeMap;
+  fallback?: React.ReactNode;
+}
+
+export const Avatar = React.forwardRef<
+  React.ElementRef<typeof AvatarPrimitive.Root>,
+  CustomAvatarProps
+>(({ className, url, size = "default", fallback, ...props }, ref) => {
+  const sizeStyle = avatarSizeMap[size] ?? avatarSizeMap.default;
+
+  return (
+    <AvatarPrimitive.Root
+      ref={ref}
+      className={cn(
+        "relative flex shrink-0 overflow-hidden rounded-full",
+        className
+      )}
+      style={{ width: sizeStyle, height: sizeStyle }}
+      {...props}
+    >
+      {url && (
+        <AvatarPrimitive.Image
+          src={url}
+          alt="avatar"
+          className="aspect-square h-full w-full object-cover"
         />
-    )
-})
-Avatar.displayName = "Avatar"
+      )}
+      <AvatarPrimitive.Fallback className="flex h-full w-full items-center justify-center rounded-full bg-muted text-sm text-muted-foreground">
+        {fallback || "?"}
+      </AvatarPrimitive.Fallback>
+    </AvatarPrimitive.Root>
+  );
+});
 
-const AvatarImage = React.forwardRef<
-    HTMLImageElement,
-    React.ImgHTMLAttributes<HTMLImageElement> & { alt?: string; src: string }
->(({ 
-    className, 
-    alt = "", 
-    src, 
-    width,
-    height,
-    ...props 
-}, ref) => {
-    return (
-        <img
-            {...props}
-            src={src}
-            ref={ref}
-            alt={alt}
-            className={cn("aspect-square h-full w-full object-cover", className)}
-            data-slot="avatar-image"
-            width={width}
-            height={height}
-        />
-    )
-})
-AvatarImage.displayName = "AvatarImage"
-
-export { Avatar, AvatarImage }
+Avatar.displayName = "Avatar";
