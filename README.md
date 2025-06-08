@@ -113,7 +113,7 @@ Please use ShadCN and follow our design system: https://www.figma.com/design/CS0
 - [x] Checkbox
 - [x] Dropdown
 - [x] Select
-- [ ] Tabs
+- [x] Tabs
 - [x] Textarea
 - [x] Sonner
 - [ ] Link
