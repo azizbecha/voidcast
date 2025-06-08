@@ -104,7 +104,7 @@ Please use ShadCN and follow our design system: https://www.figma.com/design/CS0
 - [x] Button
 - [x] Label
 - [x] Input
-- [ ] Avatar
+- [x] Avatar
 - [ ] UserSummary
 - [x] Alert
 - [x] AlertDialog
