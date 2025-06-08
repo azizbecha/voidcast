@@ -16,7 +16,7 @@ const avatarSizeMap: Record<string, string> = {
 
 interface CustomAvatarProps
   extends React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root> {
-  url?: string;
+  src?: string;
   size?: keyof typeof avatarSizeMap;
   fallback?: React.ReactNode;
 }
@@ -24,7 +24,7 @@ interface CustomAvatarProps
 export const Avatar = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,
   CustomAvatarProps
->(({ className, url, size = "default", fallback, ...props }, ref) => {
+>(({ className, src, size = "default", fallback, ...props }, ref) => {
   const sizeStyle = avatarSizeMap[size] ?? avatarSizeMap.default;
 
   return (
@@ -37,9 +37,9 @@ export const Avatar = React.forwardRef<
       style={{ width: sizeStyle, height: sizeStyle }}
       {...props}
     >
-      {url && (
+      {src && (
         <AvatarPrimitive.Image
-          src={url}
+          src={src}
           alt="avatar"
           className="aspect-square h-full w-full object-cover"
         />
