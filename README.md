@@ -115,8 +115,7 @@ Please use ShadCN and follow our design system: https://www.figma.com/design/CS0
 - [x] Select
 - [ ] Tabs
 - [x] Textarea
-- [ ] Sonner
-- [ ] Toggle
+- [x] Sonner
 - [ ] Link
 <!-- LICENSE -->
 
