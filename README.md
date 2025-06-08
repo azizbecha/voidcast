@@ -106,17 +106,16 @@ Please use ShadCN and follow our design system: https://www.figma.com/design/CS0
 - [x] Input
 - [x] Avatar
 - [ ] UserSummary
-- [ ] Alert
+- [x] Alert
 - [x] AlertDialog
 - [ ] Dialog
 - [x] Tag
 - [x] Checkbox
 - [x] Dropdown
 - [x] Select
-- [ ] Tabs
+- [x] Tabs
 - [x] Textarea
-- [ ] Sonner
-- [ ] Toggle
+- [x] Sonner
 - [ ] Link
 <!-- LICENSE -->
 
