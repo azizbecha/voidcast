@@ -1,13 +1,25 @@
+"use server";
+
 import React from "react";
-import { Avatar } from "./UserAvatar/Avatar";
+import Link from "next/link";
 import { Home, Calendar, Edit } from "lucide-react"; // Example icons
+import { createClient } from "@/lib/supabase/server";
+
+import { Avatar } from "./UserAvatar/Avatar";
 import { Separator } from "./ui/Separator";
 
-export const TabletSidebar: React.FC = () => {
+export const TabletSidebar = async () => {
+  const supabase = await createClient();
+
+  const { data } = await supabase
+    .from("profiles")
+    .select("*")
+    .order("created_at", { ascending: false });
+
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className="w-full flex flex-col overflow-y-auto">
       {/* Fixed buttons */}
-      <div className="flex flex-col items-center gap-5">
+      <div className="flex flex-col items-center gap-4">
         <button className="bg-accent p-2 rounded-full">
           <Home className="text-white" />
         </button>
@@ -24,16 +36,16 @@ export const TabletSidebar: React.FC = () => {
 
       {/* Scrollable avatar list */}
       <div className="flex-1 overflow-y-auto scrollbar-hide px-2 space-y-4">
-        {Array(20)
-          .fill(0)
-          .map((_, key) => (
+        {data?.map((user, key) => (
+          <Link key={key} href={`u/${user.username}`}>
             <Avatar
               key={key}
               size="sm"
-              src="https://avatars.githubusercontent.com/u/63454940?s=96&v=4"
+              src={user.avatar}
               className="justify-center mx-auto"
             />
-          ))}
+          </Link>
+        ))}
       </div>
     </div>
   );
