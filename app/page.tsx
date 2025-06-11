@@ -1,6 +1,5 @@
 "use client";
 
-import { toast } from "sonner";
 import { MiddlePanel } from "@/components/GridPanels";
 import { MainLayout } from "@/components/MainLayout";
 import { TabletSidebar } from "@/components/TabletSidebar";
@@ -19,15 +18,7 @@ export default function Home() {
         stickyChildren={
           <div className="flex justify-between items-start mb-3">
             <h4 className="text-primary-100">Your feed</h4>
-            <Button
-              onClick={() =>
-                toast("New Room", {
-                  description: "@azizbecha started a new room",
-                })
-              }
-            >
-              Create
-            </Button>
+            <Button>Create</Button>
           </div>
         }
       >
