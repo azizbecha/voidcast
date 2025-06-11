@@ -1,3 +1,5 @@
+"use client"
+
 import React, { FC } from "react";
 import { useScreenType } from "@/shared-hooks/useScreenType";
 import { FixedGridPanel, GridPanel } from "./GridPanel";

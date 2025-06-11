@@ -1,5 +1,3 @@
-"use client";
-
 import { MiddlePanel } from "@/components/GridPanels";
 import { MainLayout } from "@/components/MainLayout";
 import { TabletSidebar } from "@/components/TabletSidebar";
