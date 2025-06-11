@@ -4,34 +4,37 @@ import { TabletSidebar } from "@/components/TabletSidebar";
 import { Button } from "@/components/ui/Button";
 import { LeftPanel } from "./LeftPanel";
 import { RightPanel } from "./RightPanel";
+import WithAuth from "@/components/auth/WithAuth";
 
 export default function Home() {
   return (
-    <MainLayout
-      tabletSidebar={<TabletSidebar />}
-      leftPanel={<LeftPanel />}
-      rightPanel={<RightPanel />}
-    >
-      <MiddlePanel
-        stickyChildren={
-          <div className="flex justify-between items-start mb-3">
-            <h4 className="text-primary-100">Your feed</h4>
-            <Button>Create</Button>
-          </div>
-        }
+    <WithAuth>
+      <MainLayout
+        tabletSidebar={<TabletSidebar />}
+        leftPanel={<LeftPanel />}
+        rightPanel={<RightPanel />}
       >
-        <div
-          className={`flex flex-col overflow-y-auto max-h-screen scrollbar-hide`}
+        <MiddlePanel
+          stickyChildren={
+            <div className="flex justify-between items-start mb-3">
+              <h4 className="text-primary-100">Your feed</h4>
+              <Button>Create</Button>
+            </div>
+          }
         >
-          {Array(20)
-            .fill(0)
-            .map((_, key) => (
-              <div key={key} className="w-full p-4 bg-primary-800 mb-4">
-                <h4>room</h4>
-              </div>
-            ))}
-        </div>
-      </MiddlePanel>
-    </MainLayout>
+          <div
+            className={`flex flex-col overflow-y-auto max-h-screen scrollbar-hide`}
+          >
+            {Array(20)
+              .fill(0)
+              .map((_, key) => (
+                <div key={key} className="w-full p-4 bg-primary-800 mb-4">
+                  <h4>room</h4>
+                </div>
+              ))}
+          </div>
+        </MiddlePanel>
+      </MainLayout>
+    </WithAuth>
   );
 }
