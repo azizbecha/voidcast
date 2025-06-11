@@ -5,7 +5,7 @@ interface Props {
 }
 
 export const Link: React.FC<Props> = ({ link }) => (
-  <div className="flex flex-row items-center mb-4">
+  <div className="flex flex-row items-center">
     <Link2 className="mr-2 h-4 w-4 text-accent" />
     <a
       className="text-accent font-bold text-sm"

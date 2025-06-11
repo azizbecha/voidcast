@@ -13,7 +13,7 @@ export const MultipleUsers: React.FC<AvatarProps> = ({
   return (
     <div className={`flex ${className}`}>
       {srcArray.slice(0, 3).map((s, i) => (
-        <span
+        <div
           key={s + i}
           className="rounded-full bg-primary-800 border-primary-800 shadow-outlineSm"
           style={{
@@ -25,7 +25,7 @@ export const MultipleUsers: React.FC<AvatarProps> = ({
           }}
         >
           <Avatar src={s} size="xs" />
-        </span>
+        </div>
       ))}
     </div>
   );

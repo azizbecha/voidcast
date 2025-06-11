@@ -68,7 +68,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             placeholder={placeholder}
             ref={ref}
             className={`${c} ${icon ? "rounded-r-8" : "rounded-8"}`}
-            data-testid="input"
             onChange={onChange}
             {...props}
           />

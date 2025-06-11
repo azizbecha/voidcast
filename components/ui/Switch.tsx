@@ -12,7 +12,7 @@ const Switch = React.forwardRef<
     ref={ref}
     className={cn(
       // Container (track)
-      "peer inline-flex w-5.5 h-4 relative rounded-full border transition duration-[400ms] ease-in-out-hard shrink-0 cursor-pointer items-center",
+      "peer inline-flex w-5.5 h-4 relative rounded-full border transition duration-200 ease-in-out-hard shrink-0 cursor-pointer items-center",
       // Border color depending on state
       "data-[state=checked]:border-primary-100 data-[state=unchecked]:border-primary-300",
       // Accessibility & disabled state
@@ -24,7 +24,7 @@ const Switch = React.forwardRef<
     <SwitchPrimitives.Thumb
       className={cn(
         // Thumb element
-        "pointer-events-none block h-2 w-2 rounded-full absolute top-1/2 left-1/2 transform -translate-y-1/2 transition duration-[400ms] ease-in-out-hard",
+        "pointer-events-none block h-2 w-2 rounded-full absolute top-1/2 left-1/2 transform -translate-y-1/2 transition duration-200 ease-in-out-hard",
         // Translate & background based on state
         "data-[state=checked]:translate-x-0 data-[state=checked]:bg-primary-100",
         "data-[state=unchecked]:-translate-x-full data-[state=unchecked]:bg-primary-300"
