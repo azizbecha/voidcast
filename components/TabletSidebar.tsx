@@ -37,7 +37,7 @@ export const TabletSidebar = async () => {
       {/* Scrollable avatar list */}
       <div className="flex-1 overflow-y-auto scrollbar-hide px-2 space-y-4">
         {data?.map((user, key) => (
-          <Link key={key} href={`u/${user.username}`}>
+          <Link key={key} href={`u/${user.username}`} className="block">
             <Avatar
               key={key}
               size="sm"

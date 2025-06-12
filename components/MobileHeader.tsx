@@ -1,14 +1,26 @@
+import { useEffect, useState } from "react";
 import { CirclePlus } from "lucide-react";
-import { Avatar } from "./UserAvatar/Avatar";
 import { SearchInput } from "./SearchInput";
+import { UserDropdown } from "./UserDropdown";
+import { createClient } from "@/lib/supabase/client";
 
-export const MobileHeader = () => (
-  <div className="flex items-center justify-between px-2 py-2 gap-4">
-    <Avatar
-      src="https://avatars.githubusercontent.com/u/63454940?s=96&v=4"
-      size="xs"
-    />
-    <SearchInput />
-    <CirclePlus size={30} />
-  </div>
-);
+export const MobileHeader = () => {
+  const [image, setImage] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUserImage = async () => {
+      const { data, error } = await createClient().auth.getSession();
+      if (error) console.error(error);
+      setImage(data.session?.user.user_metadata.avatar_url ?? null);
+    };
+    fetchUserImage();
+  }, []);
+
+  return (
+    <div className="flex items-center justify-between px-2 py-2 gap-4">
+      <UserDropdown image={image} align="start" />
+      <SearchInput />
+      <CirclePlus size={30} />
+    </div>
+  );
+};
