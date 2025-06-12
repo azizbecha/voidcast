@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import Progress from "./Progress";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,11 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`w-full h-screen antialiased`}
-      >
-        {children}
-        <Toaster position="top-center" />
+      <body className={`w-full h-screen antialiased`}>
+        <Progress>
+          {children}
+          <Toaster position="top-center" />
+        </Progress>
       </body>
     </html>
   );
