@@ -1,10 +1,10 @@
 import { MiddlePanel } from "@/components/GridPanels";
 import { MainLayout } from "@/components/MainLayout";
 import { TabletSidebar } from "@/components/TabletSidebar";
-import { Button } from "@/components/ui/Button";
 import { LeftPanel } from "./LeftPanel";
 import { RightPanel } from "./RightPanel";
 import WithAuth from "@/components/auth/WithAuth";
+import { StickyChildren } from "./StickyChildren";
 
 export default function Home() {
   return (
@@ -14,14 +14,7 @@ export default function Home() {
         leftPanel={<LeftPanel />}
         rightPanel={<RightPanel />}
       >
-        <MiddlePanel
-          stickyChildren={
-            <div className="flex justify-between items-start mb-3">
-              <h4 className="text-primary-100">Your feed</h4>
-              <Button>Create</Button>
-            </div>
-          }
-        >
+        <MiddlePanel stickyChildren={<StickyChildren />}>
           <div
             className={`flex flex-col overflow-y-auto max-h-screen scrollbar-hide`}
           >
