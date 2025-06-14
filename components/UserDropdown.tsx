@@ -30,6 +30,8 @@ import { Button } from "@/components/ui/Button";
 import { useTranslation } from "react-i18next";
 import i18n from "@/i18n/config";
 import { DISCORD_URL, GITHUB_URL, ISSUES_URL } from "@/constants";
+import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
 
 type Props = {
   image: string | null;
@@ -48,12 +50,19 @@ const externalLinks = [
 ];
 
 export const UserDropdown = ({ image, align = "end" }: Props) => {
+  const router = useRouter();
   const { t } = useTranslation();
   const [langDialogOpen, setLangDialogOpen] = useState(false);
 
   const changeLanguage = (code: string) => {
     i18n.changeLanguage(code);
     // setLangDialogOpen(false);
+  };
+
+  const logout = async () => {
+    const supabase = await createClient();
+    await supabase.auth.signOut();
+    router.replace("/login");
   };
 
   return (
@@ -96,7 +105,10 @@ export const UserDropdown = ({ image, align = "end" }: Props) => {
 
           <DropdownMenuSeparator />
 
-          <DropdownMenuItem className="bg-primary-700 hover:bg-accent font-bold">
+          <DropdownMenuItem
+            className="bg-primary-700 hover:bg-accent font-bold"
+            onClick={logout}
+          >
             {t("Log out")}
           </DropdownMenuItem>
         </DropdownMenuContent>
