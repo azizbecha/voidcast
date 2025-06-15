@@ -4,11 +4,12 @@
   "people": "Personnes",
   "users": "Utilisateurs",
   "Language": "Langue",
+  "login": "Se connecter",
   "Log out": "Se déconnecter",
   "Select a language": "Choisir une langue",
   "Cancel": "Annuler",
   "welcomeTo": "Bienvenue à",
   "loginDescription": "Ouvrez le monde de VoidCast en choisissant votre méthode de connexion préférée.",
   "loginWith": "Se connecter avec",
-  "reportBug": "Signaler un erreur"
+  "reportBug": "Signaler une erreur"
 }

@@ -18,11 +18,14 @@ if (!i18n.isInitialized) {
         loadPath: "/locales/{{lng}}/translation.json",
       },
       detection: {
-        order: ["localStorage", "navigator"],
-        caches: ["localStorage"],
+        order: ["cookie", "navigator"],
+        caches: ["cookie"],
       },
       interpolation: {
         escapeValue: false,
+      },
+      react: {
+        useSuspense: false,
       },
     });
 }

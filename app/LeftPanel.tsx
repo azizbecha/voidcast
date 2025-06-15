@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { UserMinimizedCard } from "@/components/UserMinimizedCard";
 import { createClient } from "@/lib/supabase/server";
+import { getServerT } from "@/i18n/i18n-server";
 
 export const LeftPanel = async () => {
   const supabase = await createClient();
+  const t = await getServerT();
 
   const { data } = await supabase
     .from("profiles")
@@ -12,7 +14,7 @@ export const LeftPanel = async () => {
 
   return (
     <div className="w-full flex flex-col flex-1 overflow-y-auto">
-      <h4 className="text-primary-100">People</h4>
+      <h4 className="text-primary-100">{t('people')}</h4>
       <h6 className="text-primary-300 mt-3 text-sm font-bold uppercase">
         {data?.length} users
       </h6>
