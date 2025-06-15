@@ -17,10 +17,10 @@ export default async function RootLayout({
   return (
     <html>
       <body className={`w-full h-screen antialiased`}>
-        <Progress>
-          <I18nProvider>{children}</I18nProvider>
-          <Toaster position="top-center" />
-        </Progress>
+        <I18nProvider>
+          <Progress>{children}</Progress>
+        </I18nProvider>
+        <Toaster position="top-center" />
       </body>
     </html>
   );

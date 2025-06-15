@@ -1,7 +1,7 @@
 import { MiddlePanel } from "@/components/GridPanels";
 import { MainLayout } from "@/components/MainLayout";
 import { TabletSidebar } from "@/components/TabletSidebar";
-import { LeftPanel } from "./LeftPanel";
+import { LeftPanel } from "@/components/LeftPanel";
 import { RightPanel } from "./RightPanel";
 import WithAuth from "@/components/auth/WithAuth";
 import { StickyChildren } from "./StickyChildren";

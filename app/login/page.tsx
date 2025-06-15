@@ -1,24 +1,17 @@
+"use client";
+
 import Image from "next/image";
 
-import { getServerT } from "@/i18n/i18n-server";
+import { useTranslation } from "react-i18next";
 import GoogleAuthButton from "@/components/auth/GoogleAuthButton";
 import GitHubAuthButton from "@/components/auth/GitHubAuthButton";
 import DiscordAuthButton from "@/components/auth/DiscordAuthButton";
 
 import { FaDiscord, FaGithub } from "react-icons/fa6";
 import LogoIcon from "@/components/LogoIcon";
-import { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getServerT();
-
-  return {
-    title: `${t("login")} - VoidCast`,
-  };
-}
-
-const Login = async () => {
-  const t = await getServerT();
+const Login = () => {
+  const { t } = useTranslation();
   return (
     <>
       <div
