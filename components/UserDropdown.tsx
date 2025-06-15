@@ -38,17 +38,6 @@ type Props = {
   align?: "start" | "end";
 };
 
-const internalLinks = [
-  { label: "Profile", href: "/profile", icon: <FaUser size={10} /> },
-  { label: "Settings", href: "/settings", icon: <FaCog size={10} /> },
-];
-
-const externalLinks = [
-  { label: "Report a bug", href: ISSUES_URL, icon: <FaBug size={10} /> },
-  { label: "GitHub", href: GITHUB_URL, icon: <FaGithub size={10} /> },
-  { label: "Discord", href: DISCORD_URL, icon: <FaDiscord size={10} /> },
-];
-
 export const UserDropdown = ({ image, align = "end" }: Props) => {
   const router = useRouter();
   const { t } = useTranslation();
@@ -64,6 +53,17 @@ export const UserDropdown = ({ image, align = "end" }: Props) => {
     await supabase.auth.signOut();
     router.replace("/login");
   };
+
+  const internalLinks = [
+    { label: t("Profile"), href: "/profile", icon: <FaUser size={10} /> },
+    { label: t("Settings"), href: "/settings", icon: <FaCog size={10} /> },
+  ];
+
+  const externalLinks = [
+    { label: t("reportBug"), href: ISSUES_URL, icon: <FaBug size={10} /> },
+    { label: "GitHub", href: GITHUB_URL, icon: <FaGithub size={10} /> },
+    { label: "Discord", href: DISCORD_URL, icon: <FaDiscord size={10} /> },
+  ];
 
   return (
     <>

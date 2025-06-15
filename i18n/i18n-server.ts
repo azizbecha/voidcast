@@ -1,6 +1,7 @@
 // lib/getServerT.ts
 import i18next from 'i18next';
 import Backend from 'i18next-fs-backend';
+import LanguageDetector from "i18next-browser-languagedetector";
 import path from 'path';
 import { cookies } from 'next/headers';
 
@@ -12,6 +13,7 @@ export async function getServerT() {
 
   await i18n
     .use(Backend)
+    .use(LanguageDetector)
     .init({
       lng: locale,
       fallbackLng: 'en',
