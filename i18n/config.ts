@@ -12,7 +12,7 @@ if (!i18n.isInitialized) {
     .use(LanguageDetector)
     .use(initReactI18next)
     .init({
-      fallbackLng: false,
+      fallbackLng: 'en',
       debug: !__prod__,
       backend: {
         loadPath: "/locales/{{lng}}/translation.json",

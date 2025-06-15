@@ -4,10 +4,13 @@ import { useState } from "react";
 import { SiDiscord } from "react-icons/si";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "../ui/Button";
+import { useTranslation } from "react-i18next";
 
 export default function DiscordAuthButton() {
   const [clicked, setClicked] = useState(false);
   const supabase = createClient();
+
+  const { t } = useTranslation();
 
   const handleLogin = async () => {
     setClicked(true);
@@ -29,7 +32,7 @@ export default function DiscordAuthButton() {
       disabled={clicked}
       onClick={handleLogin}
     >
-      Log in with Discord
+      {t("loginWith")} Discord
     </Button>
   );
 }

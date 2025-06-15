@@ -6,5 +6,9 @@
   "Language": "Language",
   "Log out": "Log out",
   "Select a language": "Select a language",
-  "Cancel": "Cancel"
+  "Cancel": "Cancel",
+  "welcomeTo": "Welcome to",
+  "loginDescription": "Unlock the world of VoidCast by choosing your preferred sign-in method",
+  "loginWith": "Log in with",
+  "reportBug": "Report a bug"
 }

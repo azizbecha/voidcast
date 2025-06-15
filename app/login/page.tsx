@@ -1,21 +1,20 @@
-import { Metadata, NextPage } from "next";
+"use client";
+
 import Image from "next/image";
 
-import WithNoAuth from "@/components/auth/WithNoAuth";
+import { useTranslation } from "react-i18next";
 
 import GoogleAuthButton from "@/components/auth/GoogleAuthButton";
 import GitHubAuthButton from "@/components/auth/GitHubAuthButton";
 import DiscordAuthButton from "@/components/auth/DiscordAuthButton";
+
 import { FaDiscord, FaGithub } from "react-icons/fa6";
 import LogoIcon from "@/components/LogoIcon";
 
-export const metadata: Metadata = {
-  title: "Login • VoidCast",
-};
-
-const Login: NextPage = () => {
+const Login = () => {
+  const { t } = useTranslation();
   return (
-    <WithNoAuth>
+    <>
       <div
         className="grid w-full h-full"
         style={{
@@ -34,11 +33,10 @@ const Login: NextPage = () => {
               />
             </div>
             <span className="text-3xl text-primary-100 font-bold text-center">
-              Welcome to VoidCast
+              {t("welcomeTo")} VoidCast
             </span>
             <div className="text-primary-100 flex-wrap text-center">
-              Unlock the world of VoidCast by choosing your preferred sign-in
-              method
+              {t("loginDescription")}
             </div>
           </div>
           <div className="flex flex-col gap-2">
@@ -57,7 +55,7 @@ const Login: NextPage = () => {
               className="ml-2 hover:text-primary-200"
               target="_blank"
             >
-              Report a bug
+              {t("reportBug")}
             </a>
             <div className="flex flex-row gap-6 sm:gap-4">
               <a
@@ -65,24 +63,20 @@ const Login: NextPage = () => {
                 target="_blank"
                 rel="noreferrer"
               >
-                <FaGithub
-                  className="w-4 h-4 ml-2 cursor-pointer hover:text-primary-200"
-                />
+                <FaGithub className="w-4 h-4 ml-2 cursor-pointer hover:text-primary-200" />
               </a>
               <a
                 href="https://discord.gg/ur6DMXumrA"
                 target="_blank"
                 rel="noreferrer"
               >
-                <FaDiscord
-                  className="w-4 h-4 ml-2 hover:text-primary-200"
-                />
+                <FaDiscord className="w-4 h-4 ml-2 hover:text-primary-200" />
               </a>
             </div>
           </div>
         </div>
       </div>
-    </WithNoAuth>
+    </>
   );
 };
 

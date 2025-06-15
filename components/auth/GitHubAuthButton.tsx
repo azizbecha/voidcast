@@ -4,10 +4,12 @@ import { createClient } from "@/lib/supabase/client";
 import { Button } from "../ui/Button";
 import { useState } from "react";
 import { FaGithub } from "react-icons/fa6";
+import { useTranslation } from "react-i18next";
 
 export default function GitHubAuthButton() {
   const [clicked, setClicked] = useState(false);
   const supabase = createClient();
+  const { t } = useTranslation();
 
   const handleLogin = async () => {
     setClicked(true);
@@ -29,7 +31,7 @@ export default function GitHubAuthButton() {
       disabled={clicked}
       onClick={handleLogin}
     >
-      Log in with GitHub
+      {t("loginWith")} GitHub
     </Button>
   );
 }
