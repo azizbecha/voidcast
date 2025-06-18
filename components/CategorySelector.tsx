@@ -3,6 +3,7 @@ import Select, { GroupBase, StylesConfig, MultiValue } from "react-select";
 import { toast } from "sonner";
 
 import categoriesData from "@/utils/categories.json";
+import { useTranslation } from "react-i18next";
 
 type CategoryOptions = {
   value: string;
@@ -130,6 +131,8 @@ const CategorySelector: React.FC<Props> = ({
   disabled,
   loading,
 }) => {
+  const { t } = useTranslation();
+
   const [selectedCategories, setSelectedCategories] = useState<
     CategoryOptions[]
   >([]);
@@ -137,9 +140,10 @@ const CategorySelector: React.FC<Props> = ({
 
   const handleCategoryChange = (selected: MultiValue<CategoryOptions>) => {
     if (selected.length > MAX_CATEGORIES) {
-      toast.error("Error", {
-        description: "You can only select up to 5 categories.",
+      toast.error(t("audioEditor.categorySelector.error.title"), {
+        description: t("audioEditor.categorySelector.error.tooMany"),
       });
+
       return;
     }
 
@@ -151,7 +155,7 @@ const CategorySelector: React.FC<Props> = ({
     <Select<CategoryOptions, true, GroupBase<CategoryOptions>>
       options={formattedCategories}
       className="z-50 hover:border-none"
-      placeholder="Please select categories"
+      placeholder={t("audioEditor.categorySelector.placeholder")}
       formatGroupLabel={formatGroupLabel}
       styles={customStyles}
       isDisabled={disabled}

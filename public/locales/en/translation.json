@@ -13,5 +13,62 @@
   "welcomeTo": "Welcome to",
   "loginDescription": "Unlock the world of VoidCast by choosing your preferred sign-in method",
   "loginWith": "Log in with",
-  "reportBug": "Report a bug"
+  "reportBug": "Report a bug",
+  "fileDrop": {
+    "noFile": "No audio file selected",
+    "dropFile": "Drop the audio file to upload",
+    "dropHint": "Drop it like it's hot",
+    "browseHint": "Drag & drop an audio file here, or click the button to browse and upload.",
+    "selectFile": "Select File",
+    "error": {
+      "multiple": "Only one file is allowed.",
+      "invalidType": "Only audio files are allowed."
+    }
+  },
+  "audioEditor": {
+    "pause": "Pause",
+    "play": "Play",
+    "publish": "Publish",
+    "categorySelector": {
+      "placeholder": "Please select categories",
+      "error": {
+        "title": "Error",
+        "tooMany": "You can only select up to 5 categories."
+      }
+    },
+    "titleInput": {
+      "placeholder": "Please enter the clip title here (required)",
+      "error": "The maximum length of the title is 120 characters",
+      "longTitle": "Title is too long",
+      "titleLengthError": "Title must be between {{min}} and {{max}} characters long",
+      "titleShort": "Title is too short."
+    },
+    "descriptionInput": {
+      "placeholder": "Please enter the clip description here (optional)",
+      "tooLong": "The maximum length of the description is 250 characters"
+    },
+    "fileProcessing": "Processing audio file...",
+    "buttons": {
+      "pause": "Pause",
+      "play": "Play",
+      "download": "Download",
+      "publish": "Publish",
+      "cancel": "Cancel"
+    },
+    "errors": {
+      "audioNotReady": "Audio not ready",
+      "audioNotReadyDescription": "Please ensure the audio is ready.",
+      "noSelectedCategories": "No selected categories",
+      "noSelectedCategoriesDescription": "Please select at least one category.",
+      "descriptionTooLong": "Description is too long.",
+      "descriptionTooLongDescription": "Description must be less than 250 characters long.",
+      "uploadError": "Error uploading file",
+      "insertError": "Error inserting record into clips table",
+      "processingUploadError": "Error processing upload"
+    },
+    "success": {
+      "uploadSuccess": "Success",
+      "uploadSuccessDescription": "Your clip has been published successfully."
+    }
+  }
 }

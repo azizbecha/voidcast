@@ -13,5 +13,62 @@
   "welcomeTo": "Bienvenue à",
   "loginDescription": "Ouvrez le monde de VoidCast en choisissant votre méthode de connexion préférée.",
   "loginWith": "Se connecter avec",
-  "reportBug": "Signaler une erreur"
+  "reportBug": "Signaler une erreur",
+  "fileDrop": {
+    "noFile": "Aucun fichier audio sélectionné",
+    "dropFile": "Déposez le fichier audio pour le téléverser",
+    "dropHint": "Lâchez-le comme si c'était chaud",
+    "browseHint": "Glissez-déposez un fichier audio ici ou cliquez sur le bouton pour le sélectionner et le téléverser.",
+    "selectFile": "Sélectionner un fichier",
+    "error": {
+      "multiple": "Un seul fichier est autorisé.",
+      "invalidType": "Seuls les fichiers audio sont autorisés."
+    }
+  },
+  "audioEditor": {
+    "pause": "Pause",
+    "play": "Lecture",
+    "publish": "Publier",
+    "categorySelector": {
+      "placeholder": "Sélectionner des catégories",
+      "error": {
+        "title": "Erreur",
+        "tooMany": "Vous ne pouvez sélectionner que 5 catégories maximum."
+      }
+    },
+    "titleInput": {
+      "placeholder": "Saisir le titre du clip ici (obligatoire)",
+      "error": "La longueur maximale du titre est de 120 caractères",
+      "longTitle": "Le titre est trop long",
+      "titleLengthError": "Le titre doit contenir entre {{min}} et {{max}} caractères",
+      "shortTitle": "Le titre est trop court."
+    },
+    "descriptionInput": {
+      "placeholder": "Veuillez entrer la description du clip ici (optionnel)",
+      "tooLong": "La longueur maximale de la description est de 250 caractères"
+    },
+    "fileProcessing": "Traitement du fichier audio...",
+    "buttons": {
+      "pause": "Pause",
+      "play": "Lecture",
+      "download": "Télécharger",
+      "publish": "Publier",
+      "cancel": "Annuler"
+    },
+    "errors": {
+      "audioNotReady": "Audio non prêt",
+      "audioNotReadyDescription": "Veuillez vous assurer que l'audio est prêt.",
+      "noSelectedCategories": "Aucune catégorie sélectionnée",
+      "noSelectedCategoriesDescription": "Veuillez sélectionner au moins une catégorie.",
+      "descriptionTooLong": "La description est trop longue.",
+      "descriptionTooLongDescription": "La description doit comporter moins de 250 caractères.",
+      "uploadError": "Erreur lors du téléversement du fichier",
+      "insertError": "Erreur lors de l’insertion dans la table des clips",
+      "processingUploadError": "Erreur lors du traitement du téléversement"
+    },
+    "success": {
+      "uploadSuccess": "Succès",
+      "uploadSuccessDescription": "Votre clip a été publié avec succès."
+    }
+  }
 }

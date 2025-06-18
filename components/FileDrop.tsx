@@ -1,12 +1,17 @@
+"use client";
+
 import React, { useState, DragEvent, ChangeEvent, useRef } from "react";
 import { FaFileUpload } from "react-icons/fa";
 import { Button } from "./ui/Button";
+import { useTranslation } from "react-i18next";
 
 interface FileDropProps {
   onFileChange: (file: File | null) => void;
 }
 
 const FileDrop: React.FC<FileDropProps> = ({ onFileChange }) => {
+  const { t } = useTranslation();
+
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -29,7 +34,7 @@ const FileDrop: React.FC<FileDropProps> = ({ onFileChange }) => {
 
     const droppedFiles = Array.from(event.dataTransfer.files);
     if (droppedFiles.length > 1) {
-      alert("Only one file is allowed.");
+      alert(t("fileDrop.error.multiple"));
       return;
     }
 
@@ -37,17 +42,18 @@ const FileDrop: React.FC<FileDropProps> = ({ onFileChange }) => {
     if (droppedFile && droppedFile.type.startsWith("audio/")) {
       onFileChange(droppedFile);
     } else {
-      alert("Only audio files are allowed.");
+      alert(t("fileDrop.error.invalidType"));
     }
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    event.stopPropagation(); // Prevent click event from bubbling to parent
+    event.stopPropagation();
     const selectedFiles = event.target.files
       ? Array.from(event.target.files)
       : [];
+
     if (selectedFiles.length > 1) {
-      alert("Only one file is allowed.");
+      alert(t("fileDrop.error.multiple"));
       return;
     }
 
@@ -55,17 +61,16 @@ const FileDrop: React.FC<FileDropProps> = ({ onFileChange }) => {
     if (selectedFile && selectedFile.type.startsWith("audio/")) {
       onFileChange(selectedFile);
     } else {
-      alert("Only audio files are allowed.");
+      alert(t("fileDrop.error.invalidType"));
     }
 
-    // Reset the input to allow re-selecting the same file
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
   };
 
   const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation(); // Prevent click from bubbling to parent div
+    event.stopPropagation();
     fileInputRef.current?.click();
   };
 
@@ -82,12 +87,10 @@ const FileDrop: React.FC<FileDropProps> = ({ onFileChange }) => {
     >
       <FaFileUpload size={48} className="mb-2 text-primary-100" />
       <p className="text-lg font-bold text-primary-100">
-        {dragOver ? "Drop the audio file to upload" : "No audio file selected"}
+        {dragOver ? t("fileDrop.dropFile") : t("fileDrop.noFile")}
       </p>
       <p className="text-sm text-primary-100">
-        {dragOver
-          ? "Drop it like it's hot"
-          : "Drag & drop an audio file here, or click the button to browse and upload."}
+        {dragOver ? t("fileDrop.dropHint") : t("fileDrop.browseHint")}
       </p>
 
       <input
@@ -100,7 +103,7 @@ const FileDrop: React.FC<FileDropProps> = ({ onFileChange }) => {
 
       {!dragOver && (
         <Button className="mt-3" onClick={handleButtonClick}>
-          Select File
+          {t("fileDrop.selectFile")}
         </Button>
       )}
     </div>

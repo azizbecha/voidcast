@@ -52,8 +52,8 @@ const Trimmer: React.FC<TrimmerProps> = ({
             {children}
           </Track>
         )}
-        renderThumb={({ props, value, isDragged }) => (
-          <Thumb props={props} value={value} isDragged={isDragged} />
+        renderThumb={(renderProps) => (
+          <Thumb key={renderProps.props.key} props={renderProps} value={renderProps.value} isDragged={renderProps.isDragged} />
         )}
       />
       <div

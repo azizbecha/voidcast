@@ -20,6 +20,7 @@ import CategorySelector from "@/components/CategorySelector";
 import { FaPause, FaPlay } from "react-icons/fa6";
 import Trimmer from "./Trimmer";
 import { trimAudio } from "./trimAudio";
+import { useTranslation } from "react-i18next";
 
 type AudioContextType = AudioContext | null;
 type AudioBufferType = AudioBuffer | null;
@@ -33,6 +34,8 @@ const MAX_DESCRIPTION_LENGTH = 250;
 export default function AudioEditor() {
   const router = useRouter();
   const supabase = createClient();
+
+  const { t } = useTranslation();
 
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -70,7 +73,7 @@ export default function AudioEditor() {
         ]);
       });
     } catch (error) {
-      toast.error("Error processing audio file");
+      toast.error(t("audioEditor.errors.processingUploadError"));
       console.error("Error in handleFileChange:", error);
     } finally {
       setIsFileProcessing(false);
@@ -179,36 +182,42 @@ export default function AudioEditor() {
 
   const uploadClip = async () => {
     if (!audioBuffer || !audioContext) {
-      toast.error("Audio not ready", {
-        description: "Please ensure the audio is ready.",
+      toast.error(t("audioEditor.errors.audioNotReady"), {
+        description: t("audioEditor.errors.audioNotReadyDescription"),
       });
       return;
     }
 
     if (title.trim().length > MAX_TITLE_LENGTH) {
-      toast.error("Title is too long.", {
-        description: `Title must be between ${MIN_TITLE_LENGTH} and ${MAX_TITLE_LENGTH} characters long`,
+      toast.error(t("audioEditor.titleInput.longTitle"), {
+        description: t("audioEditor.titleInput.titleLengthError", {
+          min: MIN_TITLE_LENGTH,
+          max: MAX_TITLE_LENGTH,
+        }),
       });
       return;
     }
 
     if (title.trim().length < MIN_TITLE_LENGTH) {
-      toast.error("Title is too short.", {
-        description: `Title must be between ${MIN_TITLE_LENGTH} and ${MAX_TITLE_LENGTH} characters long`,
+      toast.error(t("audioEditor.titleInput.shortTitle"), {
+        description: t("audioEditor.titleInput.titleLengthError", {
+          min: MIN_TITLE_LENGTH,
+          max: MAX_TITLE_LENGTH,
+        }),
       });
       return;
     }
 
     if (selectedCategories.length < 1) {
-      toast.error("No selected categories", {
-        description: "Please select at least one category.",
+      toast.error(t("audioEditor.errors.noSelectedCategories"), {
+        description: t("audioEditor.errors.noSelectedCategoriesDescription"),
       });
       return;
     }
 
     if (description.trim().length > MAX_DESCRIPTION_LENGTH) {
-      toast.error("Description is too long.", {
-        description: `Description must be less than ${MAX_DESCRIPTION_LENGTH} characters long.`,
+      toast.error(t("audioEditor.errors.descriptionTooLong"), {
+        description: t("audioEditor.errors.descriptionTooLongDescription"),
       });
       return;
     }
@@ -231,7 +240,7 @@ export default function AudioEditor() {
         });
 
       if (uploadError) {
-        toast.error("Error uploading file");
+        toast.error(t("audioEditor.errors.uploadError"));
         setLoading(false);
         return;
       }
@@ -253,19 +262,21 @@ export default function AudioEditor() {
 
       if (insertError) {
         toast.error(
-          `Error inserting record into clips table: ${insertError.message}`
+          t("audioEditor.errors.insertError", {
+            message: insertError.message,
+          })
         );
         setLoading(false);
         return;
       }
 
-      toast.success("Success", {
-        description: "Your clip has been published successfully.",
+      toast.success(t("audioEditor.success.uploadSuccess"), {
+        description: t("audioEditor.success.uploadSuccessDescription"),
       });
 
       router.push("/");
     } catch (error) {
-      toast.error("Error processing upload");
+      toast.error(t("audioEditor.errors.processingUploadError"));
       console.error("Error in uploadClip:", error);
       setLoading(false);
     }
@@ -278,7 +289,7 @@ export default function AudioEditor() {
           <div className="flex flex-col items-center justify-center h-full bg-primary-800 text-white rounded-lg">
             <Spinner size="4" />
             <span className="mt-2 text-lg font-bold">
-              Processing audio file...
+              {t("audioEditor.fileProcessing")}
             </span>
           </div>
         ) : (
@@ -290,14 +301,14 @@ export default function AudioEditor() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div>
                 <Input
-                  placeholder="Please enter the clip title here (required)"
+                  placeholder={t("audioEditor.titleInput.placeholder")}
                   disabled={loading}
                   minLength={3}
                   onChange={(e) => setTitle(e.currentTarget.value)}
                   value={title}
                   error={
                     title && title.trim().length > MAX_TITLE_LENGTH
-                      ? "The maximum length of the title is 120 characters"
+                      ? t("audioEditor.titleInput.error")
                       : undefined
                   }
                   required
@@ -309,7 +320,7 @@ export default function AudioEditor() {
             </div>
 
             <Input
-              placeholder="Please enter the clip description here (optional)"
+              placeholder={t("audioEditor.descriptionInput.placeholder")}
               disabled={loading}
               onChange={(e) => setDescription(e.currentTarget.value)}
               value={description}
@@ -342,7 +353,9 @@ export default function AudioEditor() {
                 disabled={loading}
                 icon={isPlaying ? <FaPause /> : <FaPlay />}
               >
-                {isPlaying ? "Pause" : "Play"}
+                {isPlaying
+                  ? t("audioEditor.buttons.pause")
+                  : t("audioEditor.buttons.play")}
               </Button>
 
               {fileUrl && (
@@ -351,7 +364,7 @@ export default function AudioEditor() {
                   onClick={() => window.open(fileUrl, "_blank")}
                   disabled={loading}
                 >
-                  Download
+                  {t("audioEditor.buttons.download")}
                 </Button>
               )}
 
@@ -361,12 +374,12 @@ export default function AudioEditor() {
                 disabled={loading}
                 loading={loading}
               >
-                Publish
+                {t("audioEditor.buttons.publish")}
               </Button>
             </div>
 
             <Button color="secondary" onClick={handleCancel} disabled={loading}>
-              Cancel
+              {t("audioEditor.buttons.cancel")}
             </Button>
           </div>
         )}
