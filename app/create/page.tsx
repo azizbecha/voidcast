@@ -11,6 +11,7 @@ import AudioEditor from "./AudioEditor";
 
 export const metadata: Metadata = {
   title: "Create - VoidCast",
+  description: "Share your clips now on VoidCast!",
 };
 
 export default function Home() {

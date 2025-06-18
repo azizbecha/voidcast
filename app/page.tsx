@@ -8,7 +8,8 @@ import WithAuth from "@/components/auth/WithAuth";
 import { StickyChildren } from "./StickyChildren";
 
 export const metadata: Metadata = {
-  title: "Create - VoidCast",
+  title: "Home - VoidCast",
+  description: "Welcome to the world of VoidCast",
 };
 
 export default function Home() {
