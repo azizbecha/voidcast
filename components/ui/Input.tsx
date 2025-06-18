@@ -52,6 +52,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           onChange={onChange}
           {...(props as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
         />
+        {error && (
+          <span className="text-xs font-medium text-secondary">{error}</span>
+        )}
       </div>
     ) : (
       <div className="rounded-8 w-full">
@@ -72,6 +75,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             {...props}
           />
         </div>
+        {error && (
+          <span className="text-xs font-medium text-secondary">{error}</span>
+        )}
       </div>
     );
   }

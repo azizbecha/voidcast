@@ -20,14 +20,18 @@ export const TabletSidebar = async () => {
     <div className="w-full flex flex-col overflow-y-auto">
       {/* Fixed buttons */}
       <div className="flex flex-col items-center gap-4">
-        <button className="bg-accent p-2 rounded-full">
-          <Home className="text-white" />
-        </button>
+        <Link href="/">
+          <button className="bg-accent p-2 rounded-full">
+            <Home className="text-white" />
+          </button>
+        </Link>
+        <Link href="create">
+          <button className="bg-primary-700 p-2 rounded-full">
+            <Edit className="text-white" />
+          </button>
+        </Link>
         <button className="bg-primary-700 p-2 rounded-full">
           <Calendar className="text-white" />
-        </button>
-        <button className="bg-primary-700 p-2 rounded-full">
-          <Edit className="text-white" />
         </button>
       </div>
 

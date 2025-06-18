@@ -122,3 +122,23 @@ button:focus {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+.drop-zone {
+  width: 100%;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: background-color 0.3s, border-color 0.3s;
+  cursor: pointer;
+}
+
+.drop-zone.drag-over {
+  background-color: var(--color-primary-600);
+}
+
+[role="listbox"] > * {
+  padding: 0 !important;
+}
