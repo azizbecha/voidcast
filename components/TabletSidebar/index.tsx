@@ -8,6 +8,7 @@ import { createClient } from "@/lib/supabase/server";
 import { Avatar } from "../UserAvatar/Avatar";
 import { Separator } from "../ui/Separator";
 import { FixedButtons } from "./FixedButtons";
+import { UserProfile } from "@/interfaces";
 
 export const TabletSidebar = async () => {
   const supabase = await createClient();
@@ -15,7 +16,7 @@ export const TabletSidebar = async () => {
   const { data } = await supabase
     .from("profiles")
     .select("*")
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false }) as { data: UserProfile[] | null };
 
   return (
     <div className="w-full flex flex-col overflow-y-auto">
