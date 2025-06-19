@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { CirclePlus } from "lucide-react";
+import Link from "next/link";
+
+import { createClient } from "@/lib/supabase/client";
+
 import { SearchInput } from "./SearchInput";
 import { UserDropdown } from "./UserDropdown";
-import { createClient } from "@/lib/supabase/client";
+import { FaPen } from "react-icons/fa6";
 
 export const MobileHeader = () => {
   const [image, setImage] = useState<string | null>(null);
@@ -20,7 +23,9 @@ export const MobileHeader = () => {
     <div className="flex items-center justify-between px-2 py-2 gap-4">
       <UserDropdown image={image} align="start" />
       <SearchInput />
-      <CirclePlus size={30} />
+      <Link href="create">
+        <FaPen size={30} />
+      </Link>
     </div>
   );
 };
