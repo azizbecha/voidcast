@@ -76,6 +76,13 @@ const FileDrop: React.FC<FileDropProps> = ({ onFileChange }) => {
 
   return (
     <div
+      onClick={() => fileInputRef.current?.click()}
+      role="button"
+      tabIndex={0}
+      aria-label="Upload file"
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") fileInputRef.current?.click();
+      }}
       className={`drop-zone w-full h-full p-6 border-2 border-dashed border-primary-100 rounded-md flex flex-col items-center justify-center cursor-pointer transition-colors ${
         dragOver
           ? "bg-primary-600 border-primary-300"
