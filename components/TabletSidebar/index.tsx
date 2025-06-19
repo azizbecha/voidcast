@@ -2,11 +2,12 @@
 
 import React from "react";
 import Link from "next/link";
-import { Home, Calendar, Edit } from "lucide-react"; // Example icons
+
 import { createClient } from "@/lib/supabase/server";
 
-import { Avatar } from "./UserAvatar/Avatar";
-import { Separator } from "./ui/Separator";
+import { Avatar } from "../UserAvatar/Avatar";
+import { Separator } from "../ui/Separator";
+import { FixedButtons } from "./FixedButtons";
 
 export const TabletSidebar = async () => {
   const supabase = await createClient();
@@ -19,21 +20,7 @@ export const TabletSidebar = async () => {
   return (
     <div className="w-full flex flex-col overflow-y-auto">
       {/* Fixed buttons */}
-      <div className="flex flex-col items-center gap-4">
-        <Link href="/">
-          <button className="bg-accent p-2 rounded-full">
-            <Home className="text-white" />
-          </button>
-        </Link>
-        <Link href="create">
-          <button className="bg-primary-700 p-2 rounded-full">
-            <Edit className="text-white" />
-          </button>
-        </Link>
-        <button className="bg-primary-700 p-2 rounded-full">
-          <Calendar className="text-white" />
-        </button>
-      </div>
+      <FixedButtons />
 
       {/* Divider */}
       <Separator className="border-t border-gray-700 my-4" />
