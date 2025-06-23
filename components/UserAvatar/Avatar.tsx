@@ -1,60 +1,59 @@
 "use client";
 
-import * as React from "react";
-import * as AvatarPrimitive from "@radix-ui/react-avatar";
+import React, { useState } from "react";
+import Image from "next/image";
 
-import { cn } from "@/lib/utils";
-
-const avatarSizeMap: Record<string, string> = {
-  default: "80px",
-  lg: "60px",
-  md: "50px",
-  sm: "40px",
-  xs: "30px",
-  xxs: "20px",
+export const avatarSizeMap = {
+  default: 80,
+  lg: 60,
+  md: 50,
+  sm: 40,
+  xs: 20,
+  xxs: 30,
 };
 
-interface CustomAvatarProps
-  extends React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root> {
+export interface AvatarProps {
   src?: string;
   size?: keyof typeof avatarSizeMap;
-  alt?: string;
-  fallback?: React.ReactNode;
+  className?: string;
+  username?: string;
+  hover?: boolean;
 }
 
-export const Avatar = React.forwardRef<
-  React.ElementRef<typeof AvatarPrimitive.Root>,
-  CustomAvatarProps
->(
-  (
-    { className, src, size = "default", alt = "Avatar", fallback, ...props },
-    ref
-  ) => {
-    const sizeStyle = avatarSizeMap[size] ?? avatarSizeMap.default;
+export const Avatar: React.FC<AvatarProps> = ({
+  src,
+  size = "default",
+  className = "",
+  username,
+  hover = false,
+}) => {
+  const [isError, setError] = useState(false);
 
-    return (
-      <AvatarPrimitive.Root
-        ref={ref}
-        className={cn(
-          "relative flex shrink-0 overflow-hidden rounded-full",
-          className
-        )}
-        style={{ width: sizeStyle, height: sizeStyle }}
-        {...props}
-      >
-        {src && (
-          <AvatarPrimitive.Image
-            src={src}
-            alt={alt}
-            className="aspect-square h-full w-full object-cover"
-          />
-        )}
-        <AvatarPrimitive.Fallback className="flex h-full w-full items-center justify-center rounded-full bg-muted text-sm text-muted-foreground">
-          {fallback || "?"}
-        </AvatarPrimitive.Fallback>
-      </AvatarPrimitive.Root>
-    );
-  }
-);
+  const fallbackSrc = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+    username || "?"
+  )}&rounded=true&background=B23439&bold=true&color=FFFFFF`;
 
-Avatar.displayName = "Avatar";
+  const finalSrc = !src || isError ? fallbackSrc : src;
+
+  return (
+    <div
+      className={`relative inline-block ${className}`}
+      style={{
+        width: avatarSizeMap[size],
+        height: avatarSizeMap[size],
+      }}
+    >
+      <Image
+        alt={username ? `${username}-avatar` : "user-avatar"}
+        src={finalSrc}
+        width={avatarSizeMap[size]}
+        height={avatarSizeMap[size]}
+        className="object-cover rounded-full"
+        onError={() => setError(true)}
+      />
+      {hover && (
+        <div className="bg-primary-900 hover:opacity-20 transition duration-200 opacity-0 absolute w-full h-full top-0 left-0 rounded-full" />
+      )}
+    </div>
+  );
+};

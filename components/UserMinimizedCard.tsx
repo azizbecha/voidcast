@@ -17,7 +17,7 @@ export const UserMinimizedCard: React.FC<Props> = ({
   verified,
 }) => (
   <div className="flex items-center py-2 gap-2">
-    <Avatar size="sm" src={avatar} alt={`Image of ${fullname}`} />
+    <Avatar size="sm" src={avatar} username={username} />
     <div>
       <div className="flex flex-row space-x-1.5 items-center justify-start">
         <span className="text-primary-100 text-md font-semibold">{fullname}</span>

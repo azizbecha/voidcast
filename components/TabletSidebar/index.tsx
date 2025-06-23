@@ -34,6 +34,7 @@ export const TabletSidebar = async () => {
               key={key}
               size="sm"
               src={user.avatar}
+              username={user.username}
               className="justify-center mx-auto"
             />
           </Link>

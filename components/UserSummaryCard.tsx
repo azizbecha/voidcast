@@ -24,7 +24,7 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
   <div className="flex flex-col rounded-8 bg-primary-800 p-4 w-full">
     <button className="flex">
       <div className="flex">
-        <Avatar size="default" src={avatarUrl} />
+        <Avatar size="default" src={avatarUrl} username={username} />
       </div>
       <div className="flex mt-2">
         <div className="flex flex-col ml-3">
