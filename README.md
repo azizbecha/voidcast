@@ -6,7 +6,7 @@
 <div align="center">
 
   <a href="https://github.com/azizbecha/voidcast">
-    <img src="https://www.voidcast.lol/images/logo.png" alt="VoidCast Logo" width="130" height="130">
+    <img src="https://i.ibb.co/x9M48kj/logo.png" alt="VoidCast Logo" width="130" height="130">
   </a>
 
   <h3 align="center">VoidCast</h3>
